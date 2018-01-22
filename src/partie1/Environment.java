@@ -45,6 +45,16 @@ public class Environment {
 	public List<Agent> getAgents() {
 		return agents;
 	}
+	
+	public Agent getAgent(int column, int line) throws AgentNotFoundException {
+		for(Agent agent : agents) {
+			Coord coords = agent.getCoords();
+			if(coords.getColumn() == column && coords.getLine() == line) {
+				return agent;
+			}
+		}
+		throw new AgentNotFoundException();
+	}
 
 	public void moveAgent(int oldColumn, int oldLine, Direction direction, int collision) {
 		int value = 0;

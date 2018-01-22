@@ -13,7 +13,6 @@ public class Panel extends JPanel implements Observer {
 	private static final long serialVersionUID = -9151020618649934164L;
 	
 	private final Environment env;
-	private final SMA sma;
 	private final int width;
 	private final int height;
 	
@@ -24,7 +23,6 @@ public class Panel extends JPanel implements Observer {
 	
 	public Panel(final Environment env, final SMA sma) {
 		this.env = env;
-		this.sma = sma;
 		sma.addObserver(this);
 		width = env.getGrid()[0].length;
 		height = env.getGrid().length;

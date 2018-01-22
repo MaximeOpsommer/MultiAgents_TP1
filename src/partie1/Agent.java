@@ -23,11 +23,12 @@ public class Agent {
 		collision = 1;
 	}
 	
-	/**
-	 * Update the agent position
-	 * Méthode appelée pour update l'agent lui même, par exemple quand l'agent vieillit
-	 */
-	public void update() {
+	public Coord getCoords() {
+		return coords;
+	}
+	
+	
+	public void collisionFrom(int line, int column) {
 		
 	}
 	
@@ -80,21 +81,25 @@ public class Agent {
 		
 		// Check marble bounce
 		if(!outOfBounds && env.getGrid()[target.getLine()][target.getColumn()] != 0) {
+			// TODO : Improve new direction calculation
 			direction = direction.reverseDirection();
 			move = false;
 			if(collision < Constants.MARBLE_COLLISION) {				
 				collision = Constants.MARBLE_COLLISION;
 			}
+			try {
+				Agent targetAgent = env.getAgent(target.getColumn(), target.getLine());
+				targetAgent.collisionFrom(currentLine, currentColumn);
+			} catch(Exception e) {
+				System.err.println("Collided agent not found");
+			}
+			
 		}
 		
 		if(move) {			
 			coords = new Coord(coords.getColumn() + direction.getHorizontalMove(), coords.getLine() + direction.getVerticalMove());
 			env.moveAgent(currentColumn, currentLine, direction, collision);
 		}
-	}
-	
-	protected void action2() {
-		
 	}
 	
 }
