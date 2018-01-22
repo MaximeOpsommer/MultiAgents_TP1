@@ -40,12 +40,18 @@ public class Panel extends JPanel implements Observer {
 		//g.setColor(Color.BLACK);
 		//for(int x)
 		
-		g.setColor(Color.BLACK);
-		// draw billes
+		// draw marbles
 		int[][] grid = env.getGrid();
 		for(int line = 0; line < grid.length; line++) {
 			for(int column = 0; column < grid[0].length; column++) {
-				if(grid[line][column] == 1) {
+				if(grid[line][column] == Constants.NO_COLLISION) {
+					g.setColor(Color.LIGHT_GRAY);
+					g.fillOval(column*10, line*10, 10, 10);
+				} else if(grid[line][column] == Constants.WALL_COLLISION) {
+					g.setColor(Color.ORANGE);
+					g.fillOval(column*10, line*10, 10, 10);
+				}  else if(grid[line][column] == Constants.MARBLE_COLLISION) {
+					g.setColor(Color.RED);
 					g.fillOval(column*10, line*10, 10, 10);
 				}
 			}

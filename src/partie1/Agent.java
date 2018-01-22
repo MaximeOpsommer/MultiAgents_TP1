@@ -1,22 +1,26 @@
 package partie1;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Agent {
 
+	// 1 = gris : pas encore de collision
+	// 2 = rouge : collision
+	
 	private final Environment env;
 	
 	//private final age;
 	
 	private Coord coords;
 	private Direction direction;
+	private int collision;
 	
 	public Agent(final Environment env, final Coord coords) {
 		this.env = env;
 		this.coords = coords;
 		direction = null;
+		collision = 1;
 	}
 	
 	/**
@@ -59,6 +63,9 @@ public class Agent {
 			direction = direction.reverseVerticalDirection();
 			outOfBounds = true;
 			move = false;
+			if(collision < Constants.WALL_COLLISION) {				
+				collision = Constants.WALL_COLLISION;
+			}
 		}
 		
 		// Check horizontal edge bounce
@@ -66,17 +73,23 @@ public class Agent {
 			direction = direction.reverseHorizontalDirection();
 			outOfBounds = true;
 			move = false;
+			if(collision < Constants.WALL_COLLISION) {				
+				collision = Constants.WALL_COLLISION;
+			}
 		}
 		
 		// Check marble bounce
 		if(!outOfBounds && env.getGrid()[target.getLine()][target.getColumn()] != 0) {
 			direction = direction.reverseDirection();
 			move = false;
+			if(collision < Constants.MARBLE_COLLISION) {				
+				collision = Constants.MARBLE_COLLISION;
+			}
 		}
 		
 		if(move) {			
 			coords = new Coord(coords.getColumn() + direction.getHorizontalMove(), coords.getLine() + direction.getVerticalMove());
-			env.moveAgent(currentColumn, currentLine, direction);
+			env.moveAgent(currentColumn, currentLine, direction, collision);
 		}
 	}
 	

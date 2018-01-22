@@ -46,10 +46,11 @@ public class Environment {
 		return agents;
 	}
 
-	public void moveAgent(int oldColumn, int oldLine, Direction direction) {
-		if(grid[oldLine][oldColumn] == 1) {
+	public void moveAgent(int oldColumn, int oldLine, Direction direction, int collision) {
+		int value = 0;
+		if((value = grid[oldLine][oldColumn]) > 0) {
 			grid[oldLine][oldColumn] = 0;
-			grid[oldLine + direction.getVerticalMove()][oldColumn + direction.getHorizontalMove()] = 1;
+			grid[oldLine + direction.getVerticalMove()][oldColumn + direction.getHorizontalMove()] = collision > value ? collision : value;
 		} else {
 			System.err.println("An error occured during move process");
 		}

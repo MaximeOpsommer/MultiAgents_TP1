@@ -24,7 +24,7 @@ public class SMA extends Observable {
 		while(true) {
 			
 			try {
-				Thread.sleep(20);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
