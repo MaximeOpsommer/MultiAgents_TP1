@@ -19,23 +19,23 @@ public class Environment {
 		int total = grid.length * grid[0].length;
 		int reste = n_billes;
 		int rand;
-		for(int y = 0; y < grid.length; y++) {
-			for(int x = 0; x < grid[0].length; x++) {
-				rand = (int) Math.random() * total;
+		for(int line = 0; line < grid.length; line++) {
+			for(int column = 0; column < grid[0].length; column++) {
+				rand = (int) (Math.random() * total);
 				if(rand < reste) {
-					grid[y][x] = 1;
+					grid[line][column] = 1;
 					reste--;
-					agents.add(new Agent(this, new Coord(x, y)));
+					agents.add(new Agent(this, new Coord(column, line)));
 				} else {
-					grid[y][x] = 0;
+					grid[line][column] = 0;
 				}
 				total--;
 			}
 		}
 	}
 	
-	public boolean emptyCell(final int posX, final int posY) {
-		return grid[posY][posX] == 1;
+	public boolean emptyCell(final int column, final int line) {
+		return grid[line][column] == 1;
 	}
 	
 	public int[][] getGrid() {
@@ -46,4 +46,24 @@ public class Environment {
 		return agents;
 	}
 
+	public void moveAgent(int oldColumn, int oldLine, Direction direction) {
+		if(grid[oldLine][oldColumn] == 1) {
+			grid[oldLine][oldColumn] = 0;
+			grid[oldLine + direction.getVerticalMove()][oldColumn + direction.getHorizontalMove()] = 1;
+		} else {
+			System.err.println("An error occured during move process");
+		}
+	}
+	
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		for(int line = 0; line < grid.length; line++) {
+			for(int column = 0; column < grid[0].length; column++) {
+				builder.append(grid[line][column]);
+			}
+			builder.append("\n");
+		}
+		return builder.toString();
+	}
+	
 }

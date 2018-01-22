@@ -2,20 +2,20 @@ package partie1;
 
 public class Coord {
 	
-	private final int posX;
-	private final int posY;
+	private final int column;
+	private final int line;
 	
-	public Coord(final int posX, final int posY) {
-		this.posX = posX;
-		this.posY = posY;
+	public Coord(final int column, final int line) {
+		this.column = column;
+		this.line = line;
 	}
 	
-	public int getX() {
-		return posX;
+	public int getColumn() {
+		return column;
 	}
 	
-	public int getY() {
-		return posY;
+	public int getLine() {
+		return line;
 	}
 
 }

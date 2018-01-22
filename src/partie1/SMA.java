@@ -1,6 +1,8 @@
 package partie1;
 
-public class SMA {
+import java.util.Observable;
+
+public class SMA extends Observable {
 
 	private Environment env;
 	
@@ -8,15 +10,28 @@ public class SMA {
 		this.env = env;
 	}
 	
+	@Override
+	public void notifyObservers() {
+		this.setChanged();
+		super.notifyObservers();
+	}
+	
+	public void update() {
+		notifyObservers();
+	}
+	
 	public void run() {
 		while(true) {
-			for(Agent agent : env.getAgents()) {
-				agent.decide();
-			}
+			
 			try {
-				Thread.sleep(500);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+			}
+			
+			for(Agent agent : env.getAgents()) {
+				agent.decide();
+				update();
 			}
 		}
 	}

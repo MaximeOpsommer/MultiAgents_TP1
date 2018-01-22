@@ -1,6 +1,7 @@
 package partie1;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Agent {
@@ -10,10 +11,12 @@ public class Agent {
 	//private final age;
 	
 	private Coord coords;
+	private Direction direction;
 	
 	public Agent(final Environment env, final Coord coords) {
 		this.env = env;
 		this.coords = coords;
+		direction = null;
 	}
 	
 	/**
@@ -32,58 +35,49 @@ public class Agent {
 	}
 	
 	protected void move() {
-		// check neighbors
-		List<Coord> coordsList = new ArrayList<Coord>();
 		
-		final int x = coords.getX();
-		final int y = coords.getY();
+		final int currentColumn = coords.getColumn();
+		final int currentLine = coords.getLine();
 		final int width = env.getGrid()[0].length;
 		final int height = env.getGrid().length;
 		
-		// TOP LEFT
-		if(x > 0 && y > 0 && env.getGrid()[y - 1][x - 1] == 0) {
-			coordsList.add(new Coord(x - 1, y - 1));
+		// Init Direction
+		if(direction == null) {
+			List<Direction> directionList = Arrays.asList(Direction.values());
+			int random = (int) (Math.random() * directionList.size());
+			direction = directionList.get(random);
 		}
 		
-		// TOP
-		if(y > 0 && env.getGrid()[y - 1][x] == 0) {
-			coordsList.add(new Coord(x, y - 1));
+		boolean outOfBounds = false;
+		boolean move = true;
+		
+		// Manage bounces
+		Coord target = new Coord(currentColumn + direction.getHorizontalMove(), currentLine + direction.getVerticalMove());
+		
+		// Check vertical edge bounce
+		if(target.getLine() < 0 || target.getLine() >= height) {
+			direction = direction.reverseVerticalDirection();
+			outOfBounds = true;
+			move = false;
 		}
 		
-		// TOP RIGHT
-		if(x < width - 1 && y > 0 && env.getGrid()[y - 1][x + 1] == 0) {
-			coordsList.add(new Coord(x + 1, y - 1));
+		// Check horizontal edge bounce
+		if(target.getColumn() < 0 || target.getColumn() >= width) {
+			direction = direction.reverseHorizontalDirection();
+			outOfBounds = true;
+			move = false;
 		}
 		
-		// RIGHT
-		if(x < width - 1 && env.getGrid()[y][x + 1] == 0) {
-			coordsList.add(new Coord(x + 1, y));
+		// Check marble bounce
+		if(!outOfBounds && env.getGrid()[target.getLine()][target.getColumn()] != 0) {
+			direction = direction.reverseDirection();
+			move = false;
 		}
 		
-		// BOTTOM RIGHT
-		if(x < width - 1 && y < height - 1 && env.getGrid()[y + 1][x + 1] == 0) {
-			coordsList.add(new Coord(x + 1, y + 1));
+		if(move) {			
+			coords = new Coord(coords.getColumn() + direction.getHorizontalMove(), coords.getLine() + direction.getVerticalMove());
+			env.moveAgent(currentColumn, currentLine, direction);
 		}
-		
-		// BOTTOM
-		if(y < height - 1 && env.getGrid()[y + 1][x] == 0) {
-			coordsList.add(new Coord(x, y + 1));
-		}
-		
-		// BOTTOM LEFT
-		if(x > 0 && y < height - 1 && env.getGrid()[y + 1][x - 1] == 0) {
-			coordsList.add(new Coord(x - 1, y + 1));
-		}
-		
-		// LEFT
-		if(x > 0 && env.getGrid()[y][x - 1] == 0) {
-			coordsList.add(new Coord(x - 1, y));
-		}
-		
-		int rand = (int) Math.random() * coordsList.size();
-		
-		coords = coordsList.get(rand);
-		
 	}
 	
 	protected void action2() {
