@@ -35,8 +35,11 @@ public class Agent {
 		return direction;
 	}
 	
+	public void setDirection(Direction direction) {
+		this.direction = direction;
+	}
 	
-	public void collisionFrom(int lineFrom, int columnFrom, Direction directionFrom) {
+	public void collisionFrom(int lineFrom, int columnFrom) {
 		collision = Constants.MARBLE_COLLISION;
 		direction = direction.reverseDirection();
 	}
@@ -89,9 +92,16 @@ public class Agent {
 			}
 			try {
 				Agent targetAgent = env.getAgent(target.getColumn(), target.getLine());
-				//Direction targetDirection = targetAgent.getDirection();
-				direction = direction.reverseDirection();
-				targetAgent.collisionFrom(currentLine, currentColumn, direction);
+				
+				// Swap Directions
+				Direction oldDirection = direction;
+				Direction oldTargetDirection = targetAgent.getDirection();
+				
+				
+				direction = oldTargetDirection;
+				targetAgent.setDirection(oldDirection);
+				
+				//targetAgent.collisionFrom(currentLine, currentColumn);
 			} catch(Exception e) {
 				direction = direction.reverseDirection();
 				System.err.println("Collided agent not found, direction has been reverse instead");

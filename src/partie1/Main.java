@@ -9,7 +9,7 @@ import javax.swing.JScrollPane;
 public class Main {
 
 	public static void main(String[] args) {
-		int N_AGENTS = 100;
+		int N_AGENTS = 200;
 		Environment env = new Environment(100, 100, N_AGENTS);
 		
 		SMA sma = new SMA(env);
