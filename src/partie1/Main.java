@@ -4,6 +4,7 @@ package partie1;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
 public class Main {
 
@@ -14,10 +15,9 @@ public class Main {
 		SMA sma = new SMA(env);
 		
 		JFrame frame = new JFrame();
-		frame.setContentPane(new Panel(env, sma));
+		frame.setContentPane(new JScrollPane(new Panel(env, sma)));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(new Dimension(800, 600));
-		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		

@@ -6,11 +6,10 @@ import java.util.List;
 public class Agent {
 
 	// 1 = gris : pas encore de collision
-	// 2 = rouge : collision
+	// 2 = orange : collision avec un mur
+	// 3 = rouge : collision avec une bille
 	
 	private final Environment env;
-	
-	//private final age;
 	
 	private Coord coords;
 	private Direction direction;
@@ -19,7 +18,12 @@ public class Agent {
 	public Agent(final Environment env, final Coord coords) {
 		this.env = env;
 		this.coords = coords;
-		direction = null;
+		
+		// Init direction
+		List<Direction> directionList = Arrays.asList(Direction.values());
+		int random = (int) (Math.random() * directionList.size());
+		direction = directionList.get(random);
+		
 		collision = 1;
 	}
 	
@@ -27,9 +31,14 @@ public class Agent {
 		return coords;
 	}
 	
+	public Direction getDirection() {
+		return direction;
+	}
 	
-	public void collisionFrom(int line, int column) {
-		
+	
+	public void collisionFrom(int lineFrom, int columnFrom, Direction directionFrom) {
+		collision = Constants.MARBLE_COLLISION;
+		direction = direction.reverseDirection();
 	}
 	
 	/**
@@ -45,13 +54,6 @@ public class Agent {
 		final int currentLine = coords.getLine();
 		final int width = env.getGrid()[0].length;
 		final int height = env.getGrid().length;
-		
-		// Init Direction
-		if(direction == null) {
-			List<Direction> directionList = Arrays.asList(Direction.values());
-			int random = (int) (Math.random() * directionList.size());
-			direction = directionList.get(random);
-		}
 		
 		boolean outOfBounds = false;
 		boolean move = true;
@@ -81,17 +83,18 @@ public class Agent {
 		
 		// Check marble bounce
 		if(!outOfBounds && env.getGrid()[target.getLine()][target.getColumn()] != 0) {
-			// TODO : Improve new direction calculation
-			direction = direction.reverseDirection();
 			move = false;
 			if(collision < Constants.MARBLE_COLLISION) {				
 				collision = Constants.MARBLE_COLLISION;
 			}
 			try {
 				Agent targetAgent = env.getAgent(target.getColumn(), target.getLine());
-				targetAgent.collisionFrom(currentLine, currentColumn);
+				//Direction targetDirection = targetAgent.getDirection();
+				direction = direction.reverseDirection();
+				targetAgent.collisionFrom(currentLine, currentColumn, direction);
 			} catch(Exception e) {
-				System.err.println("Collided agent not found");
+				direction = direction.reverseDirection();
+				System.err.println("Collided agent not found, direction has been reverse instead");
 			}
 			
 		}
