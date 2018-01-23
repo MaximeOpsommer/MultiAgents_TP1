@@ -27,6 +27,10 @@ public class Agent {
 		collision = 1;
 	}
 	
+	public Configs getConfigs() {
+		return env.getConfigs();
+	}
+	
 	public Coord getCoords() {
 		return coords;
 	}
@@ -62,27 +66,45 @@ public class Agent {
 		boolean move = true;
 		
 		// Manage bounces
-		Coord target = new Coord(currentColumn + direction.getHorizontalMove(), currentLine + direction.getVerticalMove());
-		
-		// Check vertical edge bounce
-		if(target.getLine() < 0 || target.getLine() >= height) {
-			direction = direction.reverseVerticalDirection();
-			outOfBounds = true;
-			move = false;
-			if(collision < Constants.WALL_COLLISION) {				
-				collision = Constants.WALL_COLLISION;
+		Coord target;
+		// TORUS
+		if(getConfigs().isTorus()) {
+			target = new Coord(Math.floorMod(currentColumn + direction.getHorizontalMove(), width), Math.floorMod(currentLine + direction.getVerticalMove(), height));
+			
+		// NOT TORUS
+		} else {			
+			target = new Coord(currentColumn + direction.getHorizontalMove(), currentLine + direction.getVerticalMove());
+			// Check vertical edge bounce
+			if(target.getLine() < 0 || target.getLine() >= height) {
+				if(getConfigs().isTorus()) {
+					
+				}
+				else {
+					direction = direction.reverseVerticalDirection();
+					outOfBounds = true;
+					move = false;
+					if(collision < Constants.WALL_COLLISION) {				
+						collision = Constants.WALL_COLLISION;
+					}
+				}
+			}
+			
+			// Check horizontal edge bounce
+			if(target.getColumn() < 0 || target.getColumn() >= width) {
+				if(getConfigs().isTorus()) {
+					
+				}
+				else {				
+					direction = direction.reverseHorizontalDirection();
+					outOfBounds = true;
+					move = false;
+					if(collision < Constants.WALL_COLLISION) {				
+						collision = Constants.WALL_COLLISION;
+					}
+				}
 			}
 		}
 		
-		// Check horizontal edge bounce
-		if(target.getColumn() < 0 || target.getColumn() >= width) {
-			direction = direction.reverseHorizontalDirection();
-			outOfBounds = true;
-			move = false;
-			if(collision < Constants.WALL_COLLISION) {				
-				collision = Constants.WALL_COLLISION;
-			}
-		}
 		
 		// Check marble bounce
 		if(!outOfBounds && env.getGrid()[target.getLine()][target.getColumn()] != 0) {
@@ -110,7 +132,7 @@ public class Agent {
 		}
 		
 		if(move) {			
-			coords = new Coord(coords.getColumn() + direction.getHorizontalMove(), coords.getLine() + direction.getVerticalMove());
+			coords = new Coord(Math.floorMod(coords.getColumn() + direction.getHorizontalMove(), width), Math.floorMod(coords.getLine() + direction.getVerticalMove(), height));
 			env.moveAgent(currentColumn, currentLine, direction, collision);
 		}
 	}

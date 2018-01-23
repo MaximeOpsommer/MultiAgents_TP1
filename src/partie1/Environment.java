@@ -8,6 +8,7 @@ public class Environment {
 	private final int[][] grid;
 	private final int n_billes;
 	private List<Agent> agents = new ArrayList<Agent>();
+	private final Configs configs = new Configs();
 	
 	public Environment(final int height, final int width, final int n) {
 		grid = new int[height][width];
@@ -34,16 +35,16 @@ public class Environment {
 		}
 	}
 	
-	public boolean emptyCell(final int column, final int line) {
-		return grid[line][column] == 1;
-	}
-	
 	public int[][] getGrid() {
 		return grid;
 	}
 	
 	public List<Agent> getAgents() {
 		return agents;
+	}
+	
+	public Configs getConfigs() {
+		return configs;
 	}
 	
 	public Agent getAgent(int column, int line) throws AgentNotFoundException {
@@ -60,7 +61,7 @@ public class Environment {
 		int value = 0;
 		if((value = grid[oldLine][oldColumn]) > 0) {
 			grid[oldLine][oldColumn] = 0;
-			grid[oldLine + direction.getVerticalMove()][oldColumn + direction.getHorizontalMove()] = collision > value ? collision : value;
+			grid[Math.floorMod(oldLine + direction.getVerticalMove(), grid.length)][Math.floorMod(oldColumn + direction.getHorizontalMove(), grid[0].length)] = collision > value ? collision : value;
 		} else {
 			System.err.println("An error occured during move process");
 		}
