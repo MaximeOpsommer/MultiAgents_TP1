@@ -1,38 +1,20 @@
 package particules;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.Observable;
-import java.util.Observer;
 
 import core.Panel;
 import core.SMA;
 
-public class ParticlePanel extends Panel implements Observer {
+public class ParticlePanel extends Panel {
 	
 	private static final long serialVersionUID = -9151020618649934164L;
 	
-	private final ParticleEnvironment env;
-	private final int width;
-	private final int height;
-	private int boxSize;
-	
-	@Override
-	public void paintComponent(Graphics g) {
-		repaintGrid(g);
-	}
-	
 	public ParticlePanel(final ParticleEnvironment env, final SMA sma) {
-		this.env = env;
-		sma.addObserver(this);
-		width = env.getGrid()[0].length;
-		height = env.getGrid().length;
-		boxSize = env.getConfigs().getBoxSize();
-		setPreferredSize(new Dimension(((boxSize+1)*width)-1, ((boxSize+1)*height)-1));
+		super(env, sma);
 	}
 	
-	private void repaintGrid(Graphics g) {
+	protected void repaintGrid(Graphics g) {
 		// draw background (white)
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, ((boxSize+1)*width)-1, ((boxSize+1)*height)-1);
@@ -67,10 +49,6 @@ public class ParticlePanel extends Panel implements Observer {
 				}
 			}
 		}
-	}
-
-	public void update(Observable o, Object arg) {
-		repaint();
 	}
 
 }
