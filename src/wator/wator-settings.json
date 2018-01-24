@@ -1,0 +1,7 @@
+{
+	"fish_number" : 50,
+	"fish_breed_time" : 5,
+	"shark_number" : 50,
+	"shark_breed_time" : 15,
+	"shark_starve_time" : 7
+}
