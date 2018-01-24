@@ -43,6 +43,10 @@ public class Agent {
 		this.direction = direction;
 	}
 	
+	public void setCollision(int collision) {
+		this.collision = collision;
+	}
+	
 	public void collisionFrom(int lineFrom, int columnFrom) {
 		collision = Constants.MARBLE_COLLISION;
 		direction = direction.reverseDirection();
@@ -122,6 +126,8 @@ public class Agent {
 				
 				direction = oldTargetDirection;
 				targetAgent.setDirection(oldDirection);
+				targetAgent.setCollision(Constants.MARBLE_COLLISION);
+				env.collision(coords, targetAgent.getCoords());
 				
 				//targetAgent.collisionFrom(currentLine, currentColumn);
 			} catch(Exception e) {

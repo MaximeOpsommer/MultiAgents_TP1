@@ -26,31 +26,41 @@ public class Panel extends JPanel implements Observer {
 		sma.addObserver(this);
 		width = env.getGrid()[0].length;
 		height = env.getGrid().length;
-		setPreferredSize(new Dimension(10*width, 10*height));
+		setPreferredSize(new Dimension((11*width)-1, (11*height)-1));
 	}
 	
 	private void repaintGrid(Graphics g) {
 		// draw background (white)
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 10*width, 10*height);
+		g.fillRect(0, 0, (11*width)-1, (11*height)-1);
 		
 		// draw grid
-		//g.setColor(Color.BLACK);
-		//for(int x)
+		if(env.getConfigs().gridDisplay()) {			
+			g.setColor(Color.BLACK);
+			// vertical bars
+			for(int n = 1; n < width; n++) {
+				g.drawRect((n*11)-1, 0, 1, (11*height)-1);
+			}
+			// horizontal bars
+			for(int n = 1; n < height; n++) {
+				g.drawRect(0, (n*11)-1, (11*width)-1, 1);
+			}
+		}
 		
 		// draw marbles
 		int[][] grid = env.getGrid();
+		
 		for(int line = 0; line < grid.length; line++) {
 			for(int column = 0; column < grid[0].length; column++) {
 				if(grid[line][column] == Constants.NO_COLLISION) {
 					g.setColor(Color.LIGHT_GRAY);
-					g.fillOval(column*10, line*10, 10, 10);
+					g.fillOval(column*11, line*11, 10, 10);
 				} else if(grid[line][column] == Constants.WALL_COLLISION) {
 					g.setColor(Color.ORANGE);
-					g.fillOval(column*10, line*10, 10, 10);
+					g.fillOval(column*11, line*11, 10, 10);
 				}  else if(grid[line][column] == Constants.MARBLE_COLLISION) {
 					g.setColor(Color.RED);
-					g.fillOval(column*10, line*10, 10, 10);
+					g.fillOval(column*11, line*11, 10, 10);
 				}
 			}
 		}

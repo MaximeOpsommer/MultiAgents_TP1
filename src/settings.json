@@ -1,3 +1,8 @@
 {
+	"agent_number": 10000,
+	"grid_display": true,
+	"grid_height": 100,
+	"grid_width": 100,
 	"torus": true
+	
 }
