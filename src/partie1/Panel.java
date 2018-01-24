@@ -15,6 +15,7 @@ public class Panel extends JPanel implements Observer {
 	private final Environment env;
 	private final int width;
 	private final int height;
+	private int boxSize;
 	
 	@Override
 	public void paintComponent(Graphics g) {
@@ -26,24 +27,25 @@ public class Panel extends JPanel implements Observer {
 		sma.addObserver(this);
 		width = env.getGrid()[0].length;
 		height = env.getGrid().length;
-		setPreferredSize(new Dimension((11*width)-1, (11*height)-1));
+		boxSize = env.getConfigs().getBoxSize();
+		setPreferredSize(new Dimension(((boxSize+1)*width)-1, ((boxSize+1)*height)-1));
 	}
 	
 	private void repaintGrid(Graphics g) {
 		// draw background (white)
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, (11*width)-1, (11*height)-1);
+		g.fillRect(0, 0, ((boxSize+1)*width)-1, ((boxSize+1)*height)-1);
 		
 		// draw grid
 		if(env.getConfigs().gridDisplay()) {			
 			g.setColor(Color.BLACK);
 			// vertical bars
 			for(int n = 1; n < width; n++) {
-				g.drawRect((n*11)-1, 0, 1, (11*height)-1);
+				g.drawRect((n*(boxSize+1))-1, 0, 1, ((boxSize+1)*height)-1);
 			}
 			// horizontal bars
 			for(int n = 1; n < height; n++) {
-				g.drawRect(0, (n*11)-1, (11*width)-1, 1);
+				g.drawRect(0, (n*(boxSize+1))-1, ((boxSize+1)*width)-1, 1);
 			}
 		}
 		
@@ -54,13 +56,13 @@ public class Panel extends JPanel implements Observer {
 			for(int column = 0; column < grid[0].length; column++) {
 				if(grid[line][column] == Constants.NO_COLLISION) {
 					g.setColor(Color.LIGHT_GRAY);
-					g.fillOval(column*11, line*11, 10, 10);
+					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
 				} else if(grid[line][column] == Constants.WALL_COLLISION) {
 					g.setColor(Color.ORANGE);
-					g.fillOval(column*11, line*11, 10, 10);
+					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
 				}  else if(grid[line][column] == Constants.MARBLE_COLLISION) {
 					g.setColor(Color.RED);
-					g.fillOval(column*11, line*11, 10, 10);
+					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
 				}
 			}
 		}

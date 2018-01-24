@@ -2,6 +2,7 @@ package partie1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Environment {
 	
@@ -9,10 +10,12 @@ public class Environment {
 	private final int n_agent;
 	private List<Agent> agents = new ArrayList<Agent>();
 	private final Configs configs = new Configs();
+	private Random random;
 	
 	public Environment() {
 		grid = new int[configs.getGridHeight()][configs.getGridWidth()];
 		n_agent = configs.getAgentNumber();
+		random = configs.getSeed() == 0 ? new Random() : new Random(configs.getSeed());
 		init();
 	}
 	
@@ -22,7 +25,7 @@ public class Environment {
 		int rand;
 		for(int line = 0; line < grid.length; line++) {
 			for(int column = 0; column < grid[0].length; column++) {
-				rand = (int) (Math.random() * total);
+				rand = random.nextInt(total);
 				if(rand < reste) {
 					grid[line][column] = 1;
 					reste--;
@@ -55,6 +58,10 @@ public class Environment {
 			}
 		}
 		throw new AgentNotFoundException();
+	}
+	
+	public Random getRandom() {
+		return random;
 	}
 
 	public void moveAgent(int oldColumn, int oldLine, Direction direction, int collision) {

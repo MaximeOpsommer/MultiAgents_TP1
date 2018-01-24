@@ -14,9 +14,11 @@ public class Configs {
 	
 	// Set some default values in case that we failed to read JSON
 	private int AGENT_NUMBER = 200;
+	private int BOX_SIZE = 10;
 	private boolean GRID_DISPLAY = true;
 	private int GRID_HEIGHT = 100;
 	private int GRID_WIDTH = 100;
+	private long SEED = 0;
 	private boolean TORUS = false;
 	
 	public Configs() {
@@ -33,6 +35,15 @@ public class Configs {
 				AGENT_NUMBER = json.get("agent_number").getAsInt();
 				AGENT_NUMBER = Math.min(Constants.MAXIMUM_AGENT_NUMBER, AGENT_NUMBER);
 				AGENT_NUMBER = Math.max(Constants.MINIMUM_AGENT_NUMBER, AGENT_NUMBER);
+			} catch(Exception e) {
+				System.err.println("agent number value in settings.json is invalid");
+			}
+			
+			// BOX SIZE
+			try {				
+				BOX_SIZE = json.get("box_size").getAsInt();
+				BOX_SIZE = Math.min(Constants.MAXIMUM_BOX_SIZE, BOX_SIZE);
+				BOX_SIZE = Math.max(Constants.MINIMUM_BOX_SIZE, BOX_SIZE);
 			} catch(Exception e) {
 				System.err.println("agent number value in settings.json is invalid");
 			}
@@ -62,6 +73,13 @@ public class Configs {
 				System.err.println("grid width value in settings.json is invalid");
 			}
 			
+			// SEED
+			try {
+				SEED = json.get("seed").getAsLong();				
+			} catch(Exception e) {
+				System.err.println("seed value in settings.json is invalid");
+			}
+			
 			// TORUS
 			try {
 				TORUS = json.get("torus").getAsBoolean();				
@@ -86,6 +104,14 @@ public class Configs {
 		AGENT_NUMBER = agentNumber;
 	}
 	
+	public int getBoxSize() {
+		return BOX_SIZE;
+	}
+	
+	public void setBoxSize(int boxSize) {
+		BOX_SIZE = boxSize;
+	}
+	
 	public boolean gridDisplay() {
 		return GRID_DISPLAY;
 	}
@@ -108,6 +134,14 @@ public class Configs {
 	
 	public void setGridWidth(int gridWidth) {
 		GRID_WIDTH = gridWidth;
+	}
+	
+	public long getSeed() {
+		return SEED;
+	}
+	
+	public void setSeed(long seed) {
+		SEED = seed;
 	}
 	
 	public boolean isTorus() {

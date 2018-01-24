@@ -15,4 +15,8 @@ public class Constants {
 	public final static int MINIMUM_AGENT_NUMBER = 2;
 	public final static int MAXIMUM_AGENT_NUMBER = 20000;
 	
+	// Box size
+	public final static int MINIMUM_BOX_SIZE = 3;
+	public final static int MAXIMUM_BOX_SIZE = 50;
+	
 }

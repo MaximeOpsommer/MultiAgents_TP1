@@ -1,8 +1,9 @@
 {
-	"agent_number": 10000,
+	"agent_number": 2,
+	"box_size": 10,
 	"grid_display": true,
-	"grid_height": 100,
-	"grid_width": 100,
-	"torus": true
-	
+	"grid_height": 10,
+	"grid_width": 10,
+	"torus": true,
+	"seed": 123456
 }

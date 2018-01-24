@@ -21,7 +21,7 @@ public class Agent {
 		
 		// Init direction
 		List<Direction> directionList = Arrays.asList(Direction.values());
-		int random = (int) (Math.random() * directionList.size());
+		int random = env.getRandom().nextInt(directionList.size());
 		direction = directionList.get(random);
 		
 		collision = 1;
