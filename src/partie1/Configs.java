@@ -15,6 +15,8 @@ public class Configs {
 	// Set some default values in case that we failed to read JSON
 	private int AGENT_NUMBER = 200;
 	private int BOX_SIZE = 10;
+	private int CANVAS_HEIGHT = 600;
+	private int CANVAS_WIDTH = 800;
 	private int DELAY = 40;
 	private boolean GRID_DISPLAY = true;
 	private int GRID_HEIGHT = 100;
@@ -51,6 +53,22 @@ public class Configs {
 				BOX_SIZE = Math.max(Constants.MINIMUM_BOX_SIZE, BOX_SIZE);
 			} catch(Exception e) {
 				System.err.println("box size value in settings.json is invalid");
+			}
+			
+			// CANVAS HEIGHT
+			try {
+				CANVAS_HEIGHT = json.get("canvas_height").getAsInt();
+				CANVAS_HEIGHT = Math.max(Constants.MINIMUM_CANVAS_HEIGHT, CANVAS_HEIGHT);
+			} catch(Exception e) {
+				System.err.println("canvas height value in settings.json is invalid");
+			}
+			
+			// CANVAS WIDTH
+			try {
+				CANVAS_WIDTH = json.get("canvas_width").getAsInt();
+				CANVAS_WIDTH = Math.max(Constants.MINIMUM_CANVAS_WIDTH, CANVAS_WIDTH);
+			} catch(Exception e) {
+				System.err.println("canvas width value in settings.json is invalid");
 			}
 			
 			//DELAY
@@ -160,6 +178,22 @@ public class Configs {
 	
 	public void setBoxSize(int boxSize) {
 		BOX_SIZE = boxSize;
+	}
+	
+	public int getCanvasHeight() {
+		return CANVAS_HEIGHT;
+	}
+	
+	public void setCanvasHeight(int canvasHeight) {
+		CANVAS_HEIGHT = canvasHeight;
+	}
+	
+	public int getCanvasWidth() {
+		return CANVAS_WIDTH;
+	}
+	
+	public void setCanvasWidth(int canvasWidth) {
+		CANVAS_WIDTH = canvasWidth;
 	}
 	
 	public int getDelay() {

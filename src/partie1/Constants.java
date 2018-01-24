@@ -30,4 +30,8 @@ public class Constants {
 	public final static int MINIMUM_REFRESH = 1;
 	public final static int MAXIMUM_REFRESH = 500;
 	
+	// Canvas size
+	public final static int MINIMUM_CANVAS_HEIGHT = 100;
+	public final static int MINIMUM_CANVAS_WIDTH = 100;
+	
 }

@@ -1,6 +1,8 @@
 {
 	"agent_number": 100,
 	"box_size": 10,
+	"canvas_height": 600,
+	"canvas_width": 800,
 	"delay": 40,
 	"grid_display": false,
 	"grid_height": 100,
