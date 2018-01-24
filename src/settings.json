@@ -1,13 +1,14 @@
 {
-	"agent_number": 2,
+	"agent_number": 100,
 	"box_size": 10,
-	"delay": 20,
+	"delay": 40,
 	"grid_display": false,
 	"grid_height": 100,
 	"grid_width": 100,
-	"nb_ticks": 1000,
+	"nb_ticks": 100,
 	"refresh": 1,
 	"seed": 123456,
 	"scheduling":0,
-	"torus": true
+	"torus": false,
+	"trace": true
 }

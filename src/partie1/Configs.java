@@ -24,6 +24,7 @@ public class Configs {
 	private int SCHEDULING = 1; // 0 = Equitable, 1 = Sequentiel, 2 = Aleatoire
 	private long SEED = 0;
 	private boolean TORUS = false;
+	private boolean TRACE = true;
 	
 	public Configs() {
 		// Read configs file
@@ -128,6 +129,14 @@ public class Configs {
 				System.err.println("torus value in settings.json is invalid");
 			}
 			
+			// TRACE
+			try {
+				TRACE = json.get("trace").getAsBoolean();				
+			} catch(Exception e) {
+				System.err.println("trace value in settings.json is invalid");
+			}
+			
+			
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
 		} catch (JsonIOException e) {
@@ -223,6 +232,14 @@ public class Configs {
 	
 	public void setTorus(boolean torus) {
 		TORUS = torus;
+	}
+	
+	public boolean trace() {
+		return TRACE;
+	}
+	
+	public void setTrace(boolean trace) {
+		TRACE = trace;
 	}
 	
 }

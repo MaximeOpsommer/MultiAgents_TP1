@@ -90,6 +90,9 @@ public class Agent {
 					if(collision < Constants.WALL_COLLISION) {				
 						collision = Constants.WALL_COLLISION;
 					}
+					if(getConfigs().trace()) {
+						System.out.println("Agent;column=" + currentColumn + ";line=" + currentLine + ";direction=" + direction.name() + ";bounced on wall");						
+					}
 				}
 			}
 			
@@ -104,6 +107,9 @@ public class Agent {
 					move = false;
 					if(collision < Constants.WALL_COLLISION) {				
 						collision = Constants.WALL_COLLISION;
+					}
+					if(getConfigs().trace()) {
+						System.out.println("Agent;column=" + currentColumn + ";line=" + currentLine + ";direction=" + direction.name() + ";bounced on wall");						
 					}
 				}
 			}
@@ -123,6 +129,10 @@ public class Agent {
 				Direction oldDirection = direction;
 				Direction oldTargetDirection = targetAgent.getDirection();
 				
+				// Log
+				if(getConfigs().trace()) {
+					System.out.println("Agent;column=" + currentColumn + ";line=" + currentLine + ";direction=" + direction.name() + ";bounced on Agent;column=" + target.getColumn() + ";line=" + target.getLine() + ";direction=" + targetAgent.getDirection().name());
+				}
 				
 				direction = oldTargetDirection;
 				targetAgent.setDirection(oldDirection);

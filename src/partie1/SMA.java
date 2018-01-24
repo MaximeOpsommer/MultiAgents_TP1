@@ -58,6 +58,9 @@ public class SMA extends Observable {
 			Collections.shuffle(agents, env.getRandom());
 			
 			tick++;
+			if(env.getConfigs().trace()) {
+				System.out.println("Tick;" + tick);
+			}
 			
 			try {
 				Thread.sleep(delay);
@@ -78,6 +81,9 @@ public class SMA extends Observable {
 				agent.decide();
 			}
 			tick++;
+			if(env.getConfigs().trace()) {
+				System.out.println("Tick;" + tick);
+			}
 			
 			try {
 				Thread.sleep(delay);
@@ -99,6 +105,9 @@ public class SMA extends Observable {
 				agents.get(env.getRandom().nextInt(agents.size())).decide();
 			}
 			tick++;
+			if(env.getConfigs().trace()) {
+				System.out.println("Tick;" + tick);
+			}
 			
 			try {
 				Thread.sleep(delay);
