@@ -32,7 +32,7 @@ public class Particle extends Agent {
 	}
 	
 	public ParticleConfigs getConfigs() {
-		return env.getConfigs();
+		return (ParticleConfigs) env.getConfigs();
 	}
 	
 	public Coord getCoords() {
