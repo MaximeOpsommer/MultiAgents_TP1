@@ -6,10 +6,12 @@ public class SMA extends Observable {
 
 	private Environment env;
 	private final int nbTicks;
+	private int delay;
 	
 	public SMA(Environment env) {
 		this.env = env;
 		nbTicks = env.getConfigs().getNbTicks();
+		delay = env.getConfigs().getDelay();
 	}
 	
 	@Override
@@ -27,7 +29,7 @@ public class SMA extends Observable {
 		while(nbTicks == 0 || tick < nbTicks) {
 			
 			try {
-				Thread.sleep(40);
+				Thread.sleep(delay);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

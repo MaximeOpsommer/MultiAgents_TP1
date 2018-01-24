@@ -15,6 +15,7 @@ public class Configs {
 	// Set some default values in case that we failed to read JSON
 	private int AGENT_NUMBER = 200;
 	private int BOX_SIZE = 10;
+	private int DELAY = 40;
 	private boolean GRID_DISPLAY = true;
 	private int GRID_HEIGHT = 100;
 	private int GRID_WIDTH = 100;
@@ -46,7 +47,16 @@ public class Configs {
 				BOX_SIZE = Math.min(Constants.MAXIMUM_BOX_SIZE, BOX_SIZE);
 				BOX_SIZE = Math.max(Constants.MINIMUM_BOX_SIZE, BOX_SIZE);
 			} catch(Exception e) {
-				System.err.println("agent number value in settings.json is invalid");
+				System.err.println("box size value in settings.json is invalid");
+			}
+			
+			//DELAY
+			try {
+				DELAY = json.get("delay").getAsInt();
+				DELAY = Math.min(Constants.MAXIMUM_DELAY, DELAY);
+				DELAY = Math.max(Constants.MINIMUM_DELAY, DELAY);
+			} catch(Exception e) {
+				System.err.println("delay value in settings.json is invalid");
 			}
 
 			// GRID DISPLAY
@@ -119,6 +129,14 @@ public class Configs {
 	
 	public void setBoxSize(int boxSize) {
 		BOX_SIZE = boxSize;
+	}
+	
+	public int getDelay() {
+		return DELAY;
+	}
+	
+	public void setDelay(int delay) {
+		DELAY = delay;
 	}
 	
 	public boolean gridDisplay() {

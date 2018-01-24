@@ -1,6 +1,7 @@
 {
 	"agent_number": 2,
 	"box_size": 10,
+	"delay": 40,
 	"grid_display": true,
 	"grid_height": 10,
 	"grid_width": 10,

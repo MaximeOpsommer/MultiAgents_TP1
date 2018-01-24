@@ -21,5 +21,9 @@ public class Constants {
 	
 	// Nb ticks
 	public final static int MINIMUM_NB_TICKS = 0;
+
+	// Delay
+	public final static int MINIMUM_DELAY = 20;
+	public final static int MAXIMUM_DELAY = 5000;
 	
 }
