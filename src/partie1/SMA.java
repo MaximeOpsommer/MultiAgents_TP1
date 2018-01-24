@@ -5,9 +5,11 @@ import java.util.Observable;
 public class SMA extends Observable {
 
 	private Environment env;
+	private final int nbTicks;
 	
 	public SMA(Environment env) {
 		this.env = env;
+		nbTicks = env.getConfigs().getNbTicks();
 	}
 	
 	@Override
@@ -21,7 +23,8 @@ public class SMA extends Observable {
 	}
 	
 	public void run() {
-		while(true) {
+		int tick = 0;
+		while(nbTicks == 0 || tick < nbTicks) {
 			
 			try {
 				Thread.sleep(40);
@@ -33,6 +36,7 @@ public class SMA extends Observable {
 				agent.decide();
 				update();
 			}
+			tick++;
 		}
 	}
 	

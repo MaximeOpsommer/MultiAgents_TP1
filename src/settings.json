@@ -4,6 +4,7 @@
 	"grid_display": true,
 	"grid_height": 10,
 	"grid_width": 10,
+	"nb_ticks": 100,
 	"torus": true,
 	"seed": 123456
 }

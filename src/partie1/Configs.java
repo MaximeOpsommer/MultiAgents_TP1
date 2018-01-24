@@ -18,6 +18,7 @@ public class Configs {
 	private boolean GRID_DISPLAY = true;
 	private int GRID_HEIGHT = 100;
 	private int GRID_WIDTH = 100;
+	private int NB_TICKS = 1000;
 	private long SEED = 0;
 	private boolean TORUS = false;
 	
@@ -71,6 +72,14 @@ public class Configs {
 				GRID_WIDTH = Math.max(Constants.GRID_MINIMUM_DIMENSION, GRID_WIDTH);
 			} catch(Exception e) {
 				System.err.println("grid width value in settings.json is invalid");
+			}
+			
+			//NB TICKS
+			try {				
+				NB_TICKS = json.get("nb_ticks").getAsInt();
+				NB_TICKS = Math.max(Constants.MINIMUM_NB_TICKS, NB_TICKS);
+			} catch(Exception e) {
+				System.err.println("nb ticks value in settings.json is invalid");
 			}
 			
 			// SEED
@@ -134,6 +143,14 @@ public class Configs {
 	
 	public void setGridWidth(int gridWidth) {
 		GRID_WIDTH = gridWidth;
+	}
+	
+	public int getNbTicks() {
+		return NB_TICKS;
+	}
+	
+	public void setNbTicks(int nbTicks) {
+		NB_TICKS = nbTicks;
 	}
 	
 	public long getSeed() {

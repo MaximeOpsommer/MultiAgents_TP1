@@ -19,4 +19,7 @@ public class Constants {
 	public final static int MINIMUM_BOX_SIZE = 3;
 	public final static int MAXIMUM_BOX_SIZE = 50;
 	
+	// Nb ticks
+	public final static int MINIMUM_NB_TICKS = 0;
+	
 }
