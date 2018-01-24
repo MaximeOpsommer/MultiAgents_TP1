@@ -127,7 +127,7 @@ public class Particle extends Agent {
 				collision = ParticleConstants.PARTICLE_COLLISION;
 			}
 			try {
-				Particle targetAgent = env.getAgent(target.getColumn(), target.getLine());
+				Particle targetAgent = env.getParticle(target.getColumn(), target.getLine());
 				
 				// Swap Directions
 				Direction oldDirection = direction;

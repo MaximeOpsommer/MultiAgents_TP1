@@ -49,12 +49,12 @@ public class ParticleConfigs extends Configs {
 		}	
 	}
 	
-	public int getAgentNumber() {
+	public int getParticleNumber() {
 		return PARTICLE_NUMBER;
 	}
 	
-	public void setAgentNumber(int agentNumber) {
-		PARTICLE_NUMBER = agentNumber;
+	public void setParticleNumber(int particleNumber) {
+		PARTICLE_NUMBER = particleNumber;
 	}
 	
 	

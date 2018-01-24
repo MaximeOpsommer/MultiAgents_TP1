@@ -52,7 +52,7 @@ public class SMA extends Observable {
 	
 	private void equitableRun() {
 		int tick = 0;
-		List<Particle> agents = env.getAgents();
+		List<Particle> agents = env.getParticles();
 		while(nbTicks == 0 || tick < nbTicks) {
 			
 			for(Particle agent : agents) {
@@ -80,7 +80,7 @@ public class SMA extends Observable {
 		int tick = 0;
 		while(nbTicks == 0 || tick < nbTicks) {
 			
-			for(Particle agent : env.getAgents()) {
+			for(Particle agent : env.getParticles()) {
 				agent.decide();
 			}
 			tick++;
@@ -101,7 +101,7 @@ public class SMA extends Observable {
 	
 	private void randomRun() {
 		int tick = 0;
-		List<Particle> agents = env.getAgents();
+		List<Particle> agents = env.getParticles();
 		while(nbTicks == 0 || tick < nbTicks) {
 			
 			for(int i = 0; i < agents.size(); i++) {
