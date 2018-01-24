@@ -9,11 +9,11 @@ public class Constants {
 	// Configs edge values
 	// Dimension
 	public final static int GRID_MINIMUM_DIMENSION = 5;
-	public final static int GRID_MAXIMUM_DIMENSION = 1000;
+	public final static int GRID_MAXIMUM_DIMENSION = 100000;
 	
 	// Agent number
 	public final static int MINIMUM_AGENT_NUMBER = 2;
-	public final static int MAXIMUM_AGENT_NUMBER = 20000;
+	public final static int MAXIMUM_AGENT_NUMBER = 10000000;
 	
 	// Box size
 	public final static int MINIMUM_BOX_SIZE = 3;
@@ -25,5 +25,9 @@ public class Constants {
 	// Delay
 	public final static int MINIMUM_DELAY = 20;
 	public final static int MAXIMUM_DELAY = 5000;
+	
+	// Refresh
+	public final static int MINIMUM_REFRESH = 1;
+	public final static int MAXIMUM_REFRESH = 500;
 	
 }

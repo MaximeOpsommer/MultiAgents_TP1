@@ -20,6 +20,8 @@ public class Configs {
 	private int GRID_HEIGHT = 100;
 	private int GRID_WIDTH = 100;
 	private int NB_TICKS = 1000;
+	private int REFRESH = 1;
+	private int SCHEDULING = 1; // 0 = Equitable, 1 = Sequentiel, 2 = Aleatoire
 	private long SEED = 0;
 	private boolean TORUS = false;
 	
@@ -90,6 +92,26 @@ public class Configs {
 				NB_TICKS = Math.max(Constants.MINIMUM_NB_TICKS, NB_TICKS);
 			} catch(Exception e) {
 				System.err.println("nb ticks value in settings.json is invalid");
+			}
+			
+			// REFRESH
+			try {				
+				REFRESH = json.get("refresh").getAsInt();
+				REFRESH = Math.min(Constants.MAXIMUM_REFRESH, REFRESH);
+				REFRESH = Math.max(Constants.MINIMUM_REFRESH, REFRESH);
+			} catch(Exception e) {
+				System.err.println("refresh value in settings.json is invalid");
+			}
+			
+			// SCHEDULING
+			try {
+				SCHEDULING = json.get("scheduling").getAsInt();		
+				if(SCHEDULING < 0 || SCHEDULING > 2) {
+					SCHEDULING = 1;
+					System.err.println("scheduling value in settings.json is invalid");
+				}
+			} catch(Exception e) {
+				System.err.println("scheduling value in settings.json is invalid");
 			}
 			
 			// SEED
@@ -169,6 +191,22 @@ public class Configs {
 	
 	public void setNbTicks(int nbTicks) {
 		NB_TICKS = nbTicks;
+	}
+	
+	public int getRefresh() {
+		return REFRESH;
+	}
+
+	public void setRefresh(int refresh) {
+		REFRESH = refresh;
+	}
+	
+	public int getScheduling() {
+		return SCHEDULING;
+	}
+	
+	public void setScheduling(int scheduling) {
+		SCHEDULING = scheduling;
 	}
 	
 	public long getSeed() {
