@@ -1,16 +1,16 @@
 {
-	"agent_number": 100,
+	"agent_number": 200,
 	"box_size": 10,
 	"canvas_height": 600,
 	"canvas_width": 800,
-	"delay": 40,
+	"delay": 50,
 	"grid_display": false,
 	"grid_height": 100,
 	"grid_width": 100,
-	"nb_ticks": 100,
+	"nb_ticks": 0,
 	"refresh": 1,
 	"seed": 123456,
 	"scheduling":0,
 	"torus": false,
-	"trace": true
+	"trace": false
 }

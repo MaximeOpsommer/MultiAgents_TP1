@@ -1,4 +1,4 @@
-package partie1;
+package particules;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,7 +10,10 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
-public class Configs {
+import core.CommonConstants;
+import core.Configs;
+
+public class ParticleConfigs extends Configs {
 	
 	// Set some default values in case that we failed to read JSON
 	private int AGENT_NUMBER = 200;
@@ -28,20 +31,20 @@ public class Configs {
 	private boolean TORUS = false;
 	private boolean TRACE = true;
 	
-	public Configs() {
+	public ParticleConfigs() {
 		// Read configs file
 		Gson gson = new Gson();
 		JsonObject json;
 		try {
-			URL url = getClass().getResource("../settings.json");
+			URL url = getClass().getResource("settings.json");
 			File file = new File(url.getPath());
 			json = gson.fromJson(new FileReader(file), JsonObject.class);
 			
 			// AGENT NUMBER
 			try {				
 				AGENT_NUMBER = json.get("agent_number").getAsInt();
-				AGENT_NUMBER = Math.min(Constants.MAXIMUM_AGENT_NUMBER, AGENT_NUMBER);
-				AGENT_NUMBER = Math.max(Constants.MINIMUM_AGENT_NUMBER, AGENT_NUMBER);
+				AGENT_NUMBER = Math.min(ParticleConstants.MAXIMUM_PARTICLE_NUMBER, AGENT_NUMBER);
+				AGENT_NUMBER = Math.max(ParticleConstants.MINIMUM_PARTICLE_NUMBER, AGENT_NUMBER);
 			} catch(Exception e) {
 				System.err.println("agent number value in settings.json is invalid");
 			}
@@ -49,8 +52,8 @@ public class Configs {
 			// BOX SIZE
 			try {				
 				BOX_SIZE = json.get("box_size").getAsInt();
-				BOX_SIZE = Math.min(Constants.MAXIMUM_BOX_SIZE, BOX_SIZE);
-				BOX_SIZE = Math.max(Constants.MINIMUM_BOX_SIZE, BOX_SIZE);
+				BOX_SIZE = Math.min(CommonConstants.MAXIMUM_BOX_SIZE, BOX_SIZE);
+				BOX_SIZE = Math.max(CommonConstants.MINIMUM_BOX_SIZE, BOX_SIZE);
 			} catch(Exception e) {
 				System.err.println("box size value in settings.json is invalid");
 			}
@@ -58,7 +61,7 @@ public class Configs {
 			// CANVAS HEIGHT
 			try {
 				CANVAS_HEIGHT = json.get("canvas_height").getAsInt();
-				CANVAS_HEIGHT = Math.max(Constants.MINIMUM_CANVAS_HEIGHT, CANVAS_HEIGHT);
+				CANVAS_HEIGHT = Math.max(CommonConstants.MINIMUM_CANVAS_HEIGHT, CANVAS_HEIGHT);
 			} catch(Exception e) {
 				System.err.println("canvas height value in settings.json is invalid");
 			}
@@ -66,7 +69,7 @@ public class Configs {
 			// CANVAS WIDTH
 			try {
 				CANVAS_WIDTH = json.get("canvas_width").getAsInt();
-				CANVAS_WIDTH = Math.max(Constants.MINIMUM_CANVAS_WIDTH, CANVAS_WIDTH);
+				CANVAS_WIDTH = Math.max(CommonConstants.MINIMUM_CANVAS_WIDTH, CANVAS_WIDTH);
 			} catch(Exception e) {
 				System.err.println("canvas width value in settings.json is invalid");
 			}
@@ -74,8 +77,8 @@ public class Configs {
 			//DELAY
 			try {
 				DELAY = json.get("delay").getAsInt();
-				DELAY = Math.min(Constants.MAXIMUM_DELAY, DELAY);
-				DELAY = Math.max(Constants.MINIMUM_DELAY, DELAY);
+				DELAY = Math.min(CommonConstants.MAXIMUM_DELAY, DELAY);
+				DELAY = Math.max(CommonConstants.MINIMUM_DELAY, DELAY);
 			} catch(Exception e) {
 				System.err.println("delay value in settings.json is invalid");
 			}
@@ -90,8 +93,8 @@ public class Configs {
 			// GRID HEIGHT
 			try {				
 				GRID_HEIGHT = json.get("grid_height").getAsInt();
-				GRID_HEIGHT = Math.min(Constants.GRID_MAXIMUM_DIMENSION, GRID_HEIGHT);
-				GRID_HEIGHT = Math.max(Constants.GRID_MINIMUM_DIMENSION, GRID_HEIGHT);
+				GRID_HEIGHT = Math.min(CommonConstants.GRID_MAXIMUM_DIMENSION, GRID_HEIGHT);
+				GRID_HEIGHT = Math.max(CommonConstants.GRID_MINIMUM_DIMENSION, GRID_HEIGHT);
 			} catch(Exception e) {
 				System.err.println("grid height value in settings.json is invalid");
 			}
@@ -99,8 +102,8 @@ public class Configs {
 			// GRID WIDTH
 			try {				
 				GRID_WIDTH = json.get("grid_width").getAsInt();
-				GRID_WIDTH = Math.min(Constants.GRID_MAXIMUM_DIMENSION, GRID_WIDTH);
-				GRID_WIDTH = Math.max(Constants.GRID_MINIMUM_DIMENSION, GRID_WIDTH);
+				GRID_WIDTH = Math.min(CommonConstants.GRID_MAXIMUM_DIMENSION, GRID_WIDTH);
+				GRID_WIDTH = Math.max(CommonConstants.GRID_MINIMUM_DIMENSION, GRID_WIDTH);
 			} catch(Exception e) {
 				System.err.println("grid width value in settings.json is invalid");
 			}
@@ -108,7 +111,7 @@ public class Configs {
 			//NB TICKS
 			try {				
 				NB_TICKS = json.get("nb_ticks").getAsInt();
-				NB_TICKS = Math.max(Constants.MINIMUM_NB_TICKS, NB_TICKS);
+				NB_TICKS = Math.max(CommonConstants.MINIMUM_NB_TICKS, NB_TICKS);
 			} catch(Exception e) {
 				System.err.println("nb ticks value in settings.json is invalid");
 			}
@@ -116,8 +119,8 @@ public class Configs {
 			// REFRESH
 			try {				
 				REFRESH = json.get("refresh").getAsInt();
-				REFRESH = Math.min(Constants.MAXIMUM_REFRESH, REFRESH);
-				REFRESH = Math.max(Constants.MINIMUM_REFRESH, REFRESH);
+				REFRESH = Math.min(CommonConstants.MAXIMUM_REFRESH, REFRESH);
+				REFRESH = Math.max(CommonConstants.MINIMUM_REFRESH, REFRESH);
 			} catch(Exception e) {
 				System.err.println("refresh value in settings.json is invalid");
 			}

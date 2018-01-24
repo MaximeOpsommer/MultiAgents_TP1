@@ -1,4 +1,4 @@
-package partie1;
+package core;
 
 public class AgentNotFoundException extends Exception {
 

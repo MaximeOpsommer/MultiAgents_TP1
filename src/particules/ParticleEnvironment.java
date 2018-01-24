@@ -1,18 +1,23 @@
-package partie1;
+package particules;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Environment {
+import core.AgentNotFoundException;
+import core.Coord;
+import core.Direction;
+import core.Environment;
+
+public class ParticleEnvironment extends Environment {
 	
 	private final int[][] grid;
 	private final int n_agent;
-	private List<Agent> agents = new ArrayList<Agent>();
-	private final Configs configs = new Configs();
+	private List<Particle> agents = new ArrayList<Particle>();
+	private final ParticleConfigs configs = new ParticleConfigs();
 	private Random random;
 	
-	public Environment() {
+	public ParticleEnvironment() {
 		grid = new int[configs.getGridHeight()][configs.getGridWidth()];
 		n_agent = configs.getAgentNumber();
 		random = configs.getSeed() == 0 ? new Random() : new Random(configs.getSeed());
@@ -29,7 +34,7 @@ public class Environment {
 				if(rand < reste) {
 					grid[line][column] = 1;
 					reste--;
-					agents.add(new Agent(this, new Coord(column, line)));
+					agents.add(new Particle(this, new Coord(column, line)));
 				} else {
 					grid[line][column] = 0;
 				}
@@ -42,16 +47,16 @@ public class Environment {
 		return grid;
 	}
 	
-	public List<Agent> getAgents() {
+	public List<Particle> getAgents() {
 		return agents;
 	}
 	
-	public Configs getConfigs() {
+	public ParticleConfigs getConfigs() {
 		return configs;
 	}
 	
-	public Agent getAgent(int column, int line) throws AgentNotFoundException {
-		for(Agent agent : agents) {
+	public Particle getAgent(int column, int line) throws AgentNotFoundException {
+		for(Particle agent : agents) {
 			Coord coords = agent.getCoords();
 			if(coords.getColumn() == column && coords.getLine() == line) {
 				return agent;
@@ -75,8 +80,8 @@ public class Environment {
 	}
 	
 	public void collision(Coord c1, Coord c2) {
-		grid[c1.getLine()][c1.getColumn()] = Constants.MARBLE_COLLISION;
-		grid[c2.getLine()][c2.getColumn()] = Constants.MARBLE_COLLISION;
+		grid[c1.getLine()][c1.getColumn()] = ParticleConstants.PARTICLE_COLLISION;
+		grid[c2.getLine()][c2.getColumn()] = ParticleConstants.PARTICLE_COLLISION;
 	}
 	
 	public String toString() {

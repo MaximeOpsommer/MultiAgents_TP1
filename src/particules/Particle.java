@@ -1,21 +1,25 @@
-package partie1;
+package particules;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Agent {
+import core.Agent;
+import core.Coord;
+import core.Direction;
+
+public class Particle extends Agent {
 
 	// 1 = gris : pas encore de collision
 	// 2 = orange : collision avec un mur
 	// 3 = rouge : collision avec une bille
 	
-	private final Environment env;
+	private final ParticleEnvironment env;
 	
 	private Coord coords;
 	private Direction direction;
 	private int collision;
 	
-	public Agent(final Environment env, final Coord coords) {
+	public Particle(final ParticleEnvironment env, final Coord coords) {
 		this.env = env;
 		this.coords = coords;
 		
@@ -27,7 +31,7 @@ public class Agent {
 		collision = 1;
 	}
 	
-	public Configs getConfigs() {
+	public ParticleConfigs getConfigs() {
 		return env.getConfigs();
 	}
 	
@@ -48,7 +52,7 @@ public class Agent {
 	}
 	
 	public void collisionFrom(int lineFrom, int columnFrom) {
-		collision = Constants.MARBLE_COLLISION;
+		collision = ParticleConstants.PARTICLE_COLLISION;
 		direction = direction.reverseDirection();
 	}
 	
@@ -87,8 +91,8 @@ public class Agent {
 					direction = direction.reverseVerticalDirection();
 					outOfBounds = true;
 					move = false;
-					if(collision < Constants.WALL_COLLISION) {				
-						collision = Constants.WALL_COLLISION;
+					if(collision < ParticleConstants.WALL_COLLISION) {				
+						collision = ParticleConstants.WALL_COLLISION;
 					}
 					if(getConfigs().trace()) {
 						System.out.println("Agent;column=" + currentColumn + ";line=" + currentLine + ";direction=" + direction.name() + ";bounced on wall");						
@@ -105,8 +109,8 @@ public class Agent {
 					direction = direction.reverseHorizontalDirection();
 					outOfBounds = true;
 					move = false;
-					if(collision < Constants.WALL_COLLISION) {				
-						collision = Constants.WALL_COLLISION;
+					if(collision < ParticleConstants.WALL_COLLISION) {				
+						collision = ParticleConstants.WALL_COLLISION;
 					}
 					if(getConfigs().trace()) {
 						System.out.println("Agent;column=" + currentColumn + ";line=" + currentLine + ";direction=" + direction.name() + ";bounced on wall");						
@@ -116,14 +120,14 @@ public class Agent {
 		}
 		
 		
-		// Check marble bounce
+		// Check particules bounce
 		if(!outOfBounds && env.getGrid()[target.getLine()][target.getColumn()] != 0) {
 			move = false;
-			if(collision < Constants.MARBLE_COLLISION) {				
-				collision = Constants.MARBLE_COLLISION;
+			if(collision < ParticleConstants.PARTICLE_COLLISION) {				
+				collision = ParticleConstants.PARTICLE_COLLISION;
 			}
 			try {
-				Agent targetAgent = env.getAgent(target.getColumn(), target.getLine());
+				Particle targetAgent = env.getAgent(target.getColumn(), target.getLine());
 				
 				// Swap Directions
 				Direction oldDirection = direction;
@@ -136,7 +140,7 @@ public class Agent {
 				
 				direction = oldTargetDirection;
 				targetAgent.setDirection(oldDirection);
-				targetAgent.setCollision(Constants.MARBLE_COLLISION);
+				targetAgent.setCollision(ParticleConstants.PARTICLE_COLLISION);
 				env.collision(coords, targetAgent.getCoords());
 				
 				//targetAgent.collisionFrom(currentLine, currentColumn);

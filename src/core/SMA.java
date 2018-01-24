@@ -1,18 +1,21 @@
-package partie1;
+package core;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
+import particules.Particle;
+import particules.ParticleEnvironment;
+
 public class SMA extends Observable {
 
-	private Environment env;
+	private ParticleEnvironment env;
 	private final int nbTicks;
 	private int delay;
 	private int refresh;
 	private int scheduling;
 	
-	public SMA(Environment env) {
+	public SMA(ParticleEnvironment env) {
 		this.env = env;
 		nbTicks = env.getConfigs().getNbTicks();
 		delay = env.getConfigs().getDelay();
@@ -49,10 +52,10 @@ public class SMA extends Observable {
 	
 	private void equitableRun() {
 		int tick = 0;
-		List<Agent> agents = env.getAgents();
+		List<Particle> agents = env.getAgents();
 		while(nbTicks == 0 || tick < nbTicks) {
 			
-			for(Agent agent : agents) {
+			for(Particle agent : agents) {
 				agent.decide();
 			}
 			Collections.shuffle(agents, env.getRandom());
@@ -77,7 +80,7 @@ public class SMA extends Observable {
 		int tick = 0;
 		while(nbTicks == 0 || tick < nbTicks) {
 			
-			for(Agent agent : env.getAgents()) {
+			for(Particle agent : env.getAgents()) {
 				agent.decide();
 			}
 			tick++;
@@ -98,7 +101,7 @@ public class SMA extends Observable {
 	
 	private void randomRun() {
 		int tick = 0;
-		List<Agent> agents = env.getAgents();
+		List<Particle> agents = env.getAgents();
 		while(nbTicks == 0 || tick < nbTicks) {
 			
 			for(int i = 0; i < agents.size(); i++) {
