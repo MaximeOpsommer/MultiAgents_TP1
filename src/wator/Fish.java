@@ -1,23 +1,19 @@
 package wator;
 
 import core.Agent;
-import core.Coord;
 
 public class Fish extends Agent{
 	
 	private int fishBreedTime;
-	private WatorEnvironment env;
-	private Coord coords;
 	
-	public Fish(final WatorEnvironment env, final Coord coords){
-		this.setEnv(env);
-		this.setCoords(coords);
-		this.fishBreedTime = ((WatorConfigs) (env.getConfigs())).getFishBreedTime();
+	public Fish(final WatorEnvironment env, final int line, final int column){
+		super(env, line, column);
+		this.fishBreedTime = getConfigs().getFishBreedTime();
 	}
 
 	@Override
 	public void decide() {
-		// TODO Auto-generated method stub
+		// TODO Alex : Write method
 		
 	}
 
@@ -25,24 +21,16 @@ public class Fish extends Agent{
 		return fishBreedTime;
 	}
 
-	public void setFishBreedTime(int fishBreedTime) {
-		this.fishBreedTime = fishBreedTime;
+	public WatorConfigs getConfigs() {
+		return (WatorConfigs) env.getConfigs();
 	}
 
-	public WatorEnvironment getEnv() {
-		return env;
+	public int getLine() {
+		return line;
 	}
-
-	public void setEnv(WatorEnvironment env) {
-		this.env = env;
-	}
-
-	public Coord getCoords() {
-		return coords;
-	}
-
-	public void setCoords(Coord coords) {
-		this.coords = coords;
+	
+	public int getColumn() {
+		return column;
 	}
 
 }

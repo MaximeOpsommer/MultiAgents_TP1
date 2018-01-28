@@ -3,6 +3,7 @@ package wator;
 import java.util.ArrayList;
 import java.util.List;
 
+import core.Agent;
 import core.Environment;
 
 public class WatorEnvironment extends Environment {
@@ -43,6 +44,13 @@ public class WatorEnvironment extends Environment {
 			}
 		}
 		
+	}
+	
+	public List<? extends Agent> getAllAgents() {
+		List<Agent> res = new ArrayList<Agent>();
+		res.addAll(fishs);
+		res.addAll(sharks);
+		return res;
 	}
 	
 	public List<Fish> getFishs(){

@@ -31,7 +31,7 @@ public class Configs {
 	
 	public Configs() {
 		
-		SETTINGS_FILE = "core-settings.json";
+		SETTINGS_FILE = "../core/core-settings.json";
 		
 		// Read configs file
 		Gson gson = new Gson();

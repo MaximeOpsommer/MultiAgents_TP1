@@ -3,6 +3,7 @@ package particules;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import core.Agent;
 import core.Panel;
 import core.SMA;
 
@@ -15,6 +16,7 @@ public class ParticlePanel extends Panel {
 	}
 	
 	protected void repaintGrid(Graphics g) {
+		long start = System.nanoTime();
 		// draw background (white)
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, ((boxSize+1)*width)-1, ((boxSize+1)*height)-1);
@@ -49,6 +51,8 @@ public class ParticlePanel extends Panel {
 				}
 			}
 		}
+		long end = System.nanoTime();
+		System.out.println("Repaint done in " + (end - start) + " nanoseconds");
 	}
 
 }

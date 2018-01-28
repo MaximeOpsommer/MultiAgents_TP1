@@ -3,8 +3,8 @@ package particules;
 import java.util.ArrayList;
 import java.util.List;
 
+import core.Agent;
 import core.AgentNotFoundException;
-import core.Coord;
 import core.Environment;
 
 public class ParticleEnvironment extends Environment {
@@ -17,10 +17,11 @@ public class ParticleEnvironment extends Environment {
 	public ParticleEnvironment() {
 		configs = new ParticleConfigs();
 		particleNumber = ((ParticleConfigs) (configs)).getParticleNumber();
-		
+		init();
 	}
 	
 	protected void init() {
+		super.init();
 		int total = grid.length * grid[0].length;
 		int reste = particleNumber;
 		int rand;
@@ -30,7 +31,7 @@ public class ParticleEnvironment extends Environment {
 				if(rand < reste) {
 					grid[line][column] = 1;
 					reste--;
-					particles.add(new Particle(this, new Coord(column, line)));
+					particles.add(new Particle(this, line, column));
 				} else {
 					grid[line][column] = 0;
 				}
@@ -39,7 +40,9 @@ public class ParticleEnvironment extends Environment {
 		}
 	}
 	
-	
+	public List<? extends Agent> getAllAgents() {
+		return particles;
+	}
 	
 	public List<Particle> getParticles() {
 		return particles;
@@ -47,17 +50,17 @@ public class ParticleEnvironment extends Environment {
 	
 	public Particle getParticle(int column, int line) throws AgentNotFoundException {
 		for(Particle agent : particles) {
-			Coord coords = agent.getCoords();
-			if(coords.getColumn() == column && coords.getLine() == line) {
+			if(agent.getColumn() == column && agent.getLine() == line) {
 				return agent;
 			}
 		}
 		throw new AgentNotFoundException();
 	}
 	
-	public void collision(Coord c1, Coord c2) {
-		grid[c1.getLine()][c1.getColumn()] = ParticleConstants.PARTICLE_COLLISION;
-		grid[c2.getLine()][c2.getColumn()] = ParticleConstants.PARTICLE_COLLISION;
+	public void collision(final int particleLine, final int particleColumn,
+						final int targetLine, final int targetColumn) {
+		grid[particleLine][particleColumn] = ParticleConstants.PARTICLE_COLLISION;
+		grid[targetLine][targetColumn] = ParticleConstants.PARTICLE_COLLISION;
 	}
 	
 }

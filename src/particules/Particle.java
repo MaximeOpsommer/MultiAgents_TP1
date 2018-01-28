@@ -1,11 +1,6 @@
 package particules;
 
-import java.util.Arrays;
-import java.util.List;
-
 import core.Agent;
-import core.Coord;
-import core.Direction;
 
 public class Particle extends Agent {
 
@@ -13,47 +8,29 @@ public class Particle extends Agent {
 	// 2 = orange : collision avec un mur
 	// 3 = rouge : collision avec une bille
 	
-	private final ParticleEnvironment env;
-	
-	private Coord coords;
-	private Direction direction;
 	private int collision;
 	
-	public Particle(final ParticleEnvironment env, final Coord coords) {
-		this.env = env;
-		this.coords = coords;
-		
-		// Init direction
-		List<Direction> directionList = Arrays.asList(Direction.values());
-		int random = env.getRandom().nextInt(directionList.size());
-		direction = directionList.get(random);
-		
+	public Particle(final ParticleEnvironment env, final int line, final int column) {
+		super(env, line, column);
+		while(verticalDirection == 0 && horizontalDirection == 0) {
+			verticalDirection = (int) (Math.random() * 3) - 1;
+			horizontalDirection = (int) (Math.random() * 3) - 1;
+		}
 		collision = 1;
 	}
 	
-	public ParticleConfigs getConfigs() {
-		return (ParticleConfigs) env.getConfigs();
-	}
-	
-	public Coord getCoords() {
-		return coords;
-	}
-	
-	public Direction getDirection() {
-		return direction;
-	}
-	
-	public void setDirection(Direction direction) {
-		this.direction = direction;
+	public int getCollision() {
+		return collision;
 	}
 	
 	public void setCollision(int collision) {
 		this.collision = collision;
 	}
 	
+	// TODO Maxime : future methode pour les trajectoires realistes
 	public void collisionFrom(int lineFrom, int columnFrom) {
 		collision = ParticleConstants.PARTICLE_COLLISION;
-		direction = direction.reverseDirection();
+		// Calcul directions
 	}
 	
 	/**
@@ -65,8 +42,6 @@ public class Particle extends Agent {
 	
 	protected void move() {
 		
-		final int currentColumn = coords.getColumn();
-		final int currentLine = coords.getLine();
 		final int width = env.getGrid()[0].length;
 		final int height = env.getGrid().length;
 		
@@ -74,46 +49,51 @@ public class Particle extends Agent {
 		boolean move = true;
 		
 		// Manage bounces
-		Coord target;
+		int targetLine;
+		int targetColumn;
+		
 		// TORUS
 		if(getConfigs().isTorus()) {
-			target = new Coord(Math.floorMod(currentColumn + direction.getHorizontalMove(), width), Math.floorMod(currentLine + direction.getVerticalMove(), height));
-			
+			targetLine = Math.floorMod(line + verticalDirection, height);
+			targetColumn = Math.floorMod(column + horizontalDirection, width);
+		}
+		
 		// NOT TORUS
-		} else {			
-			target = new Coord(currentColumn + direction.getHorizontalMove(), currentLine + direction.getVerticalMove());
+		else {
+			targetLine = line + verticalDirection;
+			targetColumn = column + horizontalDirection;
 			// Check vertical edge bounce
-			if(target.getLine() < 0 || target.getLine() >= height) {
+			if(targetLine < 0 || targetLine >= height) {
 				if(getConfigs().isTorus()) {
 					
 				}
 				else {
-					direction = direction.reverseVerticalDirection();
+					verticalDirection *= -1;
 					outOfBounds = true;
 					move = false;
 					if(collision < ParticleConstants.WALL_COLLISION) {				
 						collision = ParticleConstants.WALL_COLLISION;
 					}
 					if(getConfigs().trace()) {
-						System.out.println("Agent;column=" + currentColumn + ";line=" + currentLine + ";direction=" + direction.name() + ";bounced on wall");						
+						System.out.println("Agent;column=" + column + ";line=" + line + ";vertical_direction=" + verticalDirection + ";horizontal_direction=" + horizontalDirection + ";bounced on wall");						
 					}
 				}
 			}
 			
 			// Check horizontal edge bounce
-			if(target.getColumn() < 0 || target.getColumn() >= width) {
+			if(targetColumn < 0 || targetColumn >= width) {
 				if(getConfigs().isTorus()) {
 					
 				}
 				else {				
-					direction = direction.reverseHorizontalDirection();
+					horizontalDirection *= -1;
 					outOfBounds = true;
 					move = false;
 					if(collision < ParticleConstants.WALL_COLLISION) {				
 						collision = ParticleConstants.WALL_COLLISION;
 					}
 					if(getConfigs().trace()) {
-						System.out.println("Agent;column=" + currentColumn + ";line=" + currentLine + ";direction=" + direction.name() + ";bounced on wall");						
+						System.out.println("Agent;column=" + column + ";line=" + line + ";vertical_direction=" + verticalDirection + ";horizontal_direction=" + horizontalDirection + ";bounced on wall");						
 					}
 				}
 			}
@@ -121,39 +101,44 @@ public class Particle extends Agent {
 		
 		
 		// Check particules bounce
-		if(!outOfBounds && env.getGrid()[target.getLine()][target.getColumn()] != 0) {
+		if(!outOfBounds && env.getGrid()[targetLine][targetColumn] != 0) {
 			move = false;
 			if(collision < ParticleConstants.PARTICLE_COLLISION) {				
 				collision = ParticleConstants.PARTICLE_COLLISION;
 			}
 			try {
-				Particle targetAgent = env.getParticle(target.getColumn(), target.getLine());
+				Particle targetAgent = ((ParticleEnvironment) env).getParticle(targetColumn, targetLine);
 				
 				// Swap Directions
-				Direction oldDirection = direction;
-				Direction oldTargetDirection = targetAgent.getDirection();
+				int oldVerticalDirection = verticalDirection;
+				int oldHorizontalDirection = horizontalDirection;
 				
 				// Log
 				if(getConfigs().trace()) {
-					System.out.println("Agent;column=" + currentColumn + ";line=" + currentLine + ";direction=" + direction.name() + ";bounced on Agent;column=" + target.getColumn() + ";line=" + target.getLine() + ";direction=" + targetAgent.getDirection().name());
+					System.out.println("Agent;column=" + column + ";line=" + line + ";vertical_direction=" + verticalDirection + ";horizontal_direction=" + horizontalDirection + ";bounced on Agent;column=" + targetColumn + ";line=" + targetLine + ";vertical_direction=" + targetAgent.getVerticalDirection() + ";horizontal_direction=" + targetAgent.getHorizontalDirection());
 				}
 				
-				direction = oldTargetDirection;
-				targetAgent.setDirection(oldDirection);
+				verticalDirection = targetAgent.getVerticalDirection();
+				horizontalDirection = targetAgent.getHorizontalDirection();
+				targetAgent.setVerticalDirection(oldVerticalDirection);
+				targetAgent.setHorizontalDirection(oldHorizontalDirection);
 				targetAgent.setCollision(ParticleConstants.PARTICLE_COLLISION);
-				env.collision(coords, targetAgent.getCoords());
+				((ParticleEnvironment) env).collision(line, column, targetLine, targetColumn);
 				
 				//targetAgent.collisionFrom(currentLine, currentColumn);
 			} catch(Exception e) {
-				direction = direction.reverseDirection();
+				verticalDirection *= -1;
+				horizontalDirection *= -1;
 				System.err.println("Collided agent not found, direction has been reverse instead");
 			}
 			
 		}
 		
 		if(move) {			
-			coords = new Coord(Math.floorMod(coords.getColumn() + direction.getHorizontalMove(), width), Math.floorMod(coords.getLine() + direction.getVerticalMove(), height));
-			env.moveAgent(currentColumn, currentLine, direction, collision);
+			env.moveAgent(column, line, verticalDirection, horizontalDirection, collision);
+			// maybe modulo
+			column += horizontalDirection;
+			line += verticalDirection;
 		}
 	}
 	

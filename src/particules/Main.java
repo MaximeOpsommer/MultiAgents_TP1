@@ -24,7 +24,8 @@ public class Main {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
-		sma.run();
+		//sma.run();
+		new Thread(sma).start();
 	}
 	
 }

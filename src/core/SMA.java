@@ -4,23 +4,22 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
-import particules.Particle;
-import particules.ParticleEnvironment;
+public class SMA extends Observable implements Runnable {
 
-public class SMA extends Observable {
-
-	private ParticleEnvironment env;
+	private Environment env;
 	private final int nbTicks;
 	private int delay;
 	private int refresh;
 	private int scheduling;
+	private final List<? extends Agent> agents;
 	
-	public SMA(ParticleEnvironment env) {
+	public SMA(Environment env) {
 		this.env = env;
 		nbTicks = env.getConfigs().getNbTicks();
 		delay = env.getConfigs().getDelay();
 		refresh = env.getConfigs().getRefresh();
 		scheduling = env.getConfigs().getScheduling();
+		agents = env.getAllAgents();
 	}
 	
 	@Override
@@ -52,10 +51,9 @@ public class SMA extends Observable {
 	
 	private void equitableRun() {
 		int tick = 0;
-		List<Particle> agents = env.getParticles();
 		while(nbTicks == 0 || tick < nbTicks) {
 			
-			for(Particle agent : agents) {
+			for(Agent agent : agents) {
 				agent.decide();
 			}
 			Collections.shuffle(agents, env.getRandom());
@@ -80,9 +78,12 @@ public class SMA extends Observable {
 		int tick = 0;
 		while(nbTicks == 0 || tick < nbTicks) {
 			
-			for(Particle agent : env.getParticles()) {
+			long start = System.nanoTime();
+			for(Agent agent : agents) {
 				agent.decide();
 			}
+			long end = System.nanoTime();
+			System.out.println("Tour de parole fait en " + (end - start) + " nanosecondes");
 			tick++;
 			if(env.getConfigs().trace()) {
 				System.out.println("Tick;" + tick);
@@ -101,7 +102,6 @@ public class SMA extends Observable {
 	
 	private void randomRun() {
 		int tick = 0;
-		List<Particle> agents = env.getParticles();
 		while(nbTicks == 0 || tick < nbTicks) {
 			
 			for(int i = 0; i < agents.size(); i++) {
