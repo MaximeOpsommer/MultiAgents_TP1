@@ -9,6 +9,10 @@ import core.Environment;
 
 public class ParticleEnvironment extends Environment {
 	
+	// 1 = gris : pas encore de collision
+	// 2 = orange : collision avec un mur
+	// 3 = rouge : collision avec une bille
+	
 	private final int particleNumber;
 	private List<Particle> particles = new ArrayList<Particle>();
 	

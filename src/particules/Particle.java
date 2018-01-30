@@ -3,10 +3,6 @@ package particules;
 import core.Agent;
 
 public class Particle extends Agent {
-
-	// 1 = gris : pas encore de collision
-	// 2 = orange : collision avec un mur
-	// 3 = rouge : collision avec une bille
 	
 	private int collision;
 	

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import core.Panel;
 import core.SMA;
+import particules.ParticleConstants;
 
 public class WatorPanel extends Panel{
 
@@ -15,8 +16,8 @@ public class WatorPanel extends Panel{
 	}
 	
 	protected void repaintGrid(Graphics g) {
-		// draw background (white)
-		g.setColor(Color.WHITE);
+		// draw background (blue)
+		g.setColor(Color.BLUE);
 		g.fillRect(0, 0, ((boxSize+1)*width)-1, ((boxSize+1)*height)-1);
 		
 		// draw grid
@@ -32,9 +33,26 @@ public class WatorPanel extends Panel{
 			}
 		}
 		
-		// TODO draw fishs
+		// draw fishes and sharks
+		int[][] grid = env.getGrid();
 		
-		// TODO draw sharks
+		for(int line = 0; line < grid.length; line++) {
+			for(int column = 0; column < grid[0].length; column++) {
+				if(grid[line][column] == WatorConstants.BABY_FISH) {
+					g.setColor(Color.YELLOW);
+					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
+				} else if(grid[line][column] == WatorConstants.ADULT_FISH) {
+					g.setColor(Color.GREEN);
+					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
+				}  else if(grid[line][column] == WatorConstants.BABY_SHARK) {
+					g.setColor(Color.PINK);
+					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
+				}  else if(grid[line][column] == WatorConstants.ADULT_SHARK) {
+					g.setColor(Color.RED);
+					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
+				}
+			}
+		}
 		
 	}
 }

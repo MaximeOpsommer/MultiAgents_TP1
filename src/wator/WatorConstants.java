@@ -2,6 +2,12 @@ package wator;
 
 public class WatorConstants {
 
+	public final static int BABY_FISH = 1;
+	public final static int ADULT_FISH = 2;
+	public final static int BABY_SHARK = 3;
+	public final static int ADULT_SHARK = 4;
+	
+	
 	public final static int MINIMUM_FISH_NUMBER = 10;
 	public final static int MAXIMUM_FISH_NUMBER = 1000;
 	

@@ -2,38 +2,21 @@ package wator;
 
 import core.Agent;
 
-public class Shark extends Agent {
+public class Shark extends AquaticAnimal {
 	
-	private int sharkBreedTime;
 	private int sharkStarveTime;
 
 	public Shark(final WatorEnvironment env, final int line, final int column){
-		super(env, line, column);
-		
-		this.sharkBreedTime = ((WatorConfigs) (env.getConfigs())).getFishBreedTime();
-		this.sharkStarveTime = ((WatorConfigs) (env.getConfigs())).getFishBreedTime();
+		super(env, line, column, ((WatorConfigs) env.getConfigs()).getSharkBreedTime());
+		this.sharkStarveTime = ((WatorConfigs) (env.getConfigs())).getSharkStarveTime();
 	}
 
-	@Override
 	public void decide() {
-		// TODO Auto-generated method stub
 		
 	}
 
-	public int getSharkBreedTime() {
-		return sharkBreedTime;
+	protected void eat() {
+		
 	}
-
-	public void setSharkBreedTime(int sharkBreedTime) {
-		this.sharkBreedTime = sharkBreedTime;
-	}
-
-	public int getSharkStarveTime() {
-		return sharkStarveTime;
-	}
-
-	public void setSharkStarveTime(int sharkStarveTime) {
-		this.sharkStarveTime = sharkStarveTime;
-	}
-
+	
 }

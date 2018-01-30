@@ -50,4 +50,6 @@ public abstract class Agent {
 	
 	public abstract void decide();
 	
+	protected abstract void move();
+	
 }
