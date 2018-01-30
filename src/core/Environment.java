@@ -21,11 +21,11 @@ public abstract class Environment {
 		return random;
 	}
 	
-	public void moveAgent(int oldColumn, int oldLine, int verticalDirection, int horizontalDirection, int collision) {
+	public void moveAgent(int oldColumn, int oldLine, int verticalDirection, int horizontalDirection, int newValue) {
 		int value = 0;
 		if((value = grid[oldLine][oldColumn]) > 0) {
 			grid[oldLine][oldColumn] = 0;
-			grid[Math.floorMod(oldLine + verticalDirection, grid.length)][Math.floorMod(oldColumn + horizontalDirection, grid[0].length)] = collision > value ? collision : value;
+			grid[Math.floorMod(oldLine + verticalDirection, grid.length)][Math.floorMod(oldColumn + horizontalDirection, grid[0].length)] = newValue > value ? newValue : value;
 		} else {
 			System.err.println("An error occured during move process");
 		}

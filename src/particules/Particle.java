@@ -133,8 +133,8 @@ public class Particle extends Agent {
 		if(move) {			
 			env.moveAgent(column, line, verticalDirection, horizontalDirection, collision);
 			// maybe modulo
-			column += horizontalDirection;
-			line += verticalDirection;
+			column = Math.floorMod(column + horizontalDirection, width);
+			line = Math.floorMod(line + verticalDirection, height);
 		}
 	}
 	

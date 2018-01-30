@@ -11,7 +11,7 @@ public class SMA extends Observable implements Runnable {
 	private int delay;
 	private int refresh;
 	private int scheduling;
-	private final List<? extends Agent> agents;
+	private List<? extends Agent> agents;
 	
 	public SMA(Environment env) {
 		this.env = env;
@@ -79,6 +79,7 @@ public class SMA extends Observable implements Runnable {
 		while(nbTicks == 0 || tick < nbTicks) {
 			
 			long start = System.nanoTime();
+			agents = env.getAllAgents();
 			for(Agent agent : agents) {
 				agent.decide();
 			}

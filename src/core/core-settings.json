@@ -2,7 +2,7 @@
 	"box_size": 10,
 	"canvas_height": 600,
 	"canvas_width": 800,
-	"delay": 40,
+	"delay": 200,
 	"grid_display": false,
 	"grid_height": 50,
 	"grid_width": 50,
@@ -10,6 +10,6 @@
 	"refresh": 1,
 	"seed": 0,
 	"scheduling":1,
-	"torus": false,
+	"torus": true,
 	"trace": false
 }

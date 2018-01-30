@@ -23,8 +23,6 @@ public class WatorEnvironment extends Environment {
 		configs = new WatorConfigs();
 		fishNumber = ((WatorConfigs) (configs)).getFishNumber();
 		sharkNumber = ((WatorConfigs) (configs)).getSharkNumber();
-		System.out.println(fishNumber);
-		System.out.println(sharkNumber);
 		init();
 	}
 	
@@ -40,10 +38,12 @@ public class WatorEnvironment extends Environment {
 				if(rand < restFish){
 					grid[line][column] = 2;
 					//TODO Ajouter un Fish
+					fishs.add(new Fish(this, line, column));
 					restFish--;
 					restAll--;
 				}else if(rand < restAll){
 					//TODO Ajouter un Shark
+					sharks.add(new Shark(this, line, column));
 					grid[line][column] = 4;
 					restAll--;
 				}else{
@@ -66,8 +66,17 @@ public class WatorEnvironment extends Environment {
 		return fishs;
 	}
 	
+	public void addFish(int line, int column) {
+		grid[line][column] = WatorConstants.BABY_FISH;
+		fishs.add(new Fish(this, line, column));
+	}
+	
 	public List<Shark> getSharks(){
 		return sharks;
+	}
+	
+	public void grow(int line, int column, int value) {
+		grid[line][column] = value;
 	}
 
 }
