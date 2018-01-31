@@ -43,15 +43,15 @@ public class Shark extends AquaticAnimal {
 			// Eat if fish
 			if(eat) {
 				((WatorEnvironment) env).removeFish(Math.floorMod(line + verticalDirection, grid.length), Math.floorMod(column + horizontalDirection, grid[0].length));
-				sharkStarveTime = ((WatorConfigs) env.getConfigs()).getSharkStarveTime();
+				sharkStarveTime = ((WatorConfigs) env.getConfigs()).getSharkStarveTime() + 1;
 			}
 			
 			// Move
 			env.moveAgent(column, line, verticalDirection, horizontalDirection, WatorConstants.ADULT_SHARK);			
-			if(breedTime == 0) {
+			if(breedTime < 1) {
 				// reproduction
 				((WatorEnvironment) env).addShark(line, column);
-				breedTime = ((WatorConfigs) env.getConfigs()).getSharkBreedTime();
+				breedTime = ((WatorConfigs) env.getConfigs()).getSharkBreedTime() + 1;
 			}
 			column = Math.floorMod(column + horizontalDirection, grid[0].length);
 			line = Math.floorMod(line + verticalDirection, grid.length);

@@ -27,10 +27,10 @@ public class Fish extends AquaticAnimal {
 			
 			// Move
 			env.moveAgent(column, line, verticalDirection, horizontalDirection, WatorConstants.ADULT_FISH);			
-			if(breedTime == 0) {
+			if(breedTime < 1) {
 				// reproduction
 				((WatorEnvironment) env).addFish(line, column);
-				breedTime = ((WatorConfigs) env.getConfigs()).getFishBreedTime();
+				breedTime = ((WatorConfigs) env.getConfigs()).getFishBreedTime() + 1;
 			}
 			column = Math.floorMod(column + horizontalDirection, grid[0].length);
 			line = Math.floorMod(line + verticalDirection, grid.length);

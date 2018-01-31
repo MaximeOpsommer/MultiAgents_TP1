@@ -40,16 +40,16 @@ public class WatorPanel extends Panel{
 			for(int column = 0; column < grid[0].length; column++) {
 				if(grid[line][column] == WatorConstants.BABY_FISH) {
 					g.setColor(Color.YELLOW);
-					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
+					g.fillRect(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
 				} else if(grid[line][column] == WatorConstants.ADULT_FISH) {
 					g.setColor(Color.GREEN);
-					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
+					g.fillRect(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
 				}  else if(grid[line][column] == WatorConstants.BABY_SHARK) {
 					g.setColor(Color.PINK);
-					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
+					g.fillRect(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
 				}  else if(grid[line][column] == WatorConstants.ADULT_SHARK) {
 					g.setColor(Color.RED);
-					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
+					g.fillRect(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
 				}
 			}
 		}

@@ -99,7 +99,6 @@ public abstract class AquaticAnimal extends Agent {
 				voisinsLibres.add(8);
 			}
 		}
-		
 		return voisinsLibres;
 	}
 
