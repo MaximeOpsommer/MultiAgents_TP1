@@ -10,6 +10,6 @@
 	"refresh": 1,
 	"seed": 0,
 	"scheduling":1,
-	"torus": true,
+	"torus": false,
 	"trace": false
 }

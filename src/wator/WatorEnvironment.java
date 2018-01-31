@@ -9,9 +9,9 @@ import core.Environment;
 public class WatorEnvironment extends Environment {
 	
 	// 0 = rien
-	// 1 = jaune : Fish venant de naître
+	// 1 = jaune : Fish venant de naï¿½tre
 	// 2 = vert : Fish
-	// 3 = rose : Shark venant de naître
+	// 3 = rose : Shark venant de naï¿½tre
 	// 4 = rouge : Shark
 	
 	private final int fishNumber;
@@ -71,12 +71,37 @@ public class WatorEnvironment extends Environment {
 		fishs.add(new Fish(this, line, column));
 	}
 	
+	public void addShark(int line, int column) {
+		grid[line][column] = WatorConstants.BABY_SHARK;
+		sharks.add(new Shark(this, line, column));
+	}
+	
 	public List<Shark> getSharks(){
 		return sharks;
 	}
 	
 	public void grow(int line, int column, int value) {
 		grid[line][column] = value;
+	}
+	
+	public void removeFish(int line, int column) {
+		for(Fish fish : fishs) {
+			if(fish.getLine() == line && fish.getColumn() == column) {
+				fishs.remove(fish);
+				break;
+			}
+		}
+		grid[line][column] = 0;
+	}
+	
+	public void removeShark(int line, int column) {
+		for(Shark shark : sharks) {
+			if(shark.getLine() == line && shark.getColumn() == column) {
+				sharks.remove(shark);
+				break;
+			}
+		}
+		grid[line][column] = 0;
 	}
 
 }
