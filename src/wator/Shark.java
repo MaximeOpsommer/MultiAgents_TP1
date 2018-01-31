@@ -3,11 +3,12 @@ package wator;
 import java.util.ArrayList;
 import java.util.List;
 
-import core.Agent;
-
 public class Shark extends AquaticAnimal {
 	
 	private int sharkStarveTime;
+	private int sharkStarveTimeConfig = ((WatorConfigs) env.getConfigs()).getSharkStarveTime() + 1;
+	protected int breedTimeConfig = ((WatorConfigs) env.getConfigs()).getSharkBreedTime() + 1;
+	List<Integer> voisinsProies;
 
 	public Shark(final WatorEnvironment env, final int line, final int column){
 		super(env, line, column, ((WatorConfigs) env.getConfigs()).getSharkBreedTime());
@@ -15,35 +16,38 @@ public class Shark extends AquaticAnimal {
 	}
 
 	public void decide() {
-		int[][] grid = env.getGrid();
-		List<Integer> voisinsVides = getVoisinsLibres(grid, WatorConstants.BABY_FISH);
-		List<Integer> voisinsProies = getVoisinsLibres(grid, WatorConstants.BABY_SHARK);
-		voisinsProies.removeAll(voisinsVides);
+		refreshVoisinsLibres(grid, WatorConstants.BABY_FISH);
+		refreshProiesLibres(grid, WatorConstants.BABY_SHARK);
+		voisinsProies.removeAll(voisinsLibres);
 		// If cannot move, do nothing
-		if(!voisinsProies.isEmpty() || !voisinsVides.isEmpty()) {
+		if(!voisinsProies.isEmpty() || !voisinsLibres.isEmpty()) {
 			int random = 4;
 			boolean eat = false;
 			if(!voisinsProies.isEmpty()) {
+				
 				while(random == 4) {
 					random = voisinsProies.get(env.getRandom().nextInt(voisinsProies.size()));
 				}
 				eat = true;
+				
+				
 			}
 			else {
 				while(random == 4) {
-					random = voisinsVides.get(env.getRandom().nextInt(voisinsVides.size()));
+					random = voisinsLibres.get(env.getRandom().nextInt(voisinsLibres.size()));
 				}
 			}
 			verticalDirection = random/3 - 1;
 			horizontalDirection = random%3 - 1;
-			if(env.getConfigs().isTorus()) {
+			
+			if(isTorus) {
 				verticalDirection = Math.floorMod(verticalDirection, grid.length);
 				horizontalDirection = Math.floorMod(horizontalDirection, grid[0].length);
 			}
 			// Eat if fish
 			if(eat) {
 				((WatorEnvironment) env).removeFish(Math.floorMod(line + verticalDirection, grid.length), Math.floorMod(column + horizontalDirection, grid[0].length));
-				sharkStarveTime = ((WatorConfigs) env.getConfigs()).getSharkStarveTime() + 1;
+				sharkStarveTime = sharkStarveTimeConfig;
 			}
 			
 			// Move
@@ -51,7 +55,7 @@ public class Shark extends AquaticAnimal {
 			if(breedTime < 1) {
 				// reproduction
 				((WatorEnvironment) env).addShark(line, column);
-				breedTime = ((WatorConfigs) env.getConfigs()).getSharkBreedTime() + 1;
+				breedTime = breedTimeConfig;
 			}
 			column = Math.floorMod(column + horizontalDirection, grid[0].length);
 			line = Math.floorMod(line + verticalDirection, grid.length);
@@ -69,6 +73,81 @@ public class Shark extends AquaticAnimal {
 		
 	}
 	
-	
-	
+	private void refreshProiesLibres(int[][] grid, int limit) {
+		voisinsProies = new ArrayList<Integer>();
+		int height = grid.length;
+		int width = grid[0].length;
+		
+		// TORUS
+		if(env.getConfigs().isTorus()) {
+			// HAUT GAUCHE (0)
+			if(grid[Math.floorMod(line-1, height)][Math.floorMod(column-1, width)] < limit) {
+				voisinsProies.add(0);
+			}
+			// HAUT (1)
+			if(grid[Math.floorMod(line-1, height)][column] < limit) {
+				voisinsProies.add(1);
+			}
+			// HAUT DROITE (2)
+			if(grid[Math.floorMod(line-1, height)][Math.floorMod(column+1, width)] < limit) {
+				voisinsProies.add(2);
+			}
+			// GAUCHE (3)
+			if(grid[line][Math.floorMod(column-1, width)] < limit) {
+				voisinsProies.add(3);
+			}
+			// DROITE (5)
+			if(grid[line][Math.floorMod(column+1, width)] < limit) {
+				voisinsProies.add(5);
+			}
+			// BAS GAUCHE (6)
+			if(grid[Math.floorMod(line+1, height)][Math.floorMod(column-1, width)] < limit) {
+				voisinsProies.add(6);
+			}
+			// BAS (7)
+			if(grid[Math.floorMod(line+1, height)][column] < limit) {
+				voisinsProies.add(7);
+			}
+			// BAS DROITE (8)
+			if(grid[Math.floorMod(line+1, height)][Math.floorMod(column+1, width)] < limit) {
+				voisinsProies.add(8);
+			}
+		}
+		
+		// NOT TORUS
+		else {
+			// HAUT GAUCHE (0)
+			if(line > 0 && column > 0 && grid[line-1][column-1] < limit) {
+				voisinsProies.add(0);
+			}
+			// HAUT (1)
+			if(line > 0 && grid[line-1][column] < limit) {
+				voisinsProies.add(1);
+			}
+			// HAUT DROITE (2)
+			if(line > 0 && column < width-1 && grid[line-1][column+1] < limit) {
+				voisinsProies.add(2);
+			}
+			// GAUCHE (3)
+			if(column > 0 && grid[line][column-1] < limit) {
+				voisinsProies.add(3);
+			}
+			// DROITE (5)
+			if(column < width-1 && grid[line][column+1] < limit) {
+				voisinsProies.add(5);
+			}
+			// BAS GAUCHE (6)
+			if(line < height-1 && column > 0 && grid[line+1][column-1] < limit) {
+				voisinsProies.add(6);
+			}
+			// BAS (7)
+			if(line < height-1 && grid[line+1][column] < limit) {
+				voisinsProies.add(7);
+			}
+			// BAS DROITE (8)
+			if(line < height-1 && column < width-1 && grid[line+1][column+1] < limit) {
+				voisinsProies.add(8);
+			}
+		}
+	}
 }

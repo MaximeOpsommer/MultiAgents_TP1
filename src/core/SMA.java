@@ -78,13 +78,14 @@ public class SMA extends Observable implements Runnable {
 		int tick = 0;
 		while(nbTicks == 0 || tick < nbTicks) {
 			
-			long start = System.nanoTime();
+			//long start = System.nanoTime();
 			agents = env.getAllAgents();
 			for(Agent agent : agents) {
 				agent.decide();
 			}
-			long end = System.nanoTime();
-			System.out.println("Tour de parole fait en " + (end - start) + " nanosecondes");
+			System.out.println("Nombre d'agent : " + agents.size());
+			//long end = System.nanoTime();
+			//System.out.println("Tour de parole fait en " + (end - start) + " nanosecondes");
 			tick++;
 			if(env.getConfigs().trace()) {
 				System.out.println("Tick;" + tick);

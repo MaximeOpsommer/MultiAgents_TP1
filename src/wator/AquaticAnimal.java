@@ -9,6 +9,9 @@ import core.Environment;
 public abstract class AquaticAnimal extends Agent {
 
 	protected int breedTime;
+	List<Integer> voisinsLibres;
+	int[][] grid;
+	boolean isTorus = env.getConfigs().isTorus();
 	
 	public AquaticAnimal(Environment env, int line, int column, int breedTime) {
 		super(env, line, column);
@@ -23,8 +26,8 @@ public abstract class AquaticAnimal extends Agent {
 		
 	}
 	
-	protected List<Integer> getVoisinsLibres(int[][] grid, int limit) {
-		List<Integer> voisinsLibres = new ArrayList<Integer>();
+	protected void refreshVoisinsLibres(int[][] grid, int limit) {
+		voisinsLibres = new ArrayList<Integer>();
 		int height = grid.length;
 		int width = grid[0].length;
 		
@@ -99,7 +102,6 @@ public abstract class AquaticAnimal extends Agent {
 				voisinsLibres.add(8);
 			}
 		}
-		return voisinsLibres;
 	}
 
 }
