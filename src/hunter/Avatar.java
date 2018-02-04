@@ -39,8 +39,10 @@ public class Avatar extends Agent implements KeyListener {
 		else {
 			if(line+verticalDirection < 0 || line+verticalDirection >= grid.length) {
 				verticalDirection = 0;
-			}
-			if(column+horizontalDirection < 0 || column+horizontalDirection >= grid[0].length) {
+			} else if(column+horizontalDirection < 0 || column+horizontalDirection >= grid[0].length) {
+				horizontalDirection = 0;
+			} else if(grid[line+verticalDirection][column+horizontalDirection] == HunterConstants.WALL) {
+				verticalDirection = 0;
 				horizontalDirection = 0;
 			}
 		}
