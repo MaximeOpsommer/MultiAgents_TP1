@@ -15,6 +15,7 @@ public abstract class AquaticAnimal extends Agent {
 	public AquaticAnimal(Environment env, int line, int column, int breedTime) {
 		super(env, line, column);
 		this.breedTime = breedTime;
+		grid = getGrid();
 	}
 	
 	protected void move() {

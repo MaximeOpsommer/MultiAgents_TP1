@@ -38,6 +38,8 @@ public class HunterSMA extends SMA {
 				builderTick = 0;
 			}
 		}
+		((HunterEnvironment) env).removeDiggers();
+		((HunterEnvironment) env).initGame();
 		update();
 		// place Avatar and Hunters
 		

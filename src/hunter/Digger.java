@@ -15,12 +15,11 @@ public class Digger extends Agent {
 	
 	public Digger(Environment env, int line, int column) {
 		super(env, line, column);
-		// TODO Auto-generated constructor stub
+		grid = getGrid();
 	}
 
 	@Override
 	public void decide() {
-		grid = env.getGrid();
 		refreshVoisinsLibres(grid);
 		if(!voisinsLibres.isEmpty()) {
 			int random = voisinsLibres.get(env.getRandom().nextInt(voisinsLibres.size()));

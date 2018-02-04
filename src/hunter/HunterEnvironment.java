@@ -14,6 +14,9 @@ public class HunterEnvironment extends Environment {
 	private final int diggerNumber;
 	private Map<Integer, Wall> walls = new HashMap<Integer, Wall>();
 	private List<Digger> diggers = new ArrayList<Digger>();
+	private Map<Integer, Hunter> hunters = new HashMap<Integer, Hunter>();
+	private Avatar avatar;
+	private List<Integer> availableCells = new ArrayList<Integer>();
 	
 	public HunterEnvironment() {
 		configs = new HunterConfigs();
@@ -56,10 +59,105 @@ public class HunterEnvironment extends Environment {
 		return diggers;
 	}
 	
+	public void removeDiggers() {
+		while(!diggers.isEmpty()) {
+			Digger digger = diggers.remove(0);
+			grid[digger.getLine()][digger.getColumn()] = 0;
+		}
+	}
+	
 	@Override
 	public List<? extends Agent> getAllAgents() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+
+	
+	public void initGame() {
+		
+		int height = grid.length;
+		int width = grid[0].length;
+		for(int i = 0; i < height*width; i++) {
+			availableCells.add(i);
+		}
+		availableCells.removeAll(walls.keySet());
+		int randomValue = availableCells.get(random.nextInt(availableCells.size()));
+		avatar = new Avatar(this, randomValue/width, randomValue%width);
+		grid[randomValue/width][randomValue%width] = HunterConstants.AVATAR;
+		availableCells.remove(Integer.valueOf(randomValue));
+		refreshDistanceValues();
+	}
+	
+	public void refreshDistanceValues() {
+		final int height = grid.length;
+		final int width = grid[0].length;
+		List<Integer> remainingCells = availableCells;
+		List<Integer> currentCells = new ArrayList<Integer>();
+		List<Integer> newCells = new ArrayList<Integer>();
+		currentCells.add(avatar.getLine()*grid[0].length + avatar.getColumn());
+		System.out.println(remainingCells);
+		while(!remainingCells.isEmpty()) {
+			
+			// TORUS
+			if(configs.isTorus()) {
+				for(Integer cell : currentCells) {
+					// HAUT
+					int targetCell = Math.floorMod(cell-width, height*width);
+					newCells.add(targetCell);
+					grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
+					remainingCells.remove(Integer.valueOf(targetCell));
+					// GAUCHE
+					targetCell = cell % width == 0 ? cell + width - 1 : cell - 1;
+					newCells.add(targetCell);
+					grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
+					remainingCells.remove(Integer.valueOf(targetCell));
+					// DROITE
+					targetCell = cell % width == width - 1 ? cell - width + 1: cell + 1;
+					newCells.add(targetCell);
+					grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
+					remainingCells.remove(Integer.valueOf(targetCell));
+					// BAS
+					targetCell = Math.floorMod(cell+width, height*width);
+					newCells.add(targetCell);
+					grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
+					remainingCells.remove(Integer.valueOf(targetCell));
+				}
+			}
+			
+			// NOT TORUS
+			else {
+				for(Integer cell : currentCells) {
+					// HAUT
+					if(cell / width > 0 && remainingCells.contains(cell - width)) {
+						newCells.add(cell - width);
+						grid[(cell - width) / width][cell % width] = grid[cell / width][cell % width] + 1;
+						remainingCells.remove(Integer.valueOf(cell - width));
+					}
+					// GAUCHE
+					if(cell % width > 0 && remainingCells.contains(cell - 1)) {
+						newCells.add(cell - 1);
+						grid[cell / width][(cell - 1) % width] = grid[cell / width][cell % width] + 1;
+						remainingCells.remove(Integer.valueOf(cell - 1));
+					}
+					// DROITE
+					if(cell % width < width - 1 && remainingCells.contains(cell + 1)) {
+						newCells.add(cell + 1);
+						grid[cell / width][(cell + 1) % width] = grid[cell / width][cell % width] + 1;
+						remainingCells.remove(Integer.valueOf(cell + 1));
+					}
+					// BAS
+					if(cell / width < height - 1 && remainingCells.contains(cell + width)) {
+						newCells.add(cell + width);
+						grid[(cell + width) / width][cell % width] = grid[cell / width][cell % width] + 1;
+						remainingCells.remove(Integer.valueOf(cell + width));
+					}
+				}
+			}
+			currentCells.clear();
+			currentCells.addAll(newCells);
+			newCells.clear();
+		}
 	}
 
 }

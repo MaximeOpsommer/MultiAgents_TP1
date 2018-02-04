@@ -5,6 +5,7 @@ import core.Configs;
 public class HunterConfigs extends Configs {
 	
 	private int DIGGER_NUMBER = 10;
+	private int HUNTER_NUMBER = 3;
 	private int WALL_PERCENT = 15;
 	
 	public HunterConfigs() {
@@ -25,6 +26,14 @@ public class HunterConfigs extends Configs {
 	
 	public void setWallPercent(final int wallPercent) {
 		WALL_PERCENT = wallPercent;
+	}
+	
+	public int getHunterNumber() {
+		return HUNTER_NUMBER;
+	}
+	
+	public void setHunterNumber(final int hunterNumber) {
+		HUNTER_NUMBER = hunterNumber;
 	}
 	
 }

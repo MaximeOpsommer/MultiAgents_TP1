@@ -48,6 +48,14 @@ public class HunterPanel extends Panel {
 					g.setColor(Color.ORANGE);
 					g.fillRect(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
 				}
+				else if(grid[line][column] == HunterConstants.AVATAR) {
+					g.setColor(Color.BLUE);
+					g.fillRect(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
+				}
+				else {
+					g.setColor(Color.WHITE);
+					g.drawString(grid[line][column]+"", column*(boxSize+1) + (boxSize/2)-2, line*(boxSize+1) + (boxSize/2)+5);
+				}
 			}
 		}
 		
