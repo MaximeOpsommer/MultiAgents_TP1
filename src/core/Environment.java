@@ -5,6 +5,8 @@ import java.util.Random;
 
 public abstract class Environment {
 
+	private boolean enfOfGame = false;
+	
 	protected int[][] grid;
 	protected Configs configs;
 	protected Random random;

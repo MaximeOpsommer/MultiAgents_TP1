@@ -5,7 +5,8 @@ import core.Configs;
 public class HunterConfigs extends Configs {
 	
 	private int DIGGER_NUMBER = 10;
-	private int HUNTER_NUMBER = 3;
+	private int HUNTER_INITIAL_MINIMUM_DISTANCE =  2;
+	private int HUNTER_NUMBER = 1;
 	private int WALL_PERCENT = 15;
 	
 	public HunterConfigs() {
@@ -20,12 +21,12 @@ public class HunterConfigs extends Configs {
 		DIGGER_NUMBER = diggerNumber;
 	}
 	
-	public int getWallPercent() {
-		return WALL_PERCENT;
+	public int getHunterInitialMinimumDistance() {
+		return HUNTER_INITIAL_MINIMUM_DISTANCE;
 	}
 	
-	public void setWallPercent(final int wallPercent) {
-		WALL_PERCENT = wallPercent;
+	public void setHunterInitialMinimumDistance(final int hunterInitialDistance) {
+		HUNTER_INITIAL_MINIMUM_DISTANCE = hunterInitialDistance;
 	}
 	
 	public int getHunterNumber() {
@@ -34,6 +35,14 @@ public class HunterConfigs extends Configs {
 	
 	public void setHunterNumber(final int hunterNumber) {
 		HUNTER_NUMBER = hunterNumber;
+	}
+	
+	public int getWallPercent() {
+		return WALL_PERCENT;
+	}
+	
+	public void setWallPercent(final int wallPercent) {
+		WALL_PERCENT = wallPercent;
 	}
 	
 }

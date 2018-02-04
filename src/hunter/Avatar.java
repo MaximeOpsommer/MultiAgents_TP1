@@ -29,7 +29,8 @@ public class Avatar extends Agent implements KeyListener {
 	protected void move() {
 		// TORUS
 		if(getConfigs().isTorus()) {
-			if(grid[Math.floorMod(line+verticalDirection, grid.length)][Math.floorMod(column+horizontalDirection, grid[0].length)] == HunterConstants.WALL) {
+			if(grid[Math.floorMod(line+verticalDirection, grid.length)][Math.floorMod(column+horizontalDirection, grid[0].length)] == HunterConstants.WALL
+					|| grid[Math.floorMod(line+verticalDirection, grid.length)][Math.floorMod(column+horizontalDirection, grid[0].length)] == HunterConstants.HUNTER) {
 				verticalDirection = 0;
 				horizontalDirection = 0;
 			}	
@@ -41,7 +42,8 @@ public class Avatar extends Agent implements KeyListener {
 				verticalDirection = 0;
 			} else if(column+horizontalDirection < 0 || column+horizontalDirection >= grid[0].length) {
 				horizontalDirection = 0;
-			} else if(grid[line+verticalDirection][column+horizontalDirection] == HunterConstants.WALL) {
+			} else if(grid[line+verticalDirection][column+horizontalDirection] == HunterConstants.WALL
+					|| grid[line+verticalDirection][column+horizontalDirection] == HunterConstants.HUNTER) {
 				verticalDirection = 0;
 				horizontalDirection = 0;
 			}
@@ -60,22 +62,18 @@ public class Avatar extends Agent implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_UP:
-			System.out.println("UP");
 			verticalDirection = -1;
 			horizontalDirection = 0;
 			break;
 		case KeyEvent.VK_DOWN:
-			System.out.println("DOWN");
 			verticalDirection = 1;
 			horizontalDirection = 0;
 			break;
 		case KeyEvent.VK_LEFT:
-			System.out.println("LEFT");
 			verticalDirection = 0;
 			horizontalDirection = -1;
 			break;
 		case KeyEvent.VK_RIGHT:
-			System.out.println("RIGHT");
 			verticalDirection = 0;
 			horizontalDirection = 1;
 			break;

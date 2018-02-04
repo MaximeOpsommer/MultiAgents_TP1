@@ -9,7 +9,7 @@ import core.Agent;
 import core.Environment;
 
 public class HunterEnvironment extends Environment {
-
+	
 	private final int diggerNumber;
 	private Map<Integer, Wall> walls = new HashMap<Integer, Wall>();
 	private List<Digger> diggers = new ArrayList<Digger>();
@@ -72,9 +72,10 @@ public class HunterEnvironment extends Environment {
 	
 	@Override
 	public List<? extends Agent> getAllAgents() {
-		List<Avatar> avatars = new ArrayList<Avatar>();
-		avatars.add(avatar);
-		return avatars;
+		List<Agent> agents = new ArrayList<Agent>();
+		agents.add(avatar);
+		agents.addAll(hunters.values());
+		return agents;
 	}
 	
 
@@ -90,7 +91,17 @@ public class HunterEnvironment extends Environment {
 		int randomValue = availableCells.get(random.nextInt(availableCells.size()));
 		avatar.setCoords(randomValue/width, randomValue%width);
 		grid[randomValue/width][randomValue%width] = HunterConstants.AVATAR;
+		availableCells.remove(Integer.valueOf((avatar.getLine()*grid[0].length) + avatar.getColumn()));
 		refreshDistanceValues();
+		for(int i = 0; i < ((HunterConfigs) getConfigs()).getHunterNumber(); i++) {
+			randomValue = availableCells.get(random.nextInt(availableCells.size()));
+			while(grid[randomValue/width][randomValue%width] < ((HunterConfigs) getConfigs()).getHunterInitialMinimumDistance()) {
+				randomValue = availableCells.get(random.nextInt(availableCells.size()));
+			}
+			hunters.put(randomValue, new Hunter(this, randomValue/width, randomValue%width));
+			grid[randomValue/width][randomValue%width] = HunterConstants.HUNTER;
+			availableCells.remove(Integer.valueOf(randomValue));
+		}
 	}
 	
 	public void refreshDistanceValues() {
@@ -171,6 +182,10 @@ public class HunterEnvironment extends Environment {
 			currentCells.addAll(newCells);
 			newCells.clear();
 		}
+	}
+	
+	public void oldHunterPos(final int line, final int column, int value) {
+		grid[line][column] = value;
 	}
 
 }

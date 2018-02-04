@@ -53,11 +53,15 @@ public class HunterPanel extends Panel implements KeyListener {
 				}
 				else if(grid[line][column] == HunterConstants.AVATAR) {
 					g.setColor(Color.BLUE);
-					g.fillRect(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
+					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
+				}
+				else if(grid[line][column] == HunterConstants.HUNTER) {
+					g.setColor(Color.RED);
+					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
 				}
 				else {
 					g.setColor(Color.WHITE);
-					g.drawString(grid[line][column]+"", column*(boxSize+1) + (boxSize/2)-3, line*(boxSize+1) + (boxSize/2)+5);
+					g.drawString(grid[line][column]+"", column*(boxSize+1) + (boxSize/2)-4, line*(boxSize+1) + (boxSize/2)+5);
 				}
 			}
 		}
