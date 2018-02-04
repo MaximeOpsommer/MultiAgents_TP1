@@ -6,10 +6,10 @@ import java.util.Observable;
 
 public class SMA extends Observable implements Runnable {
 
-	private Environment env;
+	protected Environment env;
 	private final int nbTicks;
-	private int delay;
-	private int refresh;
+	protected int delay;
+	protected int refresh;
 	private int scheduling;
 	private List<? extends Agent> agents;
 	

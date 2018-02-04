@@ -14,6 +14,7 @@ public class Fish extends AquaticAnimal {
 		// If cannot move, do nothing
 		if(!voisinsLibres.isEmpty()) {			
 			int random = 4;
+			// TODO remove that, random can never be equals to 4
 			while(random == 4) {
 				random = voisinsLibres.get(env.getRandom().nextInt(voisinsLibres.size()));
 			}

@@ -19,7 +19,7 @@ public class WatorEnvironment extends Environment {
 	private final int sharkNumber;
 	private List<Shark> sharks = new ArrayList<Shark>();
 	
-	public WatorEnvironment(){
+	public WatorEnvironment() {
 		configs = new WatorConfigs();
 		fishNumber = ((WatorConfigs) (configs)).getFishNumber();
 		sharkNumber = ((WatorConfigs) (configs)).getSharkNumber();

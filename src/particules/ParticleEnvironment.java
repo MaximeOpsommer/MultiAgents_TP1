@@ -52,6 +52,8 @@ public class ParticleEnvironment extends Environment {
 		return particles;
 	}
 	
+	
+	// TODO Maxime : remplacer liste d'agents par map d'agents
 	public Particle getParticle(int column, int line) throws AgentNotFoundException {
 		for(Particle agent : particles) {
 			if(agent.getColumn() == column && agent.getLine() == line) {

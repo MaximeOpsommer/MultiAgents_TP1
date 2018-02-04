@@ -11,7 +11,6 @@ public abstract class AquaticAnimal extends Agent {
 	protected int breedTime;
 	List<Integer> voisinsLibres;
 	int[][] grid;
-	boolean isTorus = env.getConfigs().isTorus();
 	
 	public AquaticAnimal(Environment env, int line, int column, int breedTime) {
 		super(env, line, column);

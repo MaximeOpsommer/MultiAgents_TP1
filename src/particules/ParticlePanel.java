@@ -3,7 +3,6 @@ package particules;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import core.Agent;
 import core.Panel;
 import core.SMA;
 

@@ -6,7 +6,8 @@ public abstract class Agent {
 	protected int line;
 	protected int column;
 	protected int verticalDirection = 0;
-	protected int horizontalDirection = 0;;
+	protected int horizontalDirection = 0;
+	protected final boolean isTorus;
 
 	public Agent(final Environment env, final int line, final int column) {
 		this.env = env;
@@ -14,6 +15,7 @@ public abstract class Agent {
 		this.column = column;
 		this.verticalDirection = 0;
 		this.verticalDirection = 0;
+		isTorus = env.getConfigs().isTorus();
 	}
 	
 	public int[][] getGrid() {
