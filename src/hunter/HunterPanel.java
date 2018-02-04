@@ -54,7 +54,7 @@ public class HunterPanel extends Panel {
 				}
 				else {
 					g.setColor(Color.WHITE);
-					g.drawString(grid[line][column]+"", column*(boxSize+1) + (boxSize/2)-2, line*(boxSize+1) + (boxSize/2)+5);
+					g.drawString(grid[line][column]+"", column*(boxSize+1) + (boxSize/2)-3, line*(boxSize+1) + (boxSize/2)+5);
 				}
 			}
 		}

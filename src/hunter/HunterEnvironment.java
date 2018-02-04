@@ -96,7 +96,6 @@ public class HunterEnvironment extends Environment {
 		List<Integer> currentCells = new ArrayList<Integer>();
 		List<Integer> newCells = new ArrayList<Integer>();
 		currentCells.add(avatar.getLine()*grid[0].length + avatar.getColumn());
-		System.out.println(remainingCells);
 		while(!remainingCells.isEmpty()) {
 			
 			// TORUS
@@ -104,24 +103,32 @@ public class HunterEnvironment extends Environment {
 				for(Integer cell : currentCells) {
 					// HAUT
 					int targetCell = Math.floorMod(cell-width, height*width);
-					newCells.add(targetCell);
-					grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
-					remainingCells.remove(Integer.valueOf(targetCell));
+					if(remainingCells.contains(targetCell)) {						
+						newCells.add(targetCell);
+						grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
+						remainingCells.remove(Integer.valueOf(targetCell));
+					}
 					// GAUCHE
 					targetCell = cell % width == 0 ? cell + width - 1 : cell - 1;
-					newCells.add(targetCell);
-					grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
-					remainingCells.remove(Integer.valueOf(targetCell));
+					if(remainingCells.contains(targetCell)) {						
+						newCells.add(targetCell);
+						grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
+						remainingCells.remove(Integer.valueOf(targetCell));
+					}
 					// DROITE
 					targetCell = cell % width == width - 1 ? cell - width + 1: cell + 1;
-					newCells.add(targetCell);
-					grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
-					remainingCells.remove(Integer.valueOf(targetCell));
+					if(remainingCells.contains(targetCell)) {
+						newCells.add(targetCell);
+						grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
+						remainingCells.remove(Integer.valueOf(targetCell));						
+					}
 					// BAS
 					targetCell = Math.floorMod(cell+width, height*width);
-					newCells.add(targetCell);
-					grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
-					remainingCells.remove(Integer.valueOf(targetCell));
+					if(remainingCells.contains(targetCell)) {						
+						newCells.add(targetCell);
+						grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
+						remainingCells.remove(Integer.valueOf(targetCell));
+					}
 				}
 			}
 			
