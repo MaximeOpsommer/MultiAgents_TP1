@@ -5,8 +5,6 @@ import java.util.List;
 
 import core.Agent;
 import core.Environment;
-import wator.WatorConstants;
-import wator.WatorEnvironment;
 
 public class Digger extends Agent {
 

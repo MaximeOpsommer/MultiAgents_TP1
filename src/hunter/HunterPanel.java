@@ -2,18 +2,21 @@ package hunter;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import core.Environment;
 import core.Panel;
 import core.SMA;
 import particules.ParticleConstants;
 
-public class HunterPanel extends Panel {
+public class HunterPanel extends Panel implements KeyListener {
 
 	private static final long serialVersionUID = 6744389542478623718L;
 
 	public HunterPanel(Environment env, SMA sma) {
 		super(env, sma);
+		addKeyListener(((HunterEnvironment) env).getAvatar());
 	}
 
 	@Override
@@ -58,6 +61,21 @@ public class HunterPanel extends Panel {
 				}
 			}
 		}
+		
+	}
+
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void keyPressed(KeyEvent e) {
+		System.out.println("pressed");
+		
+	}
+
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 

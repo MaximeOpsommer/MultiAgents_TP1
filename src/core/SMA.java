@@ -83,7 +83,7 @@ public class SMA extends Observable implements Runnable {
 			for(Agent agent : agents) {
 				agent.decide();
 			}
-			System.out.println("Nombre d'agent : " + agents.size());
+			//System.out.println("Nombre d'agent : " + agents.size());
 			//long end = System.nanoTime();
 			//System.out.println("Tour de parole fait en " + (end - start) + " nanosecondes");
 			tick++;

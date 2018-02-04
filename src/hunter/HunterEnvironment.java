@@ -7,7 +7,6 @@ import java.util.Map;
 
 import core.Agent;
 import core.Environment;
-import particules.Particle;
 
 public class HunterEnvironment extends Environment {
 
@@ -22,6 +21,7 @@ public class HunterEnvironment extends Environment {
 		configs = new HunterConfigs();
 		diggerNumber = ((HunterConfigs) configs).getDiggerNumber();
 		init();
+		avatar = new Avatar(this, 0, 0);
 	}
 	
 	protected void init() {
@@ -66,10 +66,15 @@ public class HunterEnvironment extends Environment {
 		}
 	}
 	
+	public Avatar getAvatar() {
+		return avatar;
+	}
+	
 	@Override
 	public List<? extends Agent> getAllAgents() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Avatar> avatars = new ArrayList<Avatar>();
+		avatars.add(avatar);
+		return avatars;
 	}
 	
 
@@ -83,16 +88,17 @@ public class HunterEnvironment extends Environment {
 		}
 		availableCells.removeAll(walls.keySet());
 		int randomValue = availableCells.get(random.nextInt(availableCells.size()));
-		avatar = new Avatar(this, randomValue/width, randomValue%width);
+		avatar.setCoords(randomValue/width, randomValue%width);
 		grid[randomValue/width][randomValue%width] = HunterConstants.AVATAR;
-		availableCells.remove(Integer.valueOf(randomValue));
 		refreshDistanceValues();
 	}
 	
 	public void refreshDistanceValues() {
 		final int height = grid.length;
 		final int width = grid[0].length;
-		List<Integer> remainingCells = availableCells;
+		List<Integer> remainingCells = new ArrayList<Integer>();
+		remainingCells.addAll(availableCells);
+		remainingCells.remove(Integer.valueOf((avatar.getLine()*grid[0].length) + avatar.getColumn()));
 		List<Integer> currentCells = new ArrayList<Integer>();
 		List<Integer> newCells = new ArrayList<Integer>();
 		currentCells.add(avatar.getLine()*grid[0].length + avatar.getColumn());

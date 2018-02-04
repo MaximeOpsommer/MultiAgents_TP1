@@ -31,7 +31,7 @@ public class HunterSMA extends SMA {
 			if(builderTick == diggers.size()) {				
 				update();
 				try {
-					Thread.sleep(delay);
+					Thread.sleep(20);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -43,7 +43,7 @@ public class HunterSMA extends SMA {
 		update();
 		// place Avatar and Hunters
 		
-		//super.run();
+		super.run();
 	}
 
 }

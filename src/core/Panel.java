@@ -23,6 +23,7 @@ public abstract class Panel extends JPanel  implements Observer {
 		height = env.getGrid().length;
 		boxSize = env.getConfigs().getBoxSize();
 		setPreferredSize(new Dimension(((boxSize+1)*width)-1, ((boxSize+1)*height)-1));
+		setFocusable(true);
 	}
 	
 	@Override
