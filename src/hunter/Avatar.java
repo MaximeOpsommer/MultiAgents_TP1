@@ -48,10 +48,15 @@ public class Avatar extends Agent implements KeyListener {
 				horizontalDirection = 0;
 			}
 		}
-		env.moveAgent(column, line, verticalDirection, horizontalDirection, HunterConstants.AVATAR);
-		column = Math.floorMod(column + horizontalDirection, grid[0].length);
-		line = Math.floorMod(line + verticalDirection, grid.length);
-		((HunterEnvironment) env).refreshDistanceValues();
+		if(horizontalDirection != 0 || verticalDirection != 0) {
+			env.moveAgent(column, line, verticalDirection, horizontalDirection, HunterConstants.AVATAR);
+			//((HunterEnvironment) env).availableCellMove(line, column, line+verticalDirection, column+horizontalDirection);
+			column = Math.floorMod(column + horizontalDirection, grid[0].length);
+			line = Math.floorMod(line + verticalDirection, grid.length);
+			// TODO : Le truc qui fait bugger
+			//((HunterEnvironment) env).refreshDistanceValues();
+			
+		}
 	}
 
 	public void keyTyped(KeyEvent e) {

@@ -41,6 +41,15 @@ public class HunterPanel extends Panel implements KeyListener {
 		// draw particles
 		int[][] grid = env.getGrid();
 		
+		/*for(int line = 0; line < grid.length; line++) {
+			for(int column = 0; column < grid[0].length; column++) {
+				System.out.print(grid[line][column] + " ");
+			}
+			System.out.println();
+		}
+		
+		System.out.println("\n\n\n\n\n");*/
+		
 		for(int line = 0; line < grid.length; line++) {
 			for(int column = 0; column < grid[0].length; column++) {
 				if(grid[line][column] == HunterConstants.DIGGER) {

@@ -8,29 +8,37 @@ import core.Environment;
 
 public class Hunter extends Agent {
 
-	private List<Integer> targetCells;
+	private List<Integer> targetCells = new ArrayList<Integer>();
+	private int currentDistance;
 	
-	public Hunter(Environment env, int line, int column) {
+	public Hunter(Environment env, int line, int column, int currentDistance) {
 		super(env, line, column);
-		// TODO Auto-generated constructor stub
+		this.currentDistance = currentDistance;
 	}
 
 	@Override
 	public void decide() {
-		refreshVoisinsLibres(getGrid());
-		if(!targetCells.isEmpty()) {
-			int random = targetCells.get(env.getRandom().nextInt(targetCells.size()));
-			verticalDirection = random/3 - 1;
-			horizontalDirection = random%3 - 1;
-			if(isTorus) {
-				verticalDirection = Math.floorMod(verticalDirection, getGrid().length);
-				horizontalDirection = Math.floorMod(horizontalDirection, getGrid()[0].length);
+		if(currentDistance > 0) {			
+			refreshVoisinsLibres(getGrid());
+			if(!targetCells.isEmpty()) {
+				int random = targetCells.get(env.getRandom().nextInt(targetCells.size()));
+				verticalDirection = random/3 - 1;
+				horizontalDirection = random%3 - 1;
+				if(isTorus) {
+					verticalDirection = Math.floorMod(verticalDirection, getGrid().length);
+					horizontalDirection = Math.floorMod(horizontalDirection, getGrid()[0].length);
+				}
+				int newDistance = getGrid()[line+verticalDirection][column+horizontalDirection];
+				env.moveAgent(column, line, verticalDirection, horizontalDirection, HunterConstants.HUNTER);
+				((HunterEnvironment) env).oldHunterPos(line, column, currentDistance);
+				((HunterEnvironment) env).updateHunterKey(line, column, line+verticalDirection, column+horizontalDirection);
+				//((HunterEnvironment) env).availableCellMove(line, column, line+verticalDirection, column+horizontalDirection);
+				column += horizontalDirection;
+				line += verticalDirection;
+				currentDistance = newDistance;
 			}
-			int oldDistance = getGrid()[line+verticalDirection][column+horizontalDirection] + 1;
-			env.moveAgent(column, line, verticalDirection, horizontalDirection, HunterConstants.HUNTER);
-			((HunterEnvironment) env).oldHunterPos(line, column, oldDistance);
-			column = Math.floorMod(column + horizontalDirection, getGrid()[0].length);
-			line = Math.floorMod(line + verticalDirection, getGrid().length);
+		} else {
+			//System.exit(0);
 		}
 		
 	}
@@ -43,7 +51,7 @@ public class Hunter extends Agent {
 	
 	protected void refreshVoisinsLibres(int[][] grid) {
 		int min = -1;
-		targetCells = new ArrayList<Integer>();
+		targetCells.clear();
 		int height = grid.length;
 		int width = grid[0].length;
 		
@@ -51,35 +59,60 @@ public class Hunter extends Agent {
 		if(env.getConfigs().isTorus()) {
 			// HAUT (1)
 			if(grid[Math.floorMod(line-1, height)][column] >= 0) {
-				if (grid[Math.floorMod(line-1, height)][column] < min || min == -1) {
+				if(min == -1) {
 					targetCells.clear();
 					min = grid[Math.floorMod(line-1, height)][column];
+					targetCells.add(1);
 				}
-				targetCells.add(1);
+				if (grid[Math.floorMod(line-1, height)][column] <= min) {
+					if(grid[Math.floorMod(line-1, height)][column] < min) {						
+						targetCells.clear();
+						min = grid[Math.floorMod(line-1, height)][column];
+					}
+					targetCells.add(1);
+				}
 			}
 			// GAUCHE (3)
 			if(grid[line][Math.floorMod(column-1, width)] >= 0) {
-				if(grid[line][Math.floorMod(column-1, width)] < min || min == -1) {
+				if(min == -1) {
 					targetCells.clear();
 					min = grid[line][Math.floorMod(column-1, width)];
+					targetCells.add(3);
+				} else if(grid[line][Math.floorMod(column-1, width)] <= min) {
+					if(grid[line][Math.floorMod(column-1, width)] < min) {						
+						targetCells.clear();
+						min = grid[line][Math.floorMod(column-1, width)];
+					}
+					targetCells.add(3);
 				}
-				targetCells.add(3);
 			}
 			// DROITE (5)
 			if(grid[line][Math.floorMod(column+1, width)] >= 0) {
-				if(grid[line][Math.floorMod(column+1, width)] < min || min == -1) {
+				if(min == -1) {
 					targetCells.clear();
 					min = grid[line][Math.floorMod(column+1, width)];
+					targetCells.add(5);
+				} else if(grid[line][Math.floorMod(column+1, width)] <= min) {
+					if(grid[line][Math.floorMod(column+1, width)] < min) {						
+						targetCells.clear();
+						min = grid[line][Math.floorMod(column+1, width)];
+					}
+					targetCells.add(5);
 				}
-				targetCells.add(5);
 			}
 			// BAS (7)
 			if(grid[Math.floorMod(line+1, height)][column] >= 0) {
-				if(grid[Math.floorMod(line+1, height)][column] < min || min == -1) {
+				if(min == -1) {
 					targetCells.clear();
 					min = grid[Math.floorMod(line+1, height)][column];
+					targetCells.add(7);
+				} else if(grid[Math.floorMod(line+1, height)][column] <= min) {
+					if(grid[Math.floorMod(line+1, height)][column] < min) {						
+						targetCells.clear();
+						min = grid[Math.floorMod(line+1, height)][column];
+					}
+					targetCells.add(7);
 				}
-				targetCells.add(7);
 			}
 		}
 		
@@ -87,38 +120,61 @@ public class Hunter extends Agent {
 		else {
 			// HAUT (1)
 			if(line > 0 && grid[line-1][column] >= 0) {
-				if(grid[line-1][column] < min || min == -1) {
+				if(min == -1) {
 					targetCells.clear();
 					min = grid[line-1][column];
+					targetCells.add(1);
+				}else if(grid[line-1][column] <= min) {
+					if(grid[line-1][column] < min) {						
+						targetCells.clear();
+						min = grid[line-1][column];
+					}
+					targetCells.add(1);
 				}
-				targetCells.add(1);
 			}
 			// GAUCHE (3)
 			if(column > 0 && grid[line][column-1] >= 0) {
-				if(grid[line][column-1] < min || min == -1) {
+				if(min == -1) {
 					targetCells.clear();
 					min = grid[line][column-1];
+					targetCells.add(3);
+				}else if(grid[line][column-1] <= min) {
+					if(grid[line][column-1] < min) {						
+						targetCells.clear();
+						min = grid[line][column-1];
+					}
+					targetCells.add(3);
 				}
-				targetCells.add(3);
 			}
 			// DROITE (5)
 			if(column < width-1 && grid[line][column+1] >= 0) {
-				if(grid[line][column+1] < min || min == -1) {
+				if(min == -1) {
 					targetCells.clear();
 					min = grid[line][column+1];
+					targetCells.add(5);
+				} else if(grid[line][column+1] <= min) {
+					if(grid[line][column+1] < min) {						
+						targetCells.clear();
+						min = grid[line][column+1];
+					}
+					targetCells.add(5);
 				}
-				targetCells.add(5);
 			}
 			// BAS (7)
 			if(line < height-1 && grid[line+1][column] >= 0) {
-				if(grid[line+1][column] < min || min == -1) {
+				if(min == - 1) {
 					targetCells.clear();
 					min = grid[line+1][column];
+					targetCells.add(7);
+				}else if(grid[line+1][column] <= min) {
+					if(grid[line+1][column] < min) {						
+						targetCells.clear();
+						min = grid[line+1][column];
+					}
+					targetCells.add(7);
 				}
-				targetCells.add(7);
 			}
 		}
-		System.out.println(min);
 	}
 
 }
