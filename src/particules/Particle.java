@@ -102,10 +102,10 @@ public class Particle extends Agent {
 		if(verticalDirection == 1 && horizontalDirection != 1) {
 			horizontalDirection++;
 		}
-		if(verticalDirection != 1 && horizontalDirection == -1) {
+		else if(verticalDirection != 1 && horizontalDirection == -1) {
 			verticalDirection++;
 		}
-		if(verticalDirection == -1 && horizontalDirection != -1) {
+		else if(verticalDirection == -1 && horizontalDirection != -1) {
 			horizontalDirection--;
 		}
 		else {
