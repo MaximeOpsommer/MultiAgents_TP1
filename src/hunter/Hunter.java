@@ -33,8 +33,8 @@ public class Hunter extends Agent {
 				//((HunterEnvironment) env).oldHunterPos(line, column, currentDistance);
 				//((HunterEnvironment) env).updateHunterKey(line, column, line+verticalDirection, column+horizontalDirection);
 				//((HunterEnvironment) env).availableCellMove(line, column, line+verticalDirection, column+horizontalDirection);
-				column += horizontalDirection;
-				line += verticalDirection;
+				column = Math.floorMod(column + horizontalDirection, getGrid()[0].length);
+				line = Math.floorMod(line + verticalDirection, getGrid().length);
 				//currentDistance = distances[line][column];
 			}
 		} else {
