@@ -17,11 +17,18 @@ public class HunterEnvironment extends Environment {
 	private Avatar avatar;
 	private List<Integer> availableCells = new ArrayList<Integer>();
 	
+	private int[][] distances;
+	
 	public HunterEnvironment() {
 		configs = new HunterConfigs();
 		diggerNumber = ((HunterConfigs) configs).getDiggerNumber();
 		init();
 		avatar = new Avatar(this, 0, 0);
+		distances = new int[grid.length][grid[0].length];
+	}
+	
+	public int[][] getDistances() {
+		return distances;
 	}
 	
 	protected void init() {
@@ -35,7 +42,7 @@ public class HunterEnvironment extends Environment {
 			for(int column = 0; column < width; column++) {
 				
 				// TODO : Diggers
-				/*rand = random.nextInt(total);
+				rand = random.nextInt(total);
 				if(rand < reste) {
 					grid[line][column] = HunterConstants.DIGGER;
 					reste--;
@@ -44,8 +51,8 @@ public class HunterEnvironment extends Environment {
 					grid[line][column] = HunterConstants.WALL;
 					walls.put((line*width)+column, new Wall(this, line, column));
 				}
-				total--;*/
-				grid[line][column] = 0;
+				total--;
+				//grid[line][column] = 0;
 			}
 		}
 	}
@@ -99,24 +106,23 @@ public class HunterEnvironment extends Environment {
 		refreshDistanceValues();
 		for(int i = 0; i < ((HunterConfigs) getConfigs()).getHunterNumber(); i++) {
 			randomValue = remainingCells.get(random.nextInt(remainingCells.size()));
-			while(grid[randomValue/width][randomValue%width] < ((HunterConfigs) getConfigs()).getHunterInitialMinimumDistance()) {
+			while(distances[randomValue/width][randomValue%width] < ((HunterConfigs) getConfigs()).getHunterInitialMinimumDistance()) {
 				randomValue = remainingCells.get(random.nextInt(remainingCells.size()));
 			}
-			hunters.put(randomValue, new Hunter(this, randomValue/width, randomValue%width, grid[randomValue/width][randomValue%width]));
+			hunters.put(randomValue, new Hunter(this, randomValue/width, randomValue%width, distances[randomValue/width][randomValue%width]));
 			grid[randomValue/width][randomValue%width] = HunterConstants.HUNTER;
 			remainingCells.remove(Integer.valueOf(randomValue));
 		}
 	}
 	
 	public void refreshDistanceValues() {
-		final int height = grid.length;
-		final int width = grid[0].length;
+		final int height = distances.length;
+		final int width = distances[0].length;
 		List<Integer> remainingCells = new ArrayList<Integer>();
 		remainingCells.addAll(availableCells);
-		remainingCells.remove(Integer.valueOf((avatar.getLine()*width))+avatar.getColumn());
-		remainingCells.removeAll(hunters.keySet());
 		List<Integer> currentCells = new ArrayList<Integer>();
 		List<Integer> newCells = new ArrayList<Integer>();
+		distances[avatar.getLine()][avatar.getColumn()] = 0;
 		currentCells.add(avatar.getLine()*grid[0].length + avatar.getColumn());
 		while(!remainingCells.isEmpty()) {
 			
@@ -127,28 +133,28 @@ public class HunterEnvironment extends Environment {
 					int targetCell = Math.floorMod(cell-width, height*width);
 					if(remainingCells.contains(targetCell)) {						
 						newCells.add(targetCell);
-						grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
+						distances[targetCell / width][targetCell % width] = distances[cell / width][cell % width] + 1;
 						remainingCells.remove(Integer.valueOf(targetCell));
 					}
 					// GAUCHE
 					targetCell = cell % width == 0 ? cell + width - 1 : cell - 1;
 					if(remainingCells.contains(targetCell)) {						
 						newCells.add(targetCell);
-						grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
+						distances[targetCell / width][targetCell % width] = distances[cell / width][cell % width] + 1;
 						remainingCells.remove(Integer.valueOf(targetCell));
 					}
 					// DROITE
 					targetCell = cell % width == width - 1 ? cell - width + 1: cell + 1;
 					if(remainingCells.contains(targetCell)) {
 						newCells.add(targetCell);
-						grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
+						distances[targetCell / width][targetCell % width] = distances[cell / width][cell % width] + 1;
 						remainingCells.remove(Integer.valueOf(targetCell));						
 					}
 					// BAS
 					targetCell = Math.floorMod(cell+width, height*width);
 					if(remainingCells.contains(targetCell)) {						
 						newCells.add(targetCell);
-						grid[targetCell / width][targetCell % width] = grid[cell / width][cell % width] + 1;
+						distances[targetCell / width][targetCell % width] = distances[cell / width][cell % width] + 1;
 						remainingCells.remove(Integer.valueOf(targetCell));
 					}
 				}
@@ -160,25 +166,25 @@ public class HunterEnvironment extends Environment {
 					// HAUT
 					if(cell / width > 0 && remainingCells.contains(cell - width)) {
 						newCells.add(cell - width);
-						grid[(cell - width) / width][cell % width] = grid[cell / width][cell % width] + 1;
+						distances[(cell - width) / width][cell % width] = distances[cell / width][cell % width] + 1;
 						remainingCells.remove(Integer.valueOf(cell - width));
 					}
 					// GAUCHE
 					if(cell % width > 0 && remainingCells.contains(cell - 1)) {
 						newCells.add(cell - 1);
-						grid[cell / width][(cell - 1) % width] = grid[cell / width][cell % width] + 1;
+						distances[cell / width][(cell - 1) % width] = distances[cell / width][cell % width] + 1;
 						remainingCells.remove(Integer.valueOf(cell - 1));
 					}
 					// DROITE
 					if(cell % width < width - 1 && remainingCells.contains(cell + 1)) {
 						newCells.add(cell + 1);
-						grid[cell / width][(cell + 1) % width] = grid[cell / width][cell % width] + 1;
+						distances[cell / width][(cell + 1) % width] = distances[cell / width][cell % width] + 1;
 						remainingCells.remove(Integer.valueOf(cell + 1));
 					}
 					// BAS
 					if(cell / width < height - 1 && remainingCells.contains(cell + width)) {
 						newCells.add(cell + width);
-						grid[(cell + width) / width][cell % width] = grid[cell / width][cell % width] + 1;
+						distances[(cell + width) / width][cell % width] = distances[cell / width][cell % width] + 1;
 						remainingCells.remove(Integer.valueOf(cell + width));
 					}
 				}

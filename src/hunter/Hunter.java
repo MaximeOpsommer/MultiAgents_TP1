@@ -9,17 +9,17 @@ import core.Environment;
 public class Hunter extends Agent {
 
 	private List<Integer> targetCells = new ArrayList<Integer>();
-	private int currentDistance;
+	//private int currentDistance;
 	
 	public Hunter(Environment env, int line, int column, int currentDistance) {
 		super(env, line, column);
-		this.currentDistance = currentDistance;
+		//this.currentDistance = currentDistance;
 	}
 
 	@Override
 	public void decide() {
-		if(currentDistance > 0) {			
-			refreshVoisinsLibres(getGrid());
+		if(((HunterEnvironment) env).getDistances()[line][column] > 1) {
+			refreshVoisinsLibres(getGrid(), ((HunterEnvironment) env).getDistances());
 			if(!targetCells.isEmpty()) {
 				int random = targetCells.get(env.getRandom().nextInt(targetCells.size()));
 				verticalDirection = random/3 - 1;
@@ -28,18 +28,19 @@ public class Hunter extends Agent {
 					verticalDirection = Math.floorMod(verticalDirection, getGrid().length);
 					horizontalDirection = Math.floorMod(horizontalDirection, getGrid()[0].length);
 				}
-				int newDistance = getGrid()[line+verticalDirection][column+horizontalDirection];
+				//int newDistance = getGrid()[line+verticalDirection][column+horizontalDirection];
 				env.moveAgent(column, line, verticalDirection, horizontalDirection, HunterConstants.HUNTER);
-				((HunterEnvironment) env).oldHunterPos(line, column, currentDistance);
-				((HunterEnvironment) env).updateHunterKey(line, column, line+verticalDirection, column+horizontalDirection);
+				//((HunterEnvironment) env).oldHunterPos(line, column, currentDistance);
+				//((HunterEnvironment) env).updateHunterKey(line, column, line+verticalDirection, column+horizontalDirection);
 				//((HunterEnvironment) env).availableCellMove(line, column, line+verticalDirection, column+horizontalDirection);
 				column += horizontalDirection;
 				line += verticalDirection;
-				currentDistance = newDistance;
+				//currentDistance = distances[line][column];
 			}
 		} else {
 			//System.exit(0);
 		}
+		
 		
 	}
 
@@ -49,7 +50,7 @@ public class Hunter extends Agent {
 		
 	}
 	
-	protected void refreshVoisinsLibres(int[][] grid) {
+	protected void refreshVoisinsLibres(int[][] grid, int[][] distances) {
 		int min = -1;
 		targetCells.clear();
 		int height = grid.length;
@@ -61,13 +62,13 @@ public class Hunter extends Agent {
 			if(grid[Math.floorMod(line-1, height)][column] >= 0) {
 				if(min == -1) {
 					targetCells.clear();
-					min = grid[Math.floorMod(line-1, height)][column];
+					min = distances[Math.floorMod(line-1, height)][column];
 					targetCells.add(1);
 				}
-				if (grid[Math.floorMod(line-1, height)][column] <= min) {
-					if(grid[Math.floorMod(line-1, height)][column] < min) {						
+				if (distances[Math.floorMod(line-1, height)][column] <= min) {
+					if(distances[Math.floorMod(line-1, height)][column] < min) {						
 						targetCells.clear();
-						min = grid[Math.floorMod(line-1, height)][column];
+						min = distances[Math.floorMod(line-1, height)][column];
 					}
 					targetCells.add(1);
 				}
@@ -76,12 +77,12 @@ public class Hunter extends Agent {
 			if(grid[line][Math.floorMod(column-1, width)] >= 0) {
 				if(min == -1) {
 					targetCells.clear();
-					min = grid[line][Math.floorMod(column-1, width)];
+					min = distances[line][Math.floorMod(column-1, width)];
 					targetCells.add(3);
-				} else if(grid[line][Math.floorMod(column-1, width)] <= min) {
-					if(grid[line][Math.floorMod(column-1, width)] < min) {						
+				} else if(distances[line][Math.floorMod(column-1, width)] <= min) {
+					if(distances[line][Math.floorMod(column-1, width)] < min) {						
 						targetCells.clear();
-						min = grid[line][Math.floorMod(column-1, width)];
+						min = distances[line][Math.floorMod(column-1, width)];
 					}
 					targetCells.add(3);
 				}
@@ -90,12 +91,12 @@ public class Hunter extends Agent {
 			if(grid[line][Math.floorMod(column+1, width)] >= 0) {
 				if(min == -1) {
 					targetCells.clear();
-					min = grid[line][Math.floorMod(column+1, width)];
+					min = distances[line][Math.floorMod(column+1, width)];
 					targetCells.add(5);
-				} else if(grid[line][Math.floorMod(column+1, width)] <= min) {
-					if(grid[line][Math.floorMod(column+1, width)] < min) {						
+				} else if(distances[line][Math.floorMod(column+1, width)] <= min) {
+					if(distances[line][Math.floorMod(column+1, width)] < min) {						
 						targetCells.clear();
-						min = grid[line][Math.floorMod(column+1, width)];
+						min = distances[line][Math.floorMod(column+1, width)];
 					}
 					targetCells.add(5);
 				}
@@ -104,12 +105,12 @@ public class Hunter extends Agent {
 			if(grid[Math.floorMod(line+1, height)][column] >= 0) {
 				if(min == -1) {
 					targetCells.clear();
-					min = grid[Math.floorMod(line+1, height)][column];
+					min = distances[Math.floorMod(line+1, height)][column];
 					targetCells.add(7);
-				} else if(grid[Math.floorMod(line+1, height)][column] <= min) {
-					if(grid[Math.floorMod(line+1, height)][column] < min) {						
+				} else if(distances[Math.floorMod(line+1, height)][column] <= min) {
+					if(distances[Math.floorMod(line+1, height)][column] < min) {						
 						targetCells.clear();
-						min = grid[Math.floorMod(line+1, height)][column];
+						min = distances[Math.floorMod(line+1, height)][column];
 					}
 					targetCells.add(7);
 				}
@@ -122,12 +123,12 @@ public class Hunter extends Agent {
 			if(line > 0 && grid[line-1][column] >= 0) {
 				if(min == -1) {
 					targetCells.clear();
-					min = grid[line-1][column];
+					min = distances[line-1][column];
 					targetCells.add(1);
-				}else if(grid[line-1][column] <= min) {
-					if(grid[line-1][column] < min) {						
+				}else if(distances[line-1][column] <= min) {
+					if(distances[line-1][column] < min) {						
 						targetCells.clear();
-						min = grid[line-1][column];
+						min = distances[line-1][column];
 					}
 					targetCells.add(1);
 				}
@@ -136,12 +137,12 @@ public class Hunter extends Agent {
 			if(column > 0 && grid[line][column-1] >= 0) {
 				if(min == -1) {
 					targetCells.clear();
-					min = grid[line][column-1];
+					min = distances[line][column-1];
 					targetCells.add(3);
-				}else if(grid[line][column-1] <= min) {
-					if(grid[line][column-1] < min) {						
+				}else if(distances[line][column-1] <= min) {
+					if(distances[line][column-1] < min) {						
 						targetCells.clear();
-						min = grid[line][column-1];
+						min = distances[line][column-1];
 					}
 					targetCells.add(3);
 				}
@@ -150,12 +151,12 @@ public class Hunter extends Agent {
 			if(column < width-1 && grid[line][column+1] >= 0) {
 				if(min == -1) {
 					targetCells.clear();
-					min = grid[line][column+1];
+					min = distances[line][column+1];
 					targetCells.add(5);
-				} else if(grid[line][column+1] <= min) {
-					if(grid[line][column+1] < min) {						
+				} else if(distances[line][column+1] <= min) {
+					if(distances[line][column+1] < min) {						
 						targetCells.clear();
-						min = grid[line][column+1];
+						min = distances[line][column+1];
 					}
 					targetCells.add(5);
 				}
@@ -164,12 +165,12 @@ public class Hunter extends Agent {
 			if(line < height-1 && grid[line+1][column] >= 0) {
 				if(min == - 1) {
 					targetCells.clear();
-					min = grid[line+1][column];
+					min = distances[line+1][column];
 					targetCells.add(7);
-				}else if(grid[line+1][column] <= min) {
-					if(grid[line+1][column] < min) {						
+				}else if(distances[line+1][column] <= min) {
+					if(distances[line+1][column] < min) {						
 						targetCells.clear();
-						min = grid[line+1][column];
+						min = distances[line+1][column];
 					}
 					targetCells.add(7);
 				}

@@ -54,7 +54,7 @@ public class Avatar extends Agent implements KeyListener {
 			column = Math.floorMod(column + horizontalDirection, grid[0].length);
 			line = Math.floorMod(line + verticalDirection, grid.length);
 			// TODO : Le truc qui fait bugger
-			//((HunterEnvironment) env).refreshDistanceValues();
+			((HunterEnvironment) env).refreshDistanceValues();
 			
 		}
 	}

@@ -40,6 +40,7 @@ public class HunterPanel extends Panel implements KeyListener {
 		
 		// draw particles
 		int[][] grid = env.getGrid();
+		int[][] distances = ((HunterEnvironment) env).getDistances();
 		
 		/*for(int line = 0; line < grid.length; line++) {
 			for(int column = 0; column < grid[0].length; column++) {
@@ -70,7 +71,7 @@ public class HunterPanel extends Panel implements KeyListener {
 				}
 				else {
 					g.setColor(Color.WHITE);
-					g.drawString(grid[line][column]+"", column*(boxSize+1) + (boxSize/2)-4, line*(boxSize+1) + (boxSize/2)+5);
+					g.drawString(distances[line][column]+"", column*(boxSize+1) + (boxSize/2)-4, line*(boxSize+1) + (boxSize/2)+5);
 				}
 			}
 		}
