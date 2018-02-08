@@ -9,6 +9,6 @@ public class ParticleConstants {
 	
 	// Agent number
 	public final static int MINIMUM_PARTICLE_NUMBER = 2;
-	public final static int MAXIMUM_PARTICLE_NUMBER = 10000000;
+	public final static int MAXIMUM_PARTICLE_NUMBER = 50000;
 	
 }

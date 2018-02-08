@@ -16,7 +16,7 @@ public class ParticleConfigs extends Configs {
 	
 	// Set some default values in case that we failed to read JSON
 	private int PARTICLE_NUMBER = 200;
-	
+	private int COMPORTEMENT = 1;
 	
 	public ParticleConfigs() {
 		
@@ -36,7 +36,17 @@ public class ParticleConfigs extends Configs {
 				PARTICLE_NUMBER = Math.min(ParticleConstants.MAXIMUM_PARTICLE_NUMBER, PARTICLE_NUMBER);
 				PARTICLE_NUMBER = Math.max(ParticleConstants.MINIMUM_PARTICLE_NUMBER, PARTICLE_NUMBER);
 			} catch(Exception e) {
-				System.err.println("particle number value in settings.json is invalid");
+				System.err.println("particle number value in particle-settings.json is invalid");
+			}
+			
+			// AGENT NUMBER
+			try {				
+				COMPORTEMENT = json.get("comportement").getAsInt();
+				if(COMPORTEMENT > 3 || COMPORTEMENT < 1) {
+					throw new Exception();
+				}
+			} catch(Exception e) {
+				System.err.println("comportement value in particle-settings.json is invalid");
 			}
 			
 			
@@ -57,6 +67,9 @@ public class ParticleConfigs extends Configs {
 		PARTICLE_NUMBER = particleNumber;
 	}
 	
+	public int getComportement() {
+		return COMPORTEMENT;
+	}
 	
 	
 }

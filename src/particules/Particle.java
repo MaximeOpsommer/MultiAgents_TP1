@@ -5,14 +5,16 @@ import core.Agent;
 public class Particle extends Agent {
 	
 	private int collision;
+	private int timer;
 	
 	public Particle(final ParticleEnvironment env, final int line, final int column) {
 		super(env, line, column);
 		while(verticalDirection == 0 && horizontalDirection == 0) {
-			verticalDirection = (int) (Math.random() * 3) - 1;
-			horizontalDirection = (int) (Math.random() * 3) - 1;
+			verticalDirection = env.getRandom().nextInt(3) - 1;
+			horizontalDirection = env.getRandom().nextInt(3) - 1;
 		}
 		collision = 1;
+		timer = 5;
 	}
 	
 	public int getCollision() {
@@ -33,7 +35,103 @@ public class Particle extends Agent {
 	 * Decide what action the agent will execute
 	 */
 	public void decide() {
-		move();
+		if(((ParticleConfigs) env.getConfigs()).getComportement() == 1) {
+			move();
+		}
+		else if(((ParticleConfigs) env.getConfigs()).getComportement() == 2){
+			if(env.getRandom().nextInt(3) == 0) {
+				turnRight();
+			}
+			if(env.getRandom().nextInt(3) == 0) {
+				turnLeft();
+			}
+			move();
+		}
+		else if(((ParticleConfigs) env.getConfigs()).getComportement() == 3) {
+			if(env.getRandom().nextInt(3) == 0) {
+				turnBadRight();
+			}
+			if(env.getRandom().nextInt(3) == 0) {
+				turnBadLeft();
+			}
+			move();
+		}
+		else {
+			// Never Here
+		}
+		
+	}
+	
+	protected void turnRight() {
+		if(verticalDirection == 1 && horizontalDirection != -1) {
+			horizontalDirection--;
+		}
+		else if(verticalDirection != -1 && horizontalDirection == -1) {
+			verticalDirection--;
+		}
+		else if(verticalDirection == -1 && horizontalDirection != 1) {
+			horizontalDirection++;
+		}
+		else {
+			verticalDirection++;
+		}
+	}
+	
+	protected void turnBadRight() {
+		if(verticalDirection == 1 && horizontalDirection != -1) {
+			horizontalDirection--;
+		}
+		else if(verticalDirection != -1 && horizontalDirection == -1) {
+			verticalDirection++;
+		}
+		else if(verticalDirection == -1 && horizontalDirection != 1) {
+			horizontalDirection++;
+		}
+		else {
+			verticalDirection--;
+		}
+		if(verticalDirection > 3 || verticalDirection < -3) {
+			verticalDirection = 0;
+		}
+		if(horizontalDirection > 3 || horizontalDirection < -3) {
+			horizontalDirection = 0;
+		}
+	}
+	
+	protected void turnLeft() {
+		if(verticalDirection == 1 && horizontalDirection != 1) {
+			horizontalDirection++;
+		}
+		if(verticalDirection != 1 && horizontalDirection == -1) {
+			verticalDirection++;
+		}
+		if(verticalDirection == -1 && horizontalDirection != -1) {
+			horizontalDirection--;
+		}
+		else {
+			verticalDirection--;
+		}
+	}
+	
+	protected void turnBadLeft() {
+		if(verticalDirection == 1 && horizontalDirection != 1) {
+			horizontalDirection--;
+		}
+		if(verticalDirection != 1 && horizontalDirection == -1) {
+			verticalDirection++;
+		}
+		if(verticalDirection == -1 && horizontalDirection != -1) {
+			horizontalDirection++;
+		}
+		else {
+			verticalDirection--;
+		}
+		if(verticalDirection > 3 || verticalDirection < -3) {
+			verticalDirection = 0;
+		}
+		if(horizontalDirection > 3 || horizontalDirection < -3) {
+			horizontalDirection = 0;
+		}
 	}
 	
 	protected void move() {

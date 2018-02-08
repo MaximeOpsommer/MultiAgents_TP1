@@ -1,3 +1,4 @@
 {
-	"particle_number": 10
+	"particle_number": 100,
+	"comportement" : 3
 }
