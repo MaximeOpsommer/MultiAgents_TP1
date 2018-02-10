@@ -10,6 +10,8 @@ public abstract class Environment {
 	protected int[][] grid;
 	protected Configs configs;
 	protected Random random;
+	protected int height;
+	protected int width;
 	
 	public Configs getConfigs() {
 		return configs;
@@ -41,6 +43,8 @@ public abstract class Environment {
 	
 	protected void init() {
 		grid = new int[configs.getGridHeight()][configs.getGridWidth()];
+		height = grid.length;
+		width = grid[0].length;
 		random = configs.getSeed() == 0 ? new Random() : new Random(configs.getSeed());
 	}
 	

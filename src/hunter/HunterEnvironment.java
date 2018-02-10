@@ -13,18 +13,23 @@ public class HunterEnvironment extends Environment {
 	private final int diggerNumber;
 	private Map<Integer, Wall> walls = new HashMap<Integer, Wall>();
 	private List<Digger> diggers = new ArrayList<Digger>();
+	
 	private Map<Integer, Hunter> hunters = new HashMap<Integer, Hunter>();
 	private Avatar avatar;
-	private List<Integer> availableCells = new ArrayList<Integer>();
+	private Map<Integer, Defender> defenders = new HashMap<Integer, Defender>();
+	private Winner winner;
 	
+	private List<Integer> availableCells = new ArrayList<Integer>();
 	private int[][] distances;
+	private int defenderToWin;
 	
 	public HunterEnvironment() {
 		configs = new HunterConfigs();
 		diggerNumber = ((HunterConfigs) configs).getDiggerNumber();
 		init();
 		avatar = new Avatar(this, 0, 0);
-		distances = new int[grid.length][grid[0].length];
+		distances = new int[height][width];
+		defenderToWin = ((HunterConfigs) configs).getDefenderToWin();
 	}
 	
 	public int[][] getDistances() {
@@ -33,8 +38,6 @@ public class HunterEnvironment extends Environment {
 	
 	protected void init() {
 		super.init();
-		int height = grid.length;
-		int width = grid[0].length;
 		int total = height * width;
 		int reste = diggerNumber;
 		int rand;
@@ -52,7 +55,6 @@ public class HunterEnvironment extends Environment {
 					walls.put((line*width)+column, new Wall(this, line, column));
 				}
 				total--;
-				//grid[line][column] = 0;
 			}
 		}
 	}
@@ -62,7 +64,7 @@ public class HunterEnvironment extends Environment {
 	}
 	
 	public void removeWall(final int line, final int column) {
-		walls.remove((line*grid[0].length)+column);
+		walls.remove((line*width)+column);
 	}
 	
 	public List<Digger> getDiggers() {
@@ -91,9 +93,6 @@ public class HunterEnvironment extends Environment {
 
 	
 	public void initGame() {
-		
-		int height = grid.length;
-		int width = grid[0].length;
 		for(int i = 0; i < height*width; i++) {
 			availableCells.add(i);
 		}
@@ -101,9 +100,11 @@ public class HunterEnvironment extends Environment {
 		List<Integer> remainingCells = new ArrayList<Integer>();
 		remainingCells.addAll(availableCells);
 		int randomValue = remainingCells.get(random.nextInt(remainingCells.size()));
+		// Init Avatar position
 		avatar.setCoords(randomValue/width, randomValue%width);
 		grid[randomValue/width][randomValue%width] = HunterConstants.AVATAR;
 		refreshDistanceValues();
+		// Init hunters position
 		for(int i = 0; i < ((HunterConfigs) getConfigs()).getHunterNumber(); i++) {
 			randomValue = remainingCells.get(random.nextInt(remainingCells.size()));
 			while(distances[randomValue/width][randomValue%width] < ((HunterConfigs) getConfigs()).getHunterInitialMinimumDistance()) {
@@ -113,17 +114,19 @@ public class HunterEnvironment extends Environment {
 			grid[randomValue/width][randomValue%width] = HunterConstants.HUNTER;
 			remainingCells.remove(Integer.valueOf(randomValue));
 		}
+		// Init Defender position
+		randomValue = remainingCells.get(random.nextInt(remainingCells.size()));
+		defenders.put(randomValue, new Defender(this, randomValue/width, randomValue%width));
+		grid[randomValue/width][randomValue%width] = HunterConstants.DEFENDER;
 	}
 	
 	public void refreshDistanceValues() {
-		final int height = distances.length;
-		final int width = distances[0].length;
 		List<Integer> remainingCells = new ArrayList<Integer>();
 		remainingCells.addAll(availableCells);
 		List<Integer> currentCells = new ArrayList<Integer>();
 		List<Integer> newCells = new ArrayList<Integer>();
 		distances[avatar.getLine()][avatar.getColumn()] = 0;
-		currentCells.add(avatar.getLine()*grid[0].length + avatar.getColumn());
+		currentCells.add(avatar.getLine()*width + avatar.getColumn());
 		while(!remainingCells.isEmpty()) {
 			
 			// TORUS
@@ -195,17 +198,41 @@ public class HunterEnvironment extends Environment {
 		}
 	}
 	
-	public void oldHunterPos(final int line, final int column, int value) {
-		grid[line][column] = value;
+	public void activateDefender(final int line, final int column) {
+		defenders.remove((line*width)+column);
+		defenderToWin--;
+		if(defenderToWin < 1) {
+			System.out.println("POP WINNER");
+			popNewWinner();
+		}
+		
+		else {
+			popNewDefender();
+		}
 	}
 	
-	public void updateHunterKey(final int oldLine, final int oldColumn, final int newLine, final int newColumn) {
-		hunters.put((newLine*grid[0].length)+newColumn, hunters.remove((oldLine*grid[0].length)+oldColumn));
+	private void popNewDefender() {
+		List<Integer> remainingCells = new ArrayList<Integer>();
+		remainingCells.addAll(availableCells);
+		remainingCells.add(avatar.getLine()*width + avatar.getColumn());
+		remainingCells.addAll(hunters.keySet());
+		int randomValue = remainingCells.get(random.nextInt(remainingCells.size()));
+		defenders.put(randomValue, new Defender(this, randomValue/width, randomValue%width));
+		grid[randomValue/width][randomValue%width] = HunterConstants.DEFENDER;
 	}
 	
-	public void availableCellMove(final int oldLine, final int oldColumn, final int newLine, final int newColumn) {
-		availableCells.add(Integer.valueOf(oldLine*grid[0].length)+oldColumn);
-		availableCells.remove(newLine*grid[0].length+newColumn);
+	private void popNewWinner() {
+		List<Integer> remainingCells = new ArrayList<Integer>();
+		remainingCells.addAll(availableCells);
+		remainingCells.add(avatar.getLine()*width + avatar.getColumn());
+		remainingCells.addAll(hunters.keySet());
+		int randomValue = remainingCells.get(random.nextInt(remainingCells.size()));
+		winner = new Winner(this, randomValue/width, randomValue%width);
+		grid[randomValue/width][randomValue%width] = HunterConstants.WINNER;
+	}
+	
+	public void win() {
+		System.out.println("WIN !");
 	}
 
 }

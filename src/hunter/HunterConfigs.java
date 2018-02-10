@@ -4,6 +4,7 @@ import core.Configs;
 
 public class HunterConfigs extends Configs {
 	
+	private int DEFENDER_TO_WIN = 4;
 	private int DIGGER_NUMBER = 10;
 	private int HUNTER_INITIAL_MINIMUM_DISTANCE =  2;
 	private int HUNTER_NUMBER = 1;
@@ -13,6 +14,14 @@ public class HunterConfigs extends Configs {
 		
 	}
 
+	public int getDefenderToWin() {
+		return DEFENDER_TO_WIN;
+	}
+	
+	public void setDefenderToWin(final int defenderToWin) {
+		DEFENDER_TO_WIN = defenderToWin;
+	}
+	
 	public int getDiggerNumber() {
 		return DIGGER_NUMBER;
 	}
