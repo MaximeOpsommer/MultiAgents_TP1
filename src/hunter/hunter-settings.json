@@ -1,4 +1,5 @@
 {
+	"defender_effect_duration": 10,
 	"defender_to_win": 4,
 	"digger_number": 10,
 	"hunter_minimum_initial_distance": 2,

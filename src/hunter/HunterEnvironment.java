@@ -199,6 +199,9 @@ public class HunterEnvironment extends Environment {
 	}
 	
 	public void activateDefender(final int line, final int column) {
+		for(Hunter hunter : hunters.values()) {
+			hunter.defenderActivated();
+		}
 		defenders.remove((line*width)+column);
 		defenderToWin--;
 		if(defenderToWin < 1) {

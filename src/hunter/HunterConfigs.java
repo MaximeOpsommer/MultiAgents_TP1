@@ -14,6 +14,7 @@ import core.Configs;
 
 public class HunterConfigs extends Configs {
 	
+	private int DEFENDER_EFFECT_DURATION = 10;
 	private int DEFENDER_TO_WIN = 4;
 	private int DIGGER_NUMBER = 10;
 	private int HUNTER_MINIMUM_INITIAL_DISTANCE =  2;
@@ -31,6 +32,13 @@ public class HunterConfigs extends Configs {
 					URL url = getClass().getResource(SETTINGS_FILE);
 					File file = new File(url.getPath());
 					json = gson.fromJson(new FileReader(file), JsonObject.class);
+					
+					// DEFENDER EFFECT DURATION
+					try {				
+						DEFENDER_EFFECT_DURATION = json.get("defender_effect_duration").getAsInt();
+					} catch(Exception e) {
+						System.err.println("defender effect duration value in hunter-settings.json is invalid");
+					}
 					
 					// DEFENDER TO WIN
 					try {				
@@ -79,6 +87,14 @@ public class HunterConfigs extends Configs {
 		
 	}
 
+	public int getDefenderEffectDuration() {
+		return DEFENDER_EFFECT_DURATION;
+	}
+	
+	public void setDefenderEffectDuration(final int defnderEffectDuration) {
+		DEFENDER_EFFECT_DURATION = defnderEffectDuration;
+	}
+	
 	public int getDefenderToWin() {
 		return DEFENDER_TO_WIN;
 	}
