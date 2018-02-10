@@ -11,11 +11,13 @@ public abstract class AquaticAnimal extends Agent {
 	protected int breedTime;
 	List<Integer> voisinsLibres;
 	int[][] grid;
+	int comportement;
 	
 	public AquaticAnimal(Environment env, int line, int column, int breedTime) {
 		super(env, line, column);
 		this.breedTime = breedTime;
 		grid = getGrid();
+		comportement = ((WatorConfigs) env.getConfigs()).getComportement();
 	}
 	
 	protected void move() {

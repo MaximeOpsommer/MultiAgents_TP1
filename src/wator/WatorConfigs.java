@@ -19,6 +19,7 @@ public class WatorConfigs extends Configs{
 	private int SHARK_NUMBER = 50;
 	private int SHARK_BREED_TIME = 7;
 	private int SHARK_STARVE_TIME = 15;
+	private int COMPORTEMENT = 1;
 	
 	public WatorConfigs(){
 		
@@ -38,7 +39,7 @@ public class WatorConfigs extends Configs{
 				FISH_NUMBER = Math.min(WatorConstants.MAXIMUM_FISH_NUMBER, FISH_NUMBER);
 				FISH_NUMBER = Math.max(WatorConstants.MINIMUM_FISH_NUMBER, FISH_NUMBER);
 			} catch(Exception e) {
-				System.err.println("fish number value in settings.json is invalid");
+				System.err.println("fish number value in wator_settings.json is invalid");
 			}
 			
 			// FISH BREED TIME
@@ -47,7 +48,7 @@ public class WatorConfigs extends Configs{
 				FISH_BREED_TIME = Math.min(WatorConstants.MAXIMUM_FISH_BREED_TIME, FISH_BREED_TIME);
 				FISH_BREED_TIME = Math.max(WatorConstants.MINIMUM_FISH_BREED_TIME, FISH_BREED_TIME);
 			} catch(Exception e) {
-				System.err.println("fish breed time value in settings.json is invalid");
+				System.err.println("fish breed time value in wator_settings.json is invalid");
 			}
 			
 			// SHARK NUMBER
@@ -56,7 +57,7 @@ public class WatorConfigs extends Configs{
 				SHARK_NUMBER = Math.min(WatorConstants.MAXIMUM_SHARK_NUMBER, SHARK_NUMBER);
 				SHARK_NUMBER = Math.max(WatorConstants.MINIMUM_SHARK_NUMBER, SHARK_NUMBER);
 			} catch(Exception e) {
-				System.err.println("shark number value in settings.json is invalid");
+				System.err.println("shark number value in wator_settings.json is invalid");
 			}
 			
 			// SHARK BREED TIME
@@ -65,7 +66,7 @@ public class WatorConfigs extends Configs{
 				SHARK_BREED_TIME = Math.min(WatorConstants.MAXIMUM_SHARK_BREED_TIME, SHARK_BREED_TIME);
 				SHARK_BREED_TIME = Math.max(WatorConstants.MINIMUM_SHARK_BREED_TIME, SHARK_BREED_TIME);
 			} catch(Exception e) {
-				System.err.println("shark breed time value in settings.json is invalid");
+				System.err.println("shark breed time value in wator_settings.json is invalid");
 			}
 			
 			// SHARK STARVE TIME
@@ -74,11 +75,18 @@ public class WatorConfigs extends Configs{
 				SHARK_STARVE_TIME = Math.min(WatorConstants.MAXIMUM_SHARK_STARVE_TIME, SHARK_STARVE_TIME);
 				SHARK_STARVE_TIME = Math.max(WatorConstants.MINIMUM_SHARK_STARVE_TIME, SHARK_STARVE_TIME);
 			} catch(Exception e) {
-				System.err.println("shark starve time value in settings.json is invalid");
+				System.err.println("shark starve time value in wator_settings.json is invalid");
 			}
 			
-			
-			
+			// FISH NUMBER
+			try {				
+				COMPORTEMENT = json.get("comportement").getAsInt();
+				if(COMPORTEMENT > 3 || COMPORTEMENT < 1) {
+					throw new Exception();
+				}
+			} catch(Exception e) {
+				System.err.println("comportement value in wator_settings.json is invalid");
+			}
 			
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
@@ -127,6 +135,10 @@ public class WatorConfigs extends Configs{
 	
 	public void setSharkStarveTime(int sharkStarveTime){
 		SHARK_STARVE_TIME = sharkStarveTime;
+	}
+
+	public int getComportement() {
+		return COMPORTEMENT;
 	}
 
 }
