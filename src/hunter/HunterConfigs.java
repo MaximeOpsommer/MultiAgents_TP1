@@ -1,16 +1,81 @@
 package hunter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.net.URL;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+
 import core.Configs;
 
 public class HunterConfigs extends Configs {
 	
 	private int DEFENDER_TO_WIN = 4;
 	private int DIGGER_NUMBER = 10;
-	private int HUNTER_INITIAL_MINIMUM_DISTANCE =  2;
+	private int HUNTER_MINIMUM_INITIAL_DISTANCE =  2;
 	private int HUNTER_NUMBER = 1;
 	private int WALL_PERCENT = 15;
 	
 	public HunterConfigs() {
+		
+		SETTINGS_FILE = "hunter-settings.json";
+		
+		// Read configs file
+				Gson gson = new Gson();
+				JsonObject json;
+				try {
+					URL url = getClass().getResource(SETTINGS_FILE);
+					File file = new File(url.getPath());
+					json = gson.fromJson(new FileReader(file), JsonObject.class);
+					
+					// DEFENDER TO WIN
+					try {				
+						DEFENDER_TO_WIN = json.get("defender_to_win").getAsInt();
+					} catch(Exception e) {
+						System.err.println("defender to win value in hunter-settings.json is invalid");
+					}
+					
+					// DIGGER NUMBER
+					try {				
+						DIGGER_NUMBER = json.get("digger_number").getAsInt();
+					} catch(Exception e) {
+						System.err.println("digger number value in hunter-settings.json is invalid");
+					}
+					
+					// HUNTER MINIMUM INITIAL DISTANCE
+					try {				
+						HUNTER_MINIMUM_INITIAL_DISTANCE = json.get("hunter_minimum_initial_distance").getAsInt();
+					} catch(Exception e) {
+						System.err.println("hunter minimum initial distance value in hunter-settings.json is invalid");
+					}
+					
+					// HUNTER NUMBER
+					try {				
+						HUNTER_NUMBER = json.get("hunter_number").getAsInt();
+					} catch(Exception e) {
+						System.err.println("hunter number value in hunter-settings.json is invalid");
+					}
+					
+					// WALL PERCENT
+					try {				
+						WALL_PERCENT = json.get("wall_percent").getAsInt();
+					} catch(Exception e) {
+						System.err.println("wall percent value in hunter-settings.json is invalid");
+					}
+					
+					
+					
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				} catch (JsonIOException e) {
+					e.printStackTrace();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
 		
 	}
 
@@ -30,12 +95,12 @@ public class HunterConfigs extends Configs {
 		DIGGER_NUMBER = diggerNumber;
 	}
 	
-	public int getHunterInitialMinimumDistance() {
-		return HUNTER_INITIAL_MINIMUM_DISTANCE;
+	public int getHunterMinimumInitialDistance() {
+		return HUNTER_MINIMUM_INITIAL_DISTANCE;
 	}
 	
-	public void setHunterInitialMinimumDistance(final int hunterInitialDistance) {
-		HUNTER_INITIAL_MINIMUM_DISTANCE = hunterInitialDistance;
+	public void setHunterMinimumInitialDistance(final int hunterMinimumInitialDistance) {
+		HUNTER_MINIMUM_INITIAL_DISTANCE = hunterMinimumInitialDistance;
 	}
 	
 	public int getHunterNumber() {

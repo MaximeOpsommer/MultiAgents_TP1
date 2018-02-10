@@ -107,7 +107,7 @@ public class HunterEnvironment extends Environment {
 		// Init hunters position
 		for(int i = 0; i < ((HunterConfigs) getConfigs()).getHunterNumber(); i++) {
 			randomValue = remainingCells.get(random.nextInt(remainingCells.size()));
-			while(distances[randomValue/width][randomValue%width] < ((HunterConfigs) getConfigs()).getHunterInitialMinimumDistance()) {
+			while(distances[randomValue/width][randomValue%width] < ((HunterConfigs) getConfigs()).getHunterMinimumInitialDistance()) {
 				randomValue = remainingCells.get(random.nextInt(remainingCells.size()));
 			}
 			hunters.put(randomValue, new Hunter(this, randomValue/width, randomValue%width, distances[randomValue/width][randomValue%width]));
