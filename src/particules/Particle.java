@@ -5,7 +5,6 @@ import core.Agent;
 public class Particle extends Agent {
 	
 	private int collision;
-	private int timer;
 	
 	public Particle(final ParticleEnvironment env, final int line, final int column) {
 		super(env, line, column);
@@ -14,7 +13,6 @@ public class Particle extends Agent {
 			horizontalDirection = env.getRandom().nextInt(3) - 1;
 		}
 		collision = 1;
-		timer = 5;
 	}
 	
 	public int getCollision() {

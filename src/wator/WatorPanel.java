@@ -5,7 +5,6 @@ import java.awt.Graphics;
 
 import core.Panel;
 import core.SMA;
-import particules.ParticleConstants;
 
 public class WatorPanel extends Panel{
 

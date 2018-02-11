@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import core.Agent;
-import core.AgentNotFoundException;
 import core.Environment;
 
 public class ParticleEnvironment extends Environment {

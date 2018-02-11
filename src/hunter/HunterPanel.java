@@ -8,7 +8,6 @@ import java.awt.event.KeyListener;
 import core.Environment;
 import core.Panel;
 import core.SMA;
-import particules.ParticleConstants;
 
 public class HunterPanel extends Panel implements KeyListener {
 

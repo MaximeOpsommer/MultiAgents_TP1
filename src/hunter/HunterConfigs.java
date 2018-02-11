@@ -42,6 +42,8 @@ public class HunterConfigs extends Configs {
 					// AVATAR SPEED
 					try {				
 						AVATAR_SPEED = json.get("avatar_speed").getAsInt();
+						AVATAR_SPEED = Math.min(HunterConstants.AVATAR_MAXIMUM_SPEED, AVATAR_SPEED);
+						AVATAR_SPEED = Math.max(HunterConstants.AVATAR_MINIMUM_SPEED, AVATAR_SPEED);
 					} catch(Exception e) {
 						System.err.println("avatar speed value in hunter-settings.json is invalid");
 					}
@@ -49,6 +51,8 @@ public class HunterConfigs extends Configs {
 					// DEFENDER EFFECT DURATION
 					try {				
 						DEFENDER_EFFECT_DURATION = json.get("defender_effect_duration").getAsInt();
+						DEFENDER_EFFECT_DURATION = Math.min(HunterConstants.MAXIMUM_DEFENDER_EFFECT_DURATION, DEFENDER_EFFECT_DURATION);
+						DEFENDER_EFFECT_DURATION = Math.max(HunterConstants.MINIMUM_DEFENDER_EFFECT_DURATION, DEFENDER_EFFECT_DURATION);
 					} catch(Exception e) {
 						System.err.println("defender effect duration value in hunter-settings.json is invalid");
 					}
@@ -56,6 +60,8 @@ public class HunterConfigs extends Configs {
 					// DEFENDER LIFE
 					try {				
 						DEFENDER_LIFE = json.get("defender_life").getAsInt();
+						DEFENDER_LIFE = Math.min(HunterConstants.DEFENDER_MAXIMUM_LIFE, DEFENDER_LIFE);
+						DEFENDER_LIFE = Math.max(HunterConstants.DEFENDER_MINIMUM_LIFE, DEFENDER_LIFE);
 					} catch(Exception e) {
 						System.err.println("defender life value in hunter-settings.json is invalid");
 					}
@@ -63,13 +69,15 @@ public class HunterConfigs extends Configs {
 					// DEFENDER TO WIN
 					try {				
 						DEFENDER_TO_WIN = json.get("defender_to_win").getAsInt();
+						DEFENDER_TO_WIN = Math.min(HunterConstants.MAXIMUM_DEFENDER_TO_WIN, DEFENDER_TO_WIN);
+						DEFENDER_TO_WIN = Math.max(HunterConstants.MINIMUM_DEFENDER_TO_WIN, DEFENDER_TO_WIN);
 					} catch(Exception e) {
 						System.err.println("defender to win value in hunter-settings.json is invalid");
 					}
 					
 					// DIGGER NUMBER
 					try {				
-						DIGGER_NUMBER = json.get("digger_number").getAsInt();
+						DIGGER_NUMBER = Math.max(1, json.get("digger_number").getAsInt());
 					} catch(Exception e) {
 						System.err.println("digger number value in hunter-settings.json is invalid");
 					}
@@ -77,13 +85,17 @@ public class HunterConfigs extends Configs {
 					// HUNTER BEHAVIOUR
 					try {				
 						HUNTER_BEHAVIOUR = json.get("hunter_behaviour").getAsInt();
+						if(HUNTER_BEHAVIOUR != HunterConstants.NORMAL_BEHAVIOUR
+								&& HUNTER_BEHAVIOUR != HunterConstants.STRATEGIC_BEHAVIOUR) {
+							HUNTER_BEHAVIOUR = HunterConstants.NORMAL_BEHAVIOUR;
+						}
 					} catch(Exception e) {
 						System.err.println("hunter behaviour value in hunter-settings.json is invalid");
 					}
 					
 					// HUNTER MINIMUM INITIAL DISTANCE
 					try {				
-						HUNTER_MINIMUM_INITIAL_DISTANCE = json.get("hunter_minimum_initial_distance").getAsInt();
+						HUNTER_MINIMUM_INITIAL_DISTANCE = Math.max(2, json.get("hunter_minimum_initial_distance").getAsInt());
 					} catch(Exception e) {
 						System.err.println("hunter minimum initial distance value in hunter-settings.json is invalid");
 					}
@@ -91,6 +103,8 @@ public class HunterConfigs extends Configs {
 					// HUNTER NUMBER
 					try {				
 						HUNTER_NUMBER = json.get("hunter_number").getAsInt();
+						HUNTER_NUMBER = Math.min(HunterConstants.MAXIMUM_HUNTER_NUMBER, HUNTER_NUMBER);
+						HUNTER_NUMBER = Math.max(HunterConstants.MINIMUM_HUNTER_NUMBER, HUNTER_NUMBER);
 					} catch(Exception e) {
 						System.err.println("hunter number value in hunter-settings.json is invalid");
 					}
@@ -98,6 +112,8 @@ public class HunterConfigs extends Configs {
 					// HUNTER SPEED
 					try {				
 						HUNTER_SPEED = json.get("hunter_speed").getAsInt();
+						HUNTER_SPEED = Math.min(HunterConstants.HUNTER_MAXIMUM_SPEED, HUNTER_SPEED);
+						HUNTER_SPEED = Math.max(HunterConstants.HUNTER_MINIMUM_SPEED, HUNTER_SPEED);
 					} catch(Exception e) {
 						System.err.println("hunter speed value in hunter-settings.json is invalid");
 					}
@@ -119,6 +135,8 @@ public class HunterConfigs extends Configs {
 					// WALL PERCENT
 					try {				
 						WALL_PERCENT = json.get("wall_percent").getAsInt();
+						WALL_PERCENT = Math.min(HunterConstants.MAXIMUM_WALL_PERCENT, WALL_PERCENT);
+						WALL_PERCENT = Math.max(HunterConstants.MINIMUM_WALL_PERCENT, WALL_PERCENT);
 					} catch(Exception e) {
 						System.err.println("wall percent value in hunter-settings.json is invalid");
 					}
