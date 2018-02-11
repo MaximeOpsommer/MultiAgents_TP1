@@ -23,12 +23,13 @@ public class HunterSMA extends SMA {
 		// build the terrain
 		int builderTick = 0;
 		int currentWallNumber = ((HunterEnvironment) env).getWalls().size();
+		final boolean showTerrainConstruction = ((HunterConfigs) env.getConfigs()).showTerrainConstruction();
 		while(currentWallNumber > wallNumber) {
 			diggers.get(0).decide();
 			diggers.add(diggers.remove(0));
 			currentWallNumber = ((HunterEnvironment) env).getWalls().size();
 			builderTick++;
-			if(builderTick == diggers.size()) {				
+			if(showTerrainConstruction && builderTick == diggers.size()) {				
 				update();
 				try {
 					Thread.sleep(20);

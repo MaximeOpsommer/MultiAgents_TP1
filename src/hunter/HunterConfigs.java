@@ -20,6 +20,7 @@ public class HunterConfigs extends Configs {
 	private int DIGGER_NUMBER = 10;
 	private int HUNTER_MINIMUM_INITIAL_DISTANCE =  2;
 	private int HUNTER_NUMBER = 1;
+	private boolean SHOW_TERRAIN_CONSTRUCTION = true;
 	private int WALL_PERCENT = 15;
 	
 	public HunterConfigs() {
@@ -74,6 +75,13 @@ public class HunterConfigs extends Configs {
 						HUNTER_NUMBER = json.get("hunter_number").getAsInt();
 					} catch(Exception e) {
 						System.err.println("hunter number value in hunter-settings.json is invalid");
+					}
+					
+					// WALL PERCENT
+					try {				
+						SHOW_TERRAIN_CONSTRUCTION = json.get("show_terrain_construction").getAsBoolean();
+					} catch(Exception e) {
+						System.err.println("show terrain construction value in hunter-settings.json is invalid");
 					}
 					
 					// WALL PERCENT
@@ -141,6 +149,14 @@ public class HunterConfigs extends Configs {
 	
 	public void setHunterNumber(final int hunterNumber) {
 		HUNTER_NUMBER = hunterNumber;
+	}
+	
+	public boolean showTerrainConstruction() {
+		return SHOW_TERRAIN_CONSTRUCTION;
+	}
+	
+	public void setShowTerrainConstruction(final boolean showTerrainConstruction) {
+		SHOW_TERRAIN_CONSTRUCTION = showTerrainConstruction;
 	}
 	
 	public int getWallPercent() {
