@@ -25,7 +25,7 @@ public class Avatar extends Agent implements KeyListener {
 
 	@Override
 	public void decide() {
-		if(tick++ % speed == 0) {
+		if((tick = (tick++ % speed)) == 0) {
 			move();
 		}
 	}

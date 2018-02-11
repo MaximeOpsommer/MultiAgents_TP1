@@ -42,8 +42,8 @@ public class HunterConfigs extends Configs {
 					// AVATAR SPEED
 					try {				
 						AVATAR_SPEED = json.get("avatar_speed").getAsInt();
-						AVATAR_SPEED = Math.min(HunterConstants.AVATAR_MAXIMUM_SPEED, AVATAR_SPEED);
-						AVATAR_SPEED = Math.max(HunterConstants.AVATAR_MINIMUM_SPEED, AVATAR_SPEED);
+						AVATAR_SPEED = Math.min(HunterConstants.AVATAR_MINIMUM_SPEED, AVATAR_SPEED);
+						AVATAR_SPEED = Math.max(HunterConstants.AVATAR_MAXIMUM_SPEED, AVATAR_SPEED);
 					} catch(Exception e) {
 						System.err.println("avatar speed value in hunter-settings.json is invalid");
 					}
@@ -112,8 +112,8 @@ public class HunterConfigs extends Configs {
 					// HUNTER SPEED
 					try {				
 						HUNTER_SPEED = json.get("hunter_speed").getAsInt();
-						HUNTER_SPEED = Math.min(HunterConstants.HUNTER_MAXIMUM_SPEED, HUNTER_SPEED);
-						HUNTER_SPEED = Math.max(HunterConstants.HUNTER_MINIMUM_SPEED, HUNTER_SPEED);
+						HUNTER_SPEED = Math.min(HunterConstants.HUNTER_MINIMUM_SPEED, HUNTER_SPEED);
+						HUNTER_SPEED = Math.max(HunterConstants.HUNTER_MAXIMUM_SPEED, HUNTER_SPEED);
 					} catch(Exception e) {
 						System.err.println("hunter speed value in hunter-settings.json is invalid");
 					}
