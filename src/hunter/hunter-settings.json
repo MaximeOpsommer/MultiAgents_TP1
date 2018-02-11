@@ -4,6 +4,7 @@
 	"defender_life": 30,
 	"defender_to_win": 4,
 	"digger_number": 10,
+	"hunter_behaviour": 1,
 	"hunter_minimum_initial_distance": 2,
 	"hunter_number": 1,
 	"hunter_speed": 2,

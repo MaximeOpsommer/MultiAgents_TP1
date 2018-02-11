@@ -21,7 +21,7 @@ public class Hunter extends Agent {
 	@Override
 	public void decide() {
 		if(tick++ % speed == 0) {
-			if(((HunterEnvironment) env).getDistances()[line][column] > 1) {
+			//if(((HunterEnvironment) env).getDistances()[line][column] > 1) {
 				if(defenderTime > 0) {
 					getVoisinsMax(getGrid(), ((HunterEnvironment) env).getDistances());
 					defenderTime--;
@@ -39,10 +39,14 @@ public class Hunter extends Agent {
 					env.moveAgent(column, line, verticalDirection, horizontalDirection, HunterConstants.HUNTER);
 					column = Math.floorMod(column + horizontalDirection, getGrid()[0].length);
 					line = Math.floorMod(line + verticalDirection, getGrid().length);
+					Avatar avatar = ((HunterEnvironment) env).getAvatar();
+					if(avatar.getLine() == line && avatar.getColumn() == column) {
+						((HunterEnvironment) env).defeat();
+					}
 				}
-			} else {
-				((HunterEnvironment) env).defeat();
-			}
+			//} else {
+				//
+			//}
 		}
 	}
 
@@ -52,8 +56,9 @@ public class Hunter extends Agent {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	protected void getVoisinsMin(int[][] grid, int[][] distances) {
-		int min = -1;
+		Integer min = null;
 		targetCells.clear();
 		int height = grid.length;
 		int width = grid[0].length;
@@ -61,8 +66,8 @@ public class Hunter extends Agent {
 		// TORUS
 		if(env.getConfigs().isTorus()) {
 			// HAUT (1)
-			if(grid[Math.floorMod(line-1, height)][column] == 0) {
-				if(min == -1) {
+			if(grid[Math.floorMod(line-1, height)][column] <= HunterConstants.AVATAR) {
+				if(min == null) {
 					targetCells.clear();
 					min = distances[Math.floorMod(line-1, height)][column];
 					targetCells.add(1);
@@ -76,8 +81,8 @@ public class Hunter extends Agent {
 				}
 			}
 			// GAUCHE (3)
-			if(grid[line][Math.floorMod(column-1, width)] == 0) {
-				if(min == -1) {
+			if(grid[line][Math.floorMod(column-1, width)] <= HunterConstants.AVATAR) {
+				if(min == null) {
 					targetCells.clear();
 					min = distances[line][Math.floorMod(column-1, width)];
 					targetCells.add(3);
@@ -90,8 +95,8 @@ public class Hunter extends Agent {
 				}
 			}
 			// DROITE (5)
-			if(grid[line][Math.floorMod(column+1, width)] == 0) {
-				if(min == -1) {
+			if(grid[line][Math.floorMod(column+1, width)] <= HunterConstants.AVATAR) {
+				if(min == null) {
 					targetCells.clear();
 					min = distances[line][Math.floorMod(column+1, width)];
 					targetCells.add(5);
@@ -104,8 +109,8 @@ public class Hunter extends Agent {
 				}
 			}
 			// BAS (7)
-			if(grid[Math.floorMod(line+1, height)][column] == 0) {
-				if(min == -1) {
+			if(grid[Math.floorMod(line+1, height)][column] <= HunterConstants.AVATAR) {
+				if(min == null) {
 					targetCells.clear();
 					min = distances[Math.floorMod(line+1, height)][column];
 					targetCells.add(7);
@@ -122,8 +127,8 @@ public class Hunter extends Agent {
 		// NOT TORUS
 		else {
 			// HAUT (1)
-			if(line > 0 && grid[line-1][column] == 0) {
-				if(min == -1) {
+			if(line > 0 && grid[line-1][column] <= HunterConstants.AVATAR) {
+				if(min == null) {
 					targetCells.clear();
 					min = distances[line-1][column];
 					targetCells.add(1);
@@ -136,8 +141,8 @@ public class Hunter extends Agent {
 				}
 			}
 			// GAUCHE (3)
-			if(column > 0 && grid[line][column-1] == 0) {
-				if(min == -1) {
+			if(column > 0 && grid[line][column-1] <= HunterConstants.AVATAR) {
+				if(min == null) {
 					targetCells.clear();
 					min = distances[line][column-1];
 					targetCells.add(3);
@@ -150,8 +155,8 @@ public class Hunter extends Agent {
 				}
 			}
 			// DROITE (5)
-			if(column < width-1 && grid[line][column+1] == 0) {
-				if(min == -1) {
+			if(column < width-1 && grid[line][column+1] <= HunterConstants.AVATAR) {
+				if(min == null) {
 					targetCells.clear();
 					min = distances[line][column+1];
 					targetCells.add(5);
@@ -164,8 +169,8 @@ public class Hunter extends Agent {
 				}
 			}
 			// BAS (7)
-			if(line < height-1 && grid[line+1][column] == 0) {
-				if(min == - 1) {
+			if(line < height-1 && grid[line+1][column] <= HunterConstants.AVATAR) {
+				if(min == null) {
 					targetCells.clear();
 					min = distances[line+1][column];
 					targetCells.add(7);
@@ -181,8 +186,9 @@ public class Hunter extends Agent {
 	}
 	
 	
+	@SuppressWarnings("unused")
 	protected void getVoisinsMax(int[][] grid, int[][] distances) {
-		int max = -1;
+		Integer max = null;
 		targetCells.clear();
 		int height = grid.length;
 		int width = grid[0].length;
@@ -190,8 +196,8 @@ public class Hunter extends Agent {
 		// TORUS
 		if(env.getConfigs().isTorus()) {
 			// HAUT (1)
-			if(grid[Math.floorMod(line-1, height)][column] == 0) {
-				if(max == -1) {
+			if(grid[Math.floorMod(line-1, height)][column] <= HunterConstants.AVATAR) {
+				if(max == null) {
 					targetCells.clear();
 					max = distances[Math.floorMod(line-1, height)][column];
 					targetCells.add(1);
@@ -205,8 +211,8 @@ public class Hunter extends Agent {
 				}
 			}
 			// GAUCHE (3)
-			if(grid[line][Math.floorMod(column-1, width)] == 0) {
-				if(max == -1) {
+			if(grid[line][Math.floorMod(column-1, width)] <= HunterConstants.AVATAR) {
+				if(max == null) {
 					targetCells.clear();
 					max = distances[line][Math.floorMod(column-1, width)];
 					targetCells.add(3);
@@ -219,8 +225,8 @@ public class Hunter extends Agent {
 				}
 			}
 			// DROITE (5)
-			if(grid[line][Math.floorMod(column+1, width)] == 0) {
-				if(max == -1) {
+			if(grid[line][Math.floorMod(column+1, width)] <= HunterConstants.AVATAR) {
+				if(max == null) {
 					targetCells.clear();
 					max = distances[line][Math.floorMod(column+1, width)];
 					targetCells.add(5);
@@ -233,8 +239,8 @@ public class Hunter extends Agent {
 				}
 			}
 			// BAS (7)
-			if(grid[Math.floorMod(line+1, height)][column] == 0) {
-				if(max == -1) {
+			if(grid[Math.floorMod(line+1, height)][column] <= HunterConstants.AVATAR) {
+				if(max == null) {
 					targetCells.clear();
 					max = distances[Math.floorMod(line+1, height)][column];
 					targetCells.add(7);
@@ -251,8 +257,8 @@ public class Hunter extends Agent {
 		// NOT TORUS
 		else {
 			// HAUT (1)
-			if(line > 0 && grid[line-1][column] == 0) {
-				if(max == -1) {
+			if(line > 0 && grid[line-1][column] <= HunterConstants.AVATAR) {
+				if(max == null) {
 					targetCells.clear();
 					max = distances[line-1][column];
 					targetCells.add(1);
@@ -265,8 +271,8 @@ public class Hunter extends Agent {
 				}
 			}
 			// GAUCHE (3)
-			if(column > 0 && grid[line][column-1] == 0) {
-				if(max == -1) {
+			if(column > 0 && grid[line][column-1] <= HunterConstants.AVATAR) {
+				if(max == null) {
 					targetCells.clear();
 					max = distances[line][column-1];
 					targetCells.add(3);
@@ -279,8 +285,8 @@ public class Hunter extends Agent {
 				}
 			}
 			// DROITE (5)
-			if(column < width-1 && grid[line][column+1] == 0) {
-				if(max == -1) {
+			if(column < width-1 && grid[line][column+1] <= HunterConstants.AVATAR) {
+				if(max == null) {
 					targetCells.clear();
 					max = distances[line][column+1];
 					targetCells.add(5);
@@ -293,8 +299,8 @@ public class Hunter extends Agent {
 				}
 			}
 			// BAS (7)
-			if(line < height-1 && grid[line+1][column] == 0) {
-				if(max == - 1) {
+			if(line < height-1 && grid[line+1][column] <= HunterConstants.AVATAR) {
+				if(max == null) {
 					targetCells.clear();
 					max = distances[line+1][column];
 					targetCells.add(7);

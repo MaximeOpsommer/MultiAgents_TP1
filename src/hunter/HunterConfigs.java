@@ -19,6 +19,7 @@ public class HunterConfigs extends Configs {
 	private int DEFENDER_LIFE = 30;
 	private int DEFENDER_TO_WIN = 4;
 	private int DIGGER_NUMBER = 10;
+	private int HUNTER_BEHAVIOUR = 0;
 	private int HUNTER_MINIMUM_INITIAL_DISTANCE =  2;
 	private int HUNTER_NUMBER = 1;
 	private int HUNTER_SPEED = 2;
@@ -70,6 +71,13 @@ public class HunterConfigs extends Configs {
 						DIGGER_NUMBER = json.get("digger_number").getAsInt();
 					} catch(Exception e) {
 						System.err.println("digger number value in hunter-settings.json is invalid");
+					}
+					
+					// HUNTER BEHAVIOUR
+					try {				
+						HUNTER_BEHAVIOUR = json.get("hunter_behaviour").getAsInt();
+					} catch(Exception e) {
+						System.err.println("hunter behaviour value in hunter-settings.json is invalid");
 					}
 					
 					// HUNTER MINIMUM INITIAL DISTANCE
@@ -157,6 +165,14 @@ public class HunterConfigs extends Configs {
 	
 	public void setDiggerNumber(final int diggerNumber) {
 		DIGGER_NUMBER = diggerNumber;
+	}
+	
+	public int getHunterBehaviour() {
+		return HUNTER_BEHAVIOUR;
+	}
+	
+	public void setHunterBehaviour(final int hunterBehaviour) {
+		HUNTER_BEHAVIOUR = hunterBehaviour;
 	}
 	
 	public int getHunterMinimumInitialDistance() {

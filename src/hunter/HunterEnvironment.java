@@ -195,6 +195,91 @@ public class HunterEnvironment extends Environment {
 			currentCells.addAll(newCells);
 			newCells.clear();
 		}
+		if(((HunterConfigs) configs).getHunterBehaviour() == HunterConstants.STRATEGIC_BEHAVIOUR) {
+			addDistanceFromDefenders();
+		}
+	}
+	
+	private void addDistanceFromDefenders() {
+		final int limit = Math.min(height/3, width/3);
+		List<Integer> remainingCells = new ArrayList<Integer>();
+		remainingCells.addAll(availableCells);
+		List<Integer> currentCells = new ArrayList<Integer>();
+		List<Integer> newCells = new ArrayList<Integer>();
+		for(Defender defender : defenders.values()) {			
+			currentCells.add(defender.getLine()*width + defender.getColumn());
+		}
+		int n = 1;
+		while(n <= limit && !remainingCells.isEmpty()) {
+			
+			// TORUS
+			if(configs.isTorus()) {
+				for(Integer cell : currentCells) {
+					// HAUT
+					int targetCell = Math.floorMod(cell-width, height*width);
+					if(remainingCells.contains(targetCell)) {						
+						newCells.add(targetCell);
+						distances[targetCell / width][targetCell % width] -= n;
+						remainingCells.remove(Integer.valueOf(targetCell));
+					}
+					// GAUCHE
+					targetCell = cell % width == 0 ? cell + width - 1 : cell - 1;
+					if(remainingCells.contains(targetCell)) {						
+						newCells.add(targetCell);
+						distances[targetCell / width][targetCell % width] -= n;
+						remainingCells.remove(Integer.valueOf(targetCell));
+					}
+					// DROITE
+					targetCell = cell % width == width - 1 ? cell - width + 1: cell + 1;
+					if(remainingCells.contains(targetCell)) {
+						newCells.add(targetCell);
+						distances[targetCell / width][targetCell % width] -= n;
+						remainingCells.remove(Integer.valueOf(targetCell));						
+					}
+					// BAS
+					targetCell = Math.floorMod(cell+width, height*width);
+					if(remainingCells.contains(targetCell)) {						
+						newCells.add(targetCell);
+						distances[targetCell / width][targetCell % width] -= n;
+						remainingCells.remove(Integer.valueOf(targetCell));
+					}
+				}
+			}
+			
+			// NOT TORUS
+			else {
+				for(Integer cell : currentCells) {
+					// HAUT
+					if(cell / width > 0 && remainingCells.contains(cell - width)) {
+						newCells.add(cell - width);
+						distances[(cell - width) / width][cell % width] -= n;
+						remainingCells.remove(Integer.valueOf(cell - width));
+					}
+					// GAUCHE
+					if(cell % width > 0 && remainingCells.contains(cell - 1)) {
+						newCells.add(cell - 1);
+						distances[cell / width][(cell - 1) % width] -= n;
+						remainingCells.remove(Integer.valueOf(cell - 1));
+					}
+					// DROITE
+					if(cell % width < width - 1 && remainingCells.contains(cell + 1)) {
+						newCells.add(cell + 1);
+						distances[cell / width][(cell + 1) % width] -= n;
+						remainingCells.remove(Integer.valueOf(cell + 1));
+					}
+					// BAS
+					if(cell / width < height - 1 && remainingCells.contains(cell + width)) {
+						newCells.add(cell + width);
+						distances[(cell + width) / width][cell % width] -= n;
+						remainingCells.remove(Integer.valueOf(cell + width));
+					}
+				}
+			}
+			currentCells.clear();
+			currentCells.addAll(newCells);
+			newCells.clear();
+			n++;
+		}
 	}
 	
 	public void defenderDeath(final int line, final int column) {
@@ -226,6 +311,7 @@ public class HunterEnvironment extends Environment {
 		int randomValue = remainingCells.get(random.nextInt(remainingCells.size()));
 		defenders.put(randomValue, new Defender(this, randomValue/width, randomValue%width));
 		grid[randomValue/width][randomValue%width] = HunterConstants.DEFENDER;
+		refreshDistanceValues();
 	}
 	
 	private void popNewWinner() {
