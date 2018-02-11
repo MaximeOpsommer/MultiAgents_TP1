@@ -15,6 +15,7 @@ import core.Configs;
 public class HunterConfigs extends Configs {
 	
 	private int DEFENDER_EFFECT_DURATION = 10;
+	private int DEFENDER_LIFE = 30;
 	private int DEFENDER_TO_WIN = 4;
 	private int DIGGER_NUMBER = 10;
 	private int HUNTER_MINIMUM_INITIAL_DISTANCE =  2;
@@ -38,6 +39,13 @@ public class HunterConfigs extends Configs {
 						DEFENDER_EFFECT_DURATION = json.get("defender_effect_duration").getAsInt();
 					} catch(Exception e) {
 						System.err.println("defender effect duration value in hunter-settings.json is invalid");
+					}
+					
+					// DEFENDER LIFE
+					try {				
+						DEFENDER_LIFE = json.get("defender_life").getAsInt();
+					} catch(Exception e) {
+						System.err.println("defender life value in hunter-settings.json is invalid");
 					}
 					
 					// DEFENDER TO WIN
@@ -93,6 +101,14 @@ public class HunterConfigs extends Configs {
 	
 	public void setDefenderEffectDuration(final int defnderEffectDuration) {
 		DEFENDER_EFFECT_DURATION = defnderEffectDuration;
+	}
+	
+	public int getDefenderLife() {
+		return DEFENDER_LIFE;
+	}
+	
+	public void setDefenderLife(final int defenderLife) {
+		DEFENDER_LIFE = defenderLife;
 	}
 	
 	public int getDefenderToWin() {

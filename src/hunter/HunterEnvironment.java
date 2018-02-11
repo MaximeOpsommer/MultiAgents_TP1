@@ -87,6 +87,7 @@ public class HunterEnvironment extends Environment {
 		List<Agent> agents = new ArrayList<Agent>();
 		agents.add(avatar);
 		agents.addAll(hunters.values());
+		agents.addAll(defenders.values());
 		return agents;
 	}
 	
@@ -196,6 +197,12 @@ public class HunterEnvironment extends Environment {
 			currentCells.addAll(newCells);
 			newCells.clear();
 		}
+	}
+	
+	public void defenderDeath(final int line, final int column) {
+		grid[line][column] = 0;
+		defenders.remove((line*width)+column);
+		popNewDefender();
 	}
 	
 	public void activateDefender(final int line, final int column) {
