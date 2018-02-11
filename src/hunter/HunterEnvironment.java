@@ -17,6 +17,7 @@ public class HunterEnvironment extends Environment {
 	private Map<Integer, Hunter> hunters = new HashMap<Integer, Hunter>();
 	private Avatar avatar;
 	private Map<Integer, Defender> defenders = new HashMap<Integer, Defender>();
+	private Winner winner = null;
 	
 	private List<Integer> availableCells = new ArrayList<Integer>();
 	private int[][] distances;
@@ -209,6 +210,9 @@ public class HunterEnvironment extends Environment {
 		for(Defender defender : defenders.values()) {			
 			currentCells.add(defender.getLine()*width + defender.getColumn());
 		}
+		if(winner != null) {
+			currentCells.add(winner.getLine()*width + winner.getColumn());
+		}
 		int n = 1;
 		while(n <= limit && !remainingCells.isEmpty()) {
 			
@@ -320,7 +324,7 @@ public class HunterEnvironment extends Environment {
 		remainingCells.add(avatar.getLine()*width + avatar.getColumn());
 		remainingCells.addAll(hunters.keySet());
 		int randomValue = remainingCells.get(random.nextInt(remainingCells.size()));
-		new Winner(this, randomValue/width, randomValue%width);
+		winner = new Winner(this, randomValue/width, randomValue%width);
 		grid[randomValue/width][randomValue%width] = HunterConstants.WINNER;
 	}
 	

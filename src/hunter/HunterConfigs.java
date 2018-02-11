@@ -23,6 +23,7 @@ public class HunterConfigs extends Configs {
 	private int HUNTER_MINIMUM_INITIAL_DISTANCE =  2;
 	private int HUNTER_NUMBER = 1;
 	private int HUNTER_SPEED = 2;
+	private boolean SHOW_DISTANCE = true;
 	private boolean SHOW_TERRAIN_CONSTRUCTION = true;
 	private int WALL_PERCENT = 15;
 	
@@ -101,7 +102,14 @@ public class HunterConfigs extends Configs {
 						System.err.println("hunter speed value in hunter-settings.json is invalid");
 					}
 					
-					// WALL PERCENT
+					// SHOW DISTANCE
+					try {				
+						SHOW_DISTANCE = json.get("show_distance").getAsBoolean();
+					} catch(Exception e) {
+						System.err.println("show distance construction value in hunter-settings.json is invalid");
+					}
+					
+					// SHOW TERRAIN CONSTRUCTION
 					try {				
 						SHOW_TERRAIN_CONSTRUCTION = json.get("show_terrain_construction").getAsBoolean();
 					} catch(Exception e) {
@@ -197,6 +205,14 @@ public class HunterConfigs extends Configs {
 	
 	public void setHunterSpeed(final int hunterSpeed) {
 		HUNTER_SPEED = hunterSpeed;
+	}
+	
+	public boolean showDistance() {
+		return SHOW_DISTANCE;
+	}
+	
+	public void setShowDistance(final boolean showDistance) {
+		SHOW_DISTANCE = showDistance;
 	}
 	
 	public boolean showTerrainConstruction() {

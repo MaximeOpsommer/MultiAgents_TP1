@@ -36,7 +36,11 @@ public class Hunter extends Agent {
 						verticalDirection = Math.floorMod(verticalDirection, getGrid().length);
 						horizontalDirection = Math.floorMod(horizontalDirection, getGrid()[0].length);
 					}
-					env.moveAgent(column, line, verticalDirection, horizontalDirection, HunterConstants.HUNTER);
+					if(defenderTime > 0) {
+						env.moveAgent(column, line, verticalDirection, horizontalDirection, HunterConstants.FLEEING_HUNTER);
+					} else {						
+						env.moveAgent(column, line, verticalDirection, horizontalDirection, HunterConstants.HUNTER);
+					}
 					column = Math.floorMod(column + horizontalDirection, getGrid()[0].length);
 					line = Math.floorMod(line + verticalDirection, getGrid().length);
 					Avatar avatar = ((HunterEnvironment) env).getAvatar();

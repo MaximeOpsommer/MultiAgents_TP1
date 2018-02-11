@@ -60,15 +60,19 @@ public class HunterPanel extends Panel implements KeyListener {
 					g.setColor(Color.RED);
 					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
 				}
-				else if(grid[line][column] == HunterConstants.DEFENDER) {
-					g.setColor(Color.GREEN);
+				else if(grid[line][column] == HunterConstants.FLEEING_HUNTER) {
+					g.setColor(Color.RED);
 					g.drawOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
+				}
+				else if(grid[line][column] == HunterConstants.DEFENDER) {
+					g.setColor(Color.CYAN);
+					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
 				}
 				else if(grid[line][column] == HunterConstants.WINNER) {
 					g.setColor(Color.GREEN);
 					g.fillOval(column*(boxSize+1), line*(boxSize+1), boxSize, boxSize);
 				}
-				else {
+				else if(((HunterConfigs) env.getConfigs()).showDistance()){
 					g.setColor(Color.WHITE);
 					g.drawString(distances[line][column]+"", column*(boxSize+1) + (boxSize/2)-4, line*(boxSize+1) + (boxSize/2)+5);
 				}
