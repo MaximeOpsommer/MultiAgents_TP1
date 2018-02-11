@@ -1,10 +1,10 @@
 {
-	"fish_number" : 800,
+	"comportement" : 1,
 	"fish_breed_time" : 4,
-	"shark_number" : 5,
-	"shark_breed_time" : 25,
-	"shark_starve_time" : 10,
-	"comportement" : 2
+	"fish_number" : 800,
+	"shark_breed_time" : 9,
+	"shark_number" : 80,
+	"shark_starve_time" : 5
 }
 
 

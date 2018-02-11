@@ -10,37 +10,40 @@ public class Hunter extends Agent {
 
 	private List<Integer> targetCells = new ArrayList<Integer>();
 	private int defenderTime = 0;
+	private int tick = 0;
+	private final int speed;
 	
 	public Hunter(Environment env, int line, int column, int currentDistance) {
 		super(env, line, column);
+		speed = ((HunterConfigs) getConfigs()).getHunterSpeed();
 	}
 
 	@Override
 	public void decide() {
-		if(((HunterEnvironment) env).getDistances()[line][column] > 1) {
-			if(defenderTime > 0) {
-				getVoisinsMax(getGrid(), ((HunterEnvironment) env).getDistances());
-				defenderTime--;
-			} else {				
-				getVoisinsMin(getGrid(), ((HunterEnvironment) env).getDistances());
-			}
-			if(!targetCells.isEmpty()) {
-				int random = targetCells.get(env.getRandom().nextInt(targetCells.size()));
-				verticalDirection = random/3 - 1;
-				horizontalDirection = random%3 - 1;
-				if(isTorus) {
-					verticalDirection = Math.floorMod(verticalDirection, getGrid().length);
-					horizontalDirection = Math.floorMod(horizontalDirection, getGrid()[0].length);
+		if(tick++ % speed == 0) {
+			if(((HunterEnvironment) env).getDistances()[line][column] > 1) {
+				if(defenderTime > 0) {
+					getVoisinsMax(getGrid(), ((HunterEnvironment) env).getDistances());
+					defenderTime--;
+				} else {				
+					getVoisinsMin(getGrid(), ((HunterEnvironment) env).getDistances());
 				}
-				env.moveAgent(column, line, verticalDirection, horizontalDirection, HunterConstants.HUNTER);
-				column = Math.floorMod(column + horizontalDirection, getGrid()[0].length);
-				line = Math.floorMod(line + verticalDirection, getGrid().length);
+				if(!targetCells.isEmpty()) {
+					int random = targetCells.get(env.getRandom().nextInt(targetCells.size()));
+					verticalDirection = random/3 - 1;
+					horizontalDirection = random%3 - 1;
+					if(isTorus) {
+						verticalDirection = Math.floorMod(verticalDirection, getGrid().length);
+						horizontalDirection = Math.floorMod(horizontalDirection, getGrid()[0].length);
+					}
+					env.moveAgent(column, line, verticalDirection, horizontalDirection, HunterConstants.HUNTER);
+					column = Math.floorMod(column + horizontalDirection, getGrid()[0].length);
+					line = Math.floorMod(line + verticalDirection, getGrid().length);
+				}
+			} else {
+				((HunterEnvironment) env).defeat();
 			}
-		} else {
-			//System.exit(0);
 		}
-		
-		
 	}
 
 	@Override

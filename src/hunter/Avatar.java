@@ -9,10 +9,13 @@ import core.Environment;
 public class Avatar extends Agent implements KeyListener {
 
 	private int[][] grid;
+	private int tick = 0;
+	private final int speed;
 	
 	public Avatar(Environment env, int line, int column) {
 		super(env, line, column);
 		grid = getGrid();
+		speed = ((HunterConfigs) getConfigs()).getAvatarSpeed();
 	}
 	
 	public void setCoords(final int line, final int column) {
@@ -22,7 +25,9 @@ public class Avatar extends Agent implements KeyListener {
 
 	@Override
 	public void decide() {
-		move();
+		if(tick++ % speed == 0) {
+			move();
+		}
 	}
 
 	@Override
@@ -55,7 +60,7 @@ public class Avatar extends Agent implements KeyListener {
 				((HunterEnvironment) env).activateDefender(targetLine, targetColumn);
 			}
 			else if(grid[targetLine][targetColumn] == HunterConstants.WINNER) {
-				((HunterEnvironment) env).win();
+				((HunterEnvironment) env).victory();
 			}
 			env.moveAgent(column, line, verticalDirection, horizontalDirection, HunterConstants.AVATAR);
 			line = targetLine;

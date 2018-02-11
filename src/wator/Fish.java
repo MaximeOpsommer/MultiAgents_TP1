@@ -13,11 +13,7 @@ public class Fish extends AquaticAnimal {
 		refreshVoisinsLibres(grid, WatorConstants.BABY_FISH);
 		// If cannot move, do nothing
 		if(!voisinsLibres.isEmpty()) {			
-			int random = 4;
-			// TODO remove that, random can never be equals to 4
-			while(random == 4) {
-				random = voisinsLibres.get(env.getRandom().nextInt(voisinsLibres.size()));
-			}
+			int random = voisinsLibres.get(env.getRandom().nextInt(voisinsLibres.size()));
 			verticalDirection = random/3 - 1;
 			horizontalDirection = random%3 - 1;
 			if(isTorus) {

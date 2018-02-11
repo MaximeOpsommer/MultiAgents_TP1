@@ -1,4 +1,4 @@
 {
-	"particle_number": 100,
-	"comportement" : 3
+	"comportement" : 1,
+	"particle_number": 200000
 }

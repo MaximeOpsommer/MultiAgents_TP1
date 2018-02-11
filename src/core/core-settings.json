@@ -1,15 +1,15 @@
 {
-	"box_size": 25,
-	"canvas_height": 800,
-	"canvas_width": 800,
+	"box_size": 20,
+	"canvas_height": 750,
+	"canvas_width": 750,
 	"delay": 200,
 	"grid_display": false,
-	"grid_height": 25,
-	"grid_width": 25,
+	"grid_height": 20,
+	"grid_width": 20,
 	"nb_ticks": 0,
 	"refresh": 1,
 	"seed": 123456,
 	"scheduling":1,
-	"torus": false,
+	"torus": true,
 	"trace": false
 }

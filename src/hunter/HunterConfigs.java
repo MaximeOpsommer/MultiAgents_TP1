@@ -14,12 +14,14 @@ import core.Configs;
 
 public class HunterConfigs extends Configs {
 	
+	private int AVATAR_SPEED = 1;
 	private int DEFENDER_EFFECT_DURATION = 10;
 	private int DEFENDER_LIFE = 30;
 	private int DEFENDER_TO_WIN = 4;
 	private int DIGGER_NUMBER = 10;
 	private int HUNTER_MINIMUM_INITIAL_DISTANCE =  2;
 	private int HUNTER_NUMBER = 1;
+	private int HUNTER_SPEED = 2;
 	private boolean SHOW_TERRAIN_CONSTRUCTION = true;
 	private int WALL_PERCENT = 15;
 	
@@ -34,6 +36,13 @@ public class HunterConfigs extends Configs {
 					URL url = getClass().getResource(SETTINGS_FILE);
 					File file = new File(url.getPath());
 					json = gson.fromJson(new FileReader(file), JsonObject.class);
+					
+					// AVATAR SPEED
+					try {				
+						AVATAR_SPEED = json.get("avatar_speed").getAsInt();
+					} catch(Exception e) {
+						System.err.println("avatar speed value in hunter-settings.json is invalid");
+					}
 					
 					// DEFENDER EFFECT DURATION
 					try {				
@@ -77,6 +86,13 @@ public class HunterConfigs extends Configs {
 						System.err.println("hunter number value in hunter-settings.json is invalid");
 					}
 					
+					// HUNTER SPEED
+					try {				
+						HUNTER_SPEED = json.get("hunter_speed").getAsInt();
+					} catch(Exception e) {
+						System.err.println("hunter speed value in hunter-settings.json is invalid");
+					}
+					
 					// WALL PERCENT
 					try {				
 						SHOW_TERRAIN_CONSTRUCTION = json.get("show_terrain_construction").getAsBoolean();
@@ -103,6 +119,14 @@ public class HunterConfigs extends Configs {
 		
 	}
 
+	public int getAvatarSpeed() {
+		return AVATAR_SPEED;
+	}
+	
+	public void setAvatarSpeed(final int avatarSpeed) {
+		AVATAR_SPEED = avatarSpeed;
+	}
+	
 	public int getDefenderEffectDuration() {
 		return DEFENDER_EFFECT_DURATION;
 	}
@@ -149,6 +173,14 @@ public class HunterConfigs extends Configs {
 	
 	public void setHunterNumber(final int hunterNumber) {
 		HUNTER_NUMBER = hunterNumber;
+	}
+	
+	public int getHunterSpeed() {
+		return HUNTER_SPEED;
+	}
+	
+	public void setHunterSpeed(final int hunterSpeed) {
+		HUNTER_SPEED = hunterSpeed;
 	}
 	
 	public boolean showTerrainConstruction() {

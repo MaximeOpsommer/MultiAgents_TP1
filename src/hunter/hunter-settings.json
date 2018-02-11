@@ -1,10 +1,12 @@
 {
-	"defender_effect_duration": 10,
+	"avatar_speed": 1,
+	"defender_effect_duration": 4,
 	"defender_life": 30,
 	"defender_to_win": 4,
 	"digger_number": 10,
 	"hunter_minimum_initial_distance": 2,
 	"hunter_number": 1,
+	"hunter_speed": 2,
 	"show_terrain_construction": false,
 	"wall_percent": 15
 }

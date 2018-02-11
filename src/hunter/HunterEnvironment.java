@@ -17,7 +17,6 @@ public class HunterEnvironment extends Environment {
 	private Map<Integer, Hunter> hunters = new HashMap<Integer, Hunter>();
 	private Avatar avatar;
 	private Map<Integer, Defender> defenders = new HashMap<Integer, Defender>();
-	private Winner winner;
 	
 	private List<Integer> availableCells = new ArrayList<Integer>();
 	private int[][] distances;
@@ -44,7 +43,6 @@ public class HunterEnvironment extends Environment {
 		for(int line = 0; line < height; line++) {
 			for(int column = 0; column < width; column++) {
 				
-				// TODO : Diggers
 				rand = random.nextInt(total);
 				if(rand < reste) {
 					grid[line][column] = HunterConstants.DIGGER;
@@ -212,7 +210,6 @@ public class HunterEnvironment extends Environment {
 		defenders.remove((line*width)+column);
 		defenderToWin--;
 		if(defenderToWin < 1) {
-			System.out.println("POP WINNER");
 			popNewWinner();
 		}
 		
@@ -237,12 +234,18 @@ public class HunterEnvironment extends Environment {
 		remainingCells.add(avatar.getLine()*width + avatar.getColumn());
 		remainingCells.addAll(hunters.keySet());
 		int randomValue = remainingCells.get(random.nextInt(remainingCells.size()));
-		winner = new Winner(this, randomValue/width, randomValue%width);
+		new Winner(this, randomValue/width, randomValue%width);
 		grid[randomValue/width][randomValue%width] = HunterConstants.WINNER;
 	}
 	
-	public void win() {
-		System.out.println("WIN !");
+	public void victory() {
+		System.out.println("VICTORY !");
+		System.exit(0);
+	}
+	
+	public void defeat() {
+		System.out.println("DEFEAT !");
+		System.exit(0);
 	}
 
 }

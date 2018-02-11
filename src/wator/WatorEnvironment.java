@@ -37,12 +37,10 @@ public class WatorEnvironment extends Environment {
 				rand = random.nextInt(total);
 				if(rand < restFish){
 					grid[line][column] = 2;
-					//TODO Ajouter un Fish
 					fishs.add(new Fish(this, line, column));
 					restFish--;
 					restAll--;
 				}else if(rand < restAll){
-					//TODO Ajouter un Shark
 					sharks.add(new Shark(this, line, column));
 					grid[line][column] = 4;
 					restAll--;

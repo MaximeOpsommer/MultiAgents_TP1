@@ -1,7 +1,9 @@
 package particules;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import core.Agent;
 import core.AgentNotFoundException;
@@ -14,7 +16,7 @@ public class ParticleEnvironment extends Environment {
 	// 3 = rouge : collision avec une bille
 	
 	private final int particleNumber;
-	private List<Particle> particles = new ArrayList<Particle>();
+	private Map<Integer, Particle> particles = new HashMap<Integer, Particle>();
 	
 	
 	
@@ -35,7 +37,7 @@ public class ParticleEnvironment extends Environment {
 				if(rand < reste) {
 					grid[line][column] = 1;
 					reste--;
-					particles.add(new Particle(this, line, column));
+					particles.put((line*width)+column, new Particle(this, line, column));
 				} else {
 					grid[line][column] = 0;
 				}
@@ -45,22 +47,15 @@ public class ParticleEnvironment extends Environment {
 	}
 	
 	public List<? extends Agent> getAllAgents() {
-		return particles;
+		return new ArrayList<Agent>(particles.values());
 	}
 	
-	public List<Particle> getParticles() {
-		return particles;
+	public Particle getParticle(int column, int line) {
+		return particles.get((line*width)+column);
 	}
 	
-	
-	// TODO Maxime : remplacer liste d'agents par map d'agents
-	public Particle getParticle(int column, int line) throws AgentNotFoundException {
-		for(Particle agent : particles) {
-			if(agent.getColumn() == column && agent.getLine() == line) {
-				return agent;
-			}
-		}
-		throw new AgentNotFoundException();
+	public void particleMove(final int oldLine, final int oldColumn, final int newLine, final int newColumn) {
+		particles.put((newLine*width)+newColumn, particles.remove((oldLine*width)+oldColumn));
 	}
 	
 	public void collision(final int particleLine, final int particleColumn,
